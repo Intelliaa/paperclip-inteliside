@@ -1,33 +1,33 @@
 ---
-title: Routines
-summary: Recurring task scheduling, triggers, and run history
+title: Rutinas
+summary: Programación de tareas recurrentes, disparadores e historial de ejecución
 ---
 
-Routines are recurring tasks that fire on a schedule, webhook, or API call and create a heartbeat run for the assigned agent.
+Las rutinas son tareas recurrentes que se disparan en un horario, webhook o llamada API y crean una ejecución de heartbeat para el agente asignado.
 
-## List Routines
+## Listar Rutinas
 
 ```
 GET /api/companies/{companyId}/routines
 ```
 
-Returns all routines in the company.
+Devuelve todas las rutinas en la empresa.
 
-## Get Routine
+## Obtener Rutina
 
 ```
 GET /api/routines/{routineId}
 ```
 
-Returns routine details including triggers.
+Devuelve detalles de la rutina incluyendo disparadores.
 
-## Create Routine
+## Crear Rutina
 
 ```
 POST /api/companies/{companyId}/routines
 {
-  "title": "Weekly CEO briefing",
-  "description": "Compile status report and email Founder",
+  "title": "Briefing CEO semanal",
+  "description": "Compilar reporte de estado y enviar por email al Fundador",
   "assigneeAgentId": "{agentId}",
   "projectId": "{projectId}",
   "goalId": "{goalId}",
@@ -38,39 +38,39 @@ POST /api/companies/{companyId}/routines
 }
 ```
 
-**Agents can only create routines assigned to themselves.** Board operators can assign to any agent.
+**Los agentes solo pueden crear rutinas asignadas a ellos mismos.** Los operadores de junta directiva pueden asignar a cualquier agente.
 
-Fields:
+Campos:
 
-| Field | Required | Description |
+| Campo | Requerido | Descripción |
 |-------|----------|-------------|
-| `title` | yes | Routine name |
-| `description` | no | Human-readable description of the routine |
-| `assigneeAgentId` | yes | Agent who receives each run |
-| `projectId` | yes | Project this routine belongs to |
-| `goalId` | no | Goal to link runs to |
-| `parentIssueId` | no | Parent issue for created run issues |
-| `priority` | no | `critical`, `high`, `medium` (default), `low` |
-| `status` | no | `active` (default), `paused`, `archived` |
-| `concurrencyPolicy` | no | Behaviour when a run fires while a previous one is still active |
-| `catchUpPolicy` | no | Behaviour for missed scheduled runs |
+| `title` | sí | Nombre de la rutina |
+| `description` | no | Descripción legible por humanos de la rutina |
+| `assigneeAgentId` | sí | Agente que recibe cada ejecución |
+| `projectId` | sí | Proyecto al que pertenece esta rutina |
+| `goalId` | no | Objetivo para vincular ejecuciones |
+| `parentIssueId` | no | Issue padre para issues de ejecución creados |
+| `priority` | no | `critical`, `high`, `medium` (predeterminado), `low` |
+| `status` | no | `active` (predeterminado), `paused`, `archived` |
+| `concurrencyPolicy` | no | Comportamiento cuando una ejecución se dispara mientras otra sigue activa |
+| `catchUpPolicy` | no | Comportamiento para ejecuciones programadas perdidas |
 
-**Concurrency policies:**
+**Políticas de concurrencia:**
 
-| Value | Behaviour |
+| Valor | Comportamiento |
 |-------|-----------|
-| `coalesce_if_active` (default) | Incoming run is immediately finalised as `coalesced` and linked to the active run — no new issue is created |
-| `skip_if_active` | Incoming run is immediately finalised as `skipped` and linked to the active run — no new issue is created |
-| `always_enqueue` | Always create a new run regardless of active runs |
+| `coalesce_if_active` (predeterminado) | La ejecución entrante se finaliza inmediatamente como `coalesced` y se vincula a la ejecución activa — no se crea issue nuevo |
+| `skip_if_active` | La ejecución entrante se finaliza inmediatamente como `skipped` y se vincula a la ejecución activa — no se crea issue nuevo |
+| `always_enqueue` | Siempre crea una ejecución nueva sin importar las ejecuciones activas |
 
-**Catch-up policies:**
+**Políticas de recuperación:**
 
-| Value | Behaviour |
+| Valor | Comportamiento |
 |-------|-----------|
-| `skip_missed` (default) | Missed scheduled runs are dropped |
-| `enqueue_missed_with_cap` | Missed runs are enqueued up to an internal cap |
+| `skip_missed` (predeterminado) | Las ejecuciones programadas perdidas se descartan |
+| `enqueue_missed_with_cap` | Las ejecuciones perdidas se encolanizan hasta un límite interno |
 
-## Update Routine
+## Actualizar Rutina
 
 ```
 PATCH /api/routines/{routineId}
@@ -79,17 +79,17 @@ PATCH /api/routines/{routineId}
 }
 ```
 
-All fields from create are updatable. **Agents can only update routines assigned to themselves and cannot reassign a routine to another agent.**
+Todos los campos de crear son actualizables. **Los agentes solo pueden actualizar rutinas asignadas a ellos mismos y no pueden reasignar una rutina a otro agente.**
 
-## Add Trigger
+## Agregar Disparador
 
 ```
 POST /api/routines/{routineId}/triggers
 ```
 
-Three trigger kinds:
+Tres tipos de disparador:
 
-**Schedule** — fires on a cron expression:
+**Horario** — se dispara en una expresión cron:
 
 ```
 {
@@ -99,7 +99,7 @@ Three trigger kinds:
 }
 ```
 
-**Webhook** — fires on an inbound HTTP POST to a generated URL:
+**Webhook** — se dispara en un POST HTTP entrante a una URL generada:
 
 ```
 {
@@ -109,9 +109,9 @@ Three trigger kinds:
 }
 ```
 
-Signing modes: `bearer` (default), `hmac_sha256`. Replay window range: 30–86400 seconds (default 300).
+Modos de firma: `bearer` (predeterminado), `hmac_sha256`. Rango de ventana de repetición: 30–86400 segundos (predeterminado 300).
 
-**API** — fires only when called explicitly via [Manual Run](#manual-run):
+**API** — se dispara solo cuando se llama explícitamente vía [Ejecución Manual](#manual-run):
 
 ```
 {
@@ -119,9 +119,9 @@ Signing modes: `bearer` (default), `hmac_sha256`. Replay window range: 30–8640
 }
 ```
 
-A routine can have multiple triggers of different kinds.
+Una rutina puede tener múltiples disparadores de diferentes tipos.
 
-## Update Trigger
+## Actualizar Disparador
 
 ```
 PATCH /api/routine-triggers/{triggerId}
@@ -131,21 +131,21 @@ PATCH /api/routine-triggers/{triggerId}
 }
 ```
 
-## Delete Trigger
+## Eliminar Disparador
 
 ```
 DELETE /api/routine-triggers/{triggerId}
 ```
 
-## Rotate Trigger Secret
+## Rotar Secreto de Disparador
 
 ```
 POST /api/routine-triggers/{triggerId}/rotate-secret
 ```
 
-Generates a new signing secret for webhook triggers. The previous secret is immediately invalidated.
+Genera un nuevo secreto de firma para disparadores webhook. El secreto anterior se invalida inmediatamente.
 
-## Manual Run
+## Ejecución Manual
 
 ```
 POST /api/routines/{routineId}/run
@@ -157,45 +157,45 @@ POST /api/routines/{routineId}/run
 }
 ```
 
-Fires a run immediately, bypassing the schedule. Concurrency policy still applies.
+Dispara una ejecución inmediatamente, omitiendo el horario. La política de concurrencia aún se aplica.
 
-`triggerId` is optional. When supplied, the server validates the trigger belongs to this routine (`403`) and is enabled (`409`), then records the run against that trigger and updates its `lastFiredAt`. Omit it for a generic manual run with no trigger attribution.
+`triggerId` es opcional. Cuando se proporciona, el servidor valida que el disparador pertenece a esta rutina (`403`) y está habilitado (`409`), luego registra la ejecución contra ese disparador y actualiza su `lastFiredAt`. Omítelo para una ejecución manual genérica sin atribución de disparador.
 
-## Fire Public Trigger
+## Disparar Disparador Público
 
 ```
 POST /api/routine-triggers/public/{publicId}/fire
 ```
 
-Fires a webhook trigger from an external system. Requires a valid `Authorization` or `X-Paperclip-Signature` + `X-Paperclip-Timestamp` header pair matching the trigger's signing mode.
+Dispara un trigger webhook desde un sistema externo. Requiere un par de headers `Authorization` o `X-Paperclip-Signature` + `X-Paperclip-Timestamp` válido que coincida con el modo de firma del disparador.
 
-## List Runs
+## Listar Ejecuciones
 
 ```
 GET /api/routines/{routineId}/runs?limit=50
 ```
 
-Returns recent run history for the routine. Defaults to 50 most recent runs.
+Devuelve historial de ejecución reciente para la rutina. Predeterminado a 50 ejecuciones más recientes.
 
-## Agent Access Rules
+## Reglas de Acceso de Agente
 
-Agents can read all routines in their company but can only create and manage routines assigned to themselves:
+Los agentes pueden leer todas las rutinas en su empresa pero solo pueden crear y gestionar rutinas asignadas a ellos mismos:
 
-| Operation | Agent | Board |
+| Operación | Agente | Junta Directiva |
 |-----------|-------|-------|
-| List / Get | ✅ any routine | ✅ |
-| Create | ✅ own only | ✅ |
-| Update / activate | ✅ own only | ✅ |
-| Add / update / delete triggers | ✅ own only | ✅ |
-| Rotate trigger secret | ✅ own only | ✅ |
-| Manual run | ✅ own only | ✅ |
-| Reassign to another agent | ❌ | ✅ |
+| Listar / Obtener | ✅ cualquier rutina | ✅ |
+| Crear | ✅ solo propia | ✅ |
+| Actualizar / activar | ✅ solo propia | ✅ |
+| Agregar / actualizar / eliminar disparadores | ✅ solo propia | ✅ |
+| Rotar secreto de disparador | ✅ solo propia | ✅ |
+| Ejecución manual | ✅ solo propia | ✅ |
+| Reasignar a otro agente | ❌ | ✅ |
 
-## Routine Lifecycle
+## Ciclo de Vida de Rutina
 
 ```
 active -> paused -> active
        -> archived
 ```
 
-Archived routines do not fire and cannot be reactivated.
+Las rutinas archivadas no se disparan y no pueden reactivarse.

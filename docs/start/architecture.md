@@ -1,98 +1,98 @@
 ---
-title: Architecture
-summary: Stack overview, request flow, and adapter model
+title: Arquitectura
+summary: Descripción general del stack, flujo de solicitudes y modelo de adaptadores
 ---
 
-Paperclip is a monorepo with four main layers.
+Paperclip es un monorepo con cuatro capas principales.
 
-## Stack Overview
+## Descripción General del Stack
 
 ```
 ┌─────────────────────────────────────┐
 │  React UI (Vite)                    │
-│  Dashboard, org management, tasks   │
+│  Dashboard, gestión org, tareas     │
 ├─────────────────────────────────────┤
 │  Express.js REST API (Node.js)      │
-│  Routes, services, auth, adapters   │
+│  Rutas, servicios, auth, adaptadores│
 ├─────────────────────────────────────┤
 │  PostgreSQL (Drizzle ORM)           │
-│  Schema, migrations, embedded mode  │
+│  Schema, migraciones, modo incorp.  │
 ├─────────────────────────────────────┤
-│  Adapters                           │
+│  Adaptadores                        │
 │  Claude Local, Codex Local,         │
-│  Process, HTTP                      │
+│  Proceso, HTTP                      │
 └─────────────────────────────────────┘
 ```
 
-## Technology Stack
+## Stack Tecnológico
 
-| Layer | Technology |
+| Capa | Tecnología |
 |-------|-----------|
 | Frontend | React 19, Vite 6, React Router 7, Radix UI, Tailwind CSS 4, TanStack Query |
 | Backend | Node.js 20+, Express.js 5, TypeScript |
-| Database | PostgreSQL 17 (or embedded PGlite), Drizzle ORM |
-| Auth | Better Auth (sessions + API keys) |
-| Adapters | Claude Code CLI, Codex CLI, shell process, HTTP webhook |
-| Package manager | pnpm 9 with workspaces |
+| Base de datos | PostgreSQL 17 (o PGlite incorporado), Drizzle ORM |
+| Auth | Better Auth (sesiones + claves API) |
+| Adaptadores | CLI de Claude Code, CLI de Codex, proceso de shell, webhook HTTP |
+| Gestor de paquetes | pnpm 9 con workspaces |
 
-## Repository Structure
+## Estructura del Repositorio
 
 ```
 paperclip/
-├── ui/                          # React frontend
-│   ├── src/pages/              # Route pages
-│   ├── src/components/         # React components
-│   ├── src/api/                # API client
-│   └── src/context/            # React context providers
+├── ui/                          # Frontend React
+│   ├── src/pages/              # Páginas de ruta
+│   ├── src/components/         # Componentes React
+│   ├── src/api/                # Cliente de API
+│   └── src/context/            # Proveedores de contexto React
 │
-├── server/                      # Express.js API
-│   ├── src/routes/             # REST endpoints
-│   ├── src/services/           # Business logic
-│   ├── src/adapters/           # Agent execution adapters
+├── server/                      # API Express.js
+│   ├── src/routes/             # Endpoints REST
+│   ├── src/services/           # Lógica de negocios
+│   ├── src/adapters/           # Adaptadores de ejecución de agentes
 │   └── src/middleware/         # Auth, logging
 │
 ├── packages/
-│   ├── db/                      # Drizzle schema + migrations
-│   ├── shared/                  # API types, constants, validators
-│   ├── adapter-utils/           # Adapter interfaces and helpers
+│   ├── db/                      # Schema de Drizzle + migraciones
+│   ├── shared/                  # Tipos de API, constantes, validadores
+│   ├── adapter-utils/           # Interfaces y auxiliares de adaptadores
 │   └── adapters/
-│       ├── claude-local/        # Claude Code adapter
-│       └── codex-local/         # OpenAI Codex adapter
+│       ├── claude-local/        # Adaptador de Claude Code
+│       └── codex-local/         # Adaptador de OpenAI Codex
 │
-├── skills/                      # Agent skills
-│   └── paperclip/               # Core Paperclip skill (heartbeat protocol)
+├── skills/                      # Skills de agentes
+│   └── paperclip/               # Skill central de Paperclip (protocolo heartbeat)
 │
-├── cli/                         # CLI client
-│   └── src/                     # Setup and control-plane commands
+├── cli/                         # Cliente CLI
+│   └── src/                     # Comandos de configuración y plano de control
 │
-└── doc/                         # Internal documentation
+└── doc/                         # Documentación interna
 ```
 
-## Request Flow
+## Flujo de Solicitud
 
-When a heartbeat fires:
+Cuando se dispara un heartbeat:
 
-1. **Trigger** — Scheduler, manual invoke, or event (assignment, mention) triggers a heartbeat
-2. **Adapter invocation** — Server calls the configured adapter's `execute()` function
-3. **Agent process** — Adapter spawns the agent (e.g. Claude Code CLI) with Paperclip env vars and a prompt
-4. **Agent work** — The agent calls Paperclip's REST API to check assignments, checkout tasks, do work, and update status
-5. **Result capture** — Adapter captures stdout, parses usage/cost data, extracts session state
-6. **Run record** — Server records the run result, costs, and any session state for next heartbeat
+1. **Disparador** — Planificador, invocación manual o evento (asignación, mención) dispara un heartbeat
+2. **Invocación de adaptador** — Servidor llama a la función `execute()` del adaptador configurado
+3. **Proceso de agente** — Adaptador genera el agente (ej. CLI de Claude Code) con variables de entorno de Paperclip y un prompt
+4. **Trabajo del agente** — El agente llama a la API REST de Paperclip para verificar asignaciones, descargar tareas, hacer trabajo y actualizar estado
+5. **Captura de resultado** — Adaptador captura stdout, parsea datos de uso/costo, extrae estado de sesión
+6. **Registro de ejecución** — Servidor registra el resultado de ejecución, costos y cualquier estado de sesión para el próximo heartbeat
 
-## Adapter Model
+## Modelo de Adaptador
 
-Adapters are the bridge between Paperclip and agent runtimes. Each adapter is a package with three modules:
+Los adaptadores son el puente entre Paperclip y los runtimes de agentes. Cada adaptador es un paquete con tres módulos:
 
-- **Server module** — `execute()` function that spawns/calls the agent, plus environment diagnostics
-- **UI module** — stdout parser for the run viewer, config form fields for agent creation
-- **CLI module** — terminal formatter for `paperclipai run --watch`
+- **Módulo de servidor** — Función `execute()` que genera/llama el agente, más diagnósticos de entorno
+- **Módulo de UI** — Parser de stdout para el visor de ejecución, campos de formulario de configuración para creación de agentes
+- **Módulo de CLI** — Formateador de terminal para `paperclipai run --watch`
 
-Built-in adapters: `claude_local`, `codex_local`, `process`, `http`. You can create custom adapters for any runtime.
+Adaptadores incorporados: `claude_local`, `codex_local`, `process`, `http`. Puedes crear adaptadores personalizados para cualquier runtime.
 
-## Key Design Decisions
+## Decisiones de Diseño Clave
 
-- **Control plane, not execution plane** — Paperclip orchestrates agents; it doesn't run them
-- **Company-scoped** — all entities belong to exactly one company; strict data boundaries
-- **Single-assignee tasks** — atomic checkout prevents concurrent work on the same task
-- **Adapter-agnostic** — any runtime that can call an HTTP API works as an agent
-- **Embedded by default** — zero-config local mode with embedded PostgreSQL
+- **Plano de control, no plano de ejecución** — Paperclip orquesta agentes; no los ejecuta
+- **Alcance de empresa** — todas las entidades pertenecen exactamente a una empresa; límites de datos estrictos
+- **Tareas de asignación única** — descargas atómicas previenen trabajo concurrente en la misma tarea
+- **Agnóstico a adaptadores** — cualquier runtime que pueda llamar una API HTTP funciona como agente
+- **Incorporado por defecto** — modo local sin configuración con PostgreSQL incorporado

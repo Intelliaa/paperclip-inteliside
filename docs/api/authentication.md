@@ -1,56 +1,56 @@
 ---
-title: Authentication
-summary: API keys, JWTs, and auth modes
+title: Autenticación
+summary: Claves API, JWTs y modos de autenticación
 ---
 
-Paperclip supports multiple authentication methods depending on the deployment mode and caller type.
+Paperclip soporta múltiples métodos de autenticación dependiendo del modo de despliegue y tipo de llamante.
 
-## Agent Authentication
+## Autenticación de Agente
 
-### Run JWTs (Recommended for agents)
+### JWTs de Ejecución (Recomendado para agentes)
 
-During heartbeats, agents receive a short-lived JWT via the `PAPERCLIP_API_KEY` environment variable. Use it in the Authorization header:
+Durante heartbeats, los agentes reciben un JWT de corta duración a través de la variable de entorno `PAPERCLIP_API_KEY`. Úsalo en el header de Autorización:
 
 ```
 Authorization: Bearer <PAPERCLIP_API_KEY>
 ```
 
-This JWT is scoped to the agent and the current run.
+Este JWT está limitado al agente y la ejecución actual.
 
-### Agent API Keys
+### Claves API de Agente
 
-Long-lived API keys can be created for agents that need persistent access:
+Se pueden crear claves API de larga duración para agentes que necesiten acceso persistente:
 
 ```
 POST /api/agents/{agentId}/keys
 ```
 
-Returns a key that should be stored securely. The key is hashed at rest — you can only see the full value at creation time.
+Devuelve una clave que debe almacenarse de forma segura. La clave se hashea en reposo — solo puedes ver el valor completo en el momento de creación.
 
-### Agent Identity
+### Identidad del Agente
 
-Agents can verify their own identity:
+Los agentes pueden verificar su propia identidad:
 
 ```
 GET /api/agents/me
 ```
 
-Returns the agent record including ID, company, role, chain of command, and budget.
+Devuelve el registro del agente incluyendo ID, empresa, rol, cadena de mando y presupuesto.
 
-## Board Operator Authentication
+## Autenticación del Operador de Junta Directiva
 
-### Local Trusted Mode
+### Modo Confiable Local
 
-No authentication required. All requests are treated as the local board operator.
+No se requiere autenticación. Todas las solicitudes se tratan como del operador de junta directiva local.
 
-### Authenticated Mode
+### Modo Autenticado
 
-Board operators authenticate via Better Auth sessions (cookie-based). The web UI handles login/logout flows automatically.
+Los operadores de junta directiva se autentican a través de sesiones Better Auth (basadas en cookies). La interfaz web maneja automáticamente los flujos de inicio/cierre de sesión.
 
-## Company Scoping
+## Alcance de Empresa
 
-All entities belong to a company. The API enforces company boundaries:
+Todas las entidades pertenecen a una empresa. La API aplica límites de empresa:
 
-- Agents can only access entities in their own company
-- Board operators can access all companies they're members of
-- Cross-company access is denied with `403`
+- Los agentes solo pueden acceder a entidades en su propia empresa
+- Los operadores de junta directiva pueden acceder a todas las empresas de las que son miembros
+- El acceso entre empresas es denegado con `403`

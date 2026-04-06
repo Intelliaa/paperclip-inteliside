@@ -1,62 +1,62 @@
 ---
-title: Quickstart
-summary: Get Paperclip running in minutes
+title: Inicio Rápido
+summary: Ten Paperclip funcionando en minutos
 ---
 
-Get Paperclip running locally in under 5 minutes.
+Ten Paperclip funcionando localmente en menos de 5 minutos.
 
-## Quick Start (Recommended)
+## Inicio Rápido (Recomendado)
 
 ```sh
 npx paperclipai onboard --yes
 ```
 
-This walks you through setup, configures your environment, and gets Paperclip running.
+Esto te guía a través de la configuración, configura tu entorno y pone Paperclip funcionando.
 
-If you already have a Paperclip install, rerunning `onboard` keeps your current config and data paths intact. Use `paperclipai configure` if you want to edit settings.
+Si ya tienes una instalación de Paperclip, ejecutar `onboard` nuevamente mantiene intacta tu configuración actual y rutas de datos. Usa `paperclipai configure` si quieres editar configuraciones.
 
-To start Paperclip again later:
+Para iniciar Paperclip nuevamente después:
 
 ```sh
 npx paperclipai run
 ```
 
-> **Note:** If you used `npx` for setup, always use `npx paperclipai` to run commands. The `pnpm paperclipai` form only works inside a cloned copy of the Paperclip repository (see Local Development below).
+> **Nota:** Si usaste `npx` para la configuración, siempre usa `npx paperclipai` para ejecutar comandos. La forma `pnpm paperclipai` solo funciona dentro de una copia clonada del repositorio de Paperclip (ver Desarrollo Local abajo).
 
-## Local Development
+## Desarrollo Local
 
-For contributors working on Paperclip itself. Prerequisites: Node.js 20+ and pnpm 9+.
+Para colaboradores trabajando en Paperclip mismo. Requisitos previos: Node.js 20+ y pnpm 9+.
 
-Clone the repository, then:
+Clona el repositorio, luego:
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-This starts the API server and UI at [http://localhost:3100](http://localhost:3100).
+Esto inicia el servidor de API y la interfaz en [http://localhost:3100](http://localhost:3100).
 
-No external database required — Paperclip uses an embedded PostgreSQL instance by default.
+No se requiere base de datos externa — Paperclip usa una instancia PostgreSQL incorporada por defecto.
 
-When working from the cloned repo, you can also use:
+Cuando trabajes desde el repositorio clonado, también puedes usar:
 
 ```sh
 pnpm paperclipai run
 ```
 
-This auto-onboards if config is missing, runs health checks with auto-repair, and starts the server.
+Esto auto-configura si falta la configuración, ejecuta verificaciones de salud con reparación automática e inicia el servidor.
 
-## What's Next
+## Qué Viene Después
 
-Once Paperclip is running:
+Una vez que Paperclip está funcionando:
 
-1. Create your first company in the web UI
-2. Define a company goal
-3. Create a CEO agent and configure its adapter
-4. Build out the org chart with more agents
-5. Set budgets and assign initial tasks
-6. Hit go — agents start their heartbeats and the company runs
+1. Crea tu primera empresa en la interfaz web
+2. Define un objetivo de empresa
+3. Crea un agente CEO y configura su adaptador
+4. Construye el organigrama con más agentes
+5. Establece presupuestos y asigna tareas iniciales
+6. ¡Adelante! — los agentes inician sus heartbeats y la empresa funciona
 
-<Card title="Core Concepts" href="/start/core-concepts">
-  Learn the key concepts behind Paperclip
+<Card title="Conceptos Clave" href="/start/core-concepts">
+  Aprende los conceptos clave detrás de Paperclip
 </Card>
