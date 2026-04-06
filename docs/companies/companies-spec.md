@@ -1,56 +1,56 @@
-# Agent Companies Specification
+# Especificación de Compañías de Agentes
 
-Extension of the Agent Skills Specification
+Extensión de la Especificación de Skills de Agentes
 
-Version: `agentcompanies/v1-draft`
+Versión: `agentcompanies/v1-draft`
 
-## 1. Purpose
+## 1. Propósito
 
-An Agent Company package is a filesystem- and GitHub-native format for describing a company, team, agent, project, task, and associated skills using markdown files with YAML frontmatter.
+Un paquete Agent Company es un formato nativo de filesystem y GitHub para describir una compañía, equipo, agente, proyecto, tarea, y skills asociadas usando archivos markdown con frontmatter YAML.
 
-This specification is an extension of the Agent Skills specification, not a replacement for it.
+Esta especificación es una extensión de la especificación de Agent Skills, no un reemplazo para esta.
 
-It defines how company-, team-, and agent-level package structure composes around the existing `SKILL.md` model.
+Define cómo la estructura de paquete a nivel de compañía, equipo y agente se compone alrededor del modelo `SKILL.md` existente.
 
-This specification is vendor-neutral. It is intended to be usable by any agent-company runtime, not only Paperclip.
+Esta especificación es agnóstica de vendor. Se pretende que sea utilizable por cualquier runtime de agent-company, no solo Paperclip.
 
-The format is designed to:
+El formato está diseñado para:
 
-- be readable and writable by humans
-- work directly from a local folder or GitHub repository
-- require no central registry
-- support attribution and pinned references to upstream files
-- extend the existing Agent Skills ecosystem without redefining it
-- be useful outside Paperclip
+- ser legible y escribible por humanos
+- funcionar directamente desde una carpeta local o repositorio GitHub
+- no requerir un registro central
+- soportar atribución y referencias fijadas a archivos upstream
+- extender el ecosistema de Agent Skills existente sin redefinirlo
+- ser útil fuera de Paperclip
 
-## 2. Core Principles
+## 2. Principios Principales
 
-1. Markdown is canonical.
-2. Git repositories are valid package containers.
-3. Registries are optional discovery layers, not authorities.
-4. `SKILL.md` remains owned by the Agent Skills specification.
-5. External references must be pinnable to immutable Git commits.
-6. Attribution and license metadata must survive import/export.
-7. Slugs and relative paths are the portable identity layer, not database ids.
-8. Conventional folder structure should work without verbose wiring.
-9. Vendor-specific fidelity belongs in optional extensions, not the base package.
+1. Markdown es canónico.
+2. Los repositorios Git son contenedores de paquetes válidos.
+3. Los registros son capas de descubrimiento opcionales, no autoridades.
+4. `SKILL.md` permanece bajo la propiedad de la especificación de Agent Skills.
+5. Las referencias externas deben poder fijarse a commits Git inmutables.
+6. Los metadatos de atribución y licencia deben sobrevivir a import/export.
+7. Los slugs y rutas relativas son la capa de identidad portable, no ids de base de datos.
+8. La estructura de carpeta convencional debe funcionar sin cableado verbose.
+9. La fidelidad específica de vendor pertenece a extensiones opcionales, no al paquete base.
 
-## 3. Package Kinds
+## 3. Tipos de Paquetes
 
-A package root is identified by one primary markdown file:
+Una raíz de paquete se identifica por un archivo markdown primario:
 
-- `COMPANY.md` for a company package
-- `TEAM.md` for a team package
-- `AGENTS.md` for an agent package
-- `PROJECT.md` for a project package
-- `TASK.md` for a task package
-- `SKILL.md` for a skill package defined by the Agent Skills specification
+- `COMPANY.md` para un paquete de compañía
+- `TEAM.md` para un paquete de equipo
+- `AGENTS.md` para un paquete de agente
+- `PROJECT.md` para un paquete de proyecto
+- `TASK.md` para un paquete de tarea
+- `SKILL.md` para un paquete de skill definido por la especificación de Agent Skills
 
-A GitHub repo may contain one package at root or many packages in subdirectories.
+Un repositorio GitHub puede contener un paquete en la raíz o muchos paquetes en subdirectorios.
 
-## 4. Reserved Files And Directories
+## 4. Archivos y Directorios Reservados
 
-Common conventions:
+Convenciones comunes:
 
 ```text
 COMPANY.md
@@ -77,15 +77,15 @@ scripts/
 references/
 ```
 
-Rules:
+Reglas:
 
-- only markdown files are canonical content docs
-- non-markdown directories like `assets/`, `scripts/`, and `references/` are allowed
-- package tools may generate optional lock files, but lock files are not required for authoring
+- solo los archivos markdown son docs de contenido canónico
+- directorios que no son markdown como `assets/`, `scripts/`, y `references/` están permitidos
+- las herramientas de paquete pueden generar archivos de bloqueo opcionales, pero los archivos de bloqueo no son requeridos para la autoría
 
-## 5. Common Frontmatter
+## 5. Frontmatter Común
 
-Package docs may support these fields:
+Los docs de paquete pueden soportar estos campos:
 
 ```yaml
 schema: agentcompanies/v1
@@ -105,20 +105,20 @@ metadata: {}
 sources: []
 ```
 
-Notes:
+Notas:
 
-- `schema` is optional and should usually appear only at the package root
-- `kind` is optional when file path and file name already make the kind obvious
-- `slug` should be URL-safe and stable
-- `sources` is for provenance and external references
-- `metadata` is for tool-specific extensions
-- exporters should omit empty or default-valued fields
+- `schema` es opcional y generalmente debe aparecer solo en la raíz del paquete
+- `kind` es opcional cuando la ruta del archivo y el nombre del archivo ya hacen el tipo obvio
+- `slug` debe ser URL-safe y estable
+- `sources` es para proveniencia y referencias externas
+- `metadata` es para extensiones específicas de herramienta
+- los exportadores deben omitir campos vacíos o con valores predeterminados
 
 ## 6. COMPANY.md
 
-`COMPANY.md` is the root entrypoint for a whole company package.
+`COMPANY.md` es el punto de entrada raíz para un paquete de compañía completo.
 
-### Required fields
+### Campos requeridos
 
 ```yaml
 name: Lean Dev Shop
@@ -127,7 +127,7 @@ slug: lean-dev-shop
 schema: agentcompanies/v1
 ```
 
-### Recommended fields
+### Campos recomendados
 
 ```yaml
 version: 1.0.0
@@ -143,20 +143,20 @@ requirements:
     - OPENAI_API_KEY
 ```
 
-### Semantics
+### Semántica
 
-- `includes` defines the package graph
-- local package contents should be discovered implicitly by folder convention
-- `includes` is optional and should be used mainly for external refs or nonstandard locations
-- included items may be local or external references
-- `COMPANY.md` may include agents directly, teams, projects, tasks, or skills
-- a company importer may render `includes` as the tree/checkbox import UI
+- `includes` define el gráfico de paquete
+- los contenidos del paquete local deben descubrirse implícitamente por convención de carpeta
+- `includes` es opcional y debe usarse principalmente para refs externas o ubicaciones no estándar
+- los elementos incluidos pueden ser referencias locales o externas
+- `COMPANY.md` puede incluir agentes directamente, equipos, proyectos, tareas, o skills
+- un importador de compañía puede renderizar `includes` como la UI de importación de árbol/checkbox
 
 ## 7. TEAM.md
 
-`TEAM.md` defines an org subtree.
+`TEAM.md` define un subárbol de organización.
 
-### Example
+### Ejemplo
 
 ```yaml
 name: Engineering
@@ -173,18 +173,18 @@ tags:
   - engineering
 ```
 
-### Semantics
+### Semántica
 
-- a team package is a reusable subtree, not necessarily a runtime database table
-- `manager` identifies the root agent of the subtree
-- `includes` may contain child agents, child teams, or shared skills
-- a team package can be imported into an existing company and attached under a target manager
+- un paquete de equipo es un subárbol reutilizable, no necesariamente una tabla de base de datos de runtime
+- `manager` identifica el agente raíz del subárbol
+- `includes` puede contener agentes hijo, equipos hijo, o skills compartidas
+- un paquete de equipo puede ser importado a una compañía existente y adjuntado bajo un manager de destino
 
 ## 8. AGENTS.md
 
-`AGENTS.md` defines an agent.
+`AGENTS.md` define un agente.
 
-### Example
+### Ejemplo
 
 ```yaml
 name: CEO
@@ -195,39 +195,39 @@ skills:
   - review
 ```
 
-### Semantics
+### Semántica
 
-- body content is the canonical default instruction content for the agent
-- `docs` points to sibling markdown docs when present
-- `skills` references reusable `SKILL.md` packages by skill shortname or slug
-- a bare skill entry like `review` should resolve to `skills/review/SKILL.md` by convention
-- if a package references external skills, the agent should still refer to the skill by shortname; the skill package itself owns any source refs, pinning, or attribution details
-- tools may allow path or URL entries as an escape hatch, but exporters should prefer shortname-based skill references in `AGENTS.md`
-- vendor-specific adapter/runtime config should not live in the base package
-- local absolute paths, machine-specific cwd values, and secret values must not be exported as canonical package data
+- el contenido del cuerpo es el contenido de instrucción predeterminado canónico para el agente
+- `docs` apunta a docs markdown hermanos cuando están presentes
+- `skills` hace referencia a paquetes reutilizables de `SKILL.md` por shortname o slug de skill
+- una entrada de skill bare como `review` debe resolverse a `skills/review/SKILL.md` por convención
+- si un paquete referencia skills externas, el agente aún debe referirse a la skill por shortname; el paquete de skill mismo posee cualquier ref de fuente, fijación, o detalles de atribución
+- las herramientas pueden permitir entradas de ruta o URL como escotilla de emergencia, pero los exportadores deben preferir referencias de skill basadas en shortname en `AGENTS.md`
+- la configuración de adapter/runtime específica de vendor no debe vivir en el paquete base
+- las rutas absolutas locales, valores cwd específicos de máquina, y valores secretos no deben ser exportados como datos de paquete canónico
 
-### Skill Resolution
+### Resolución de Skill
 
-The preferred association standard between agents and skills is by skill shortname.
+El estándar de asociación preferido entre agentes y skills es por shortname de skill.
 
-Suggested resolution order for an agent skill entry:
+Orden de resolución sugerido para una entrada de skill de agente:
 
-1. a local package skill at `skills/<shortname>/SKILL.md`
-2. a referenced or included skill package whose declared slug or shortname matches
-3. a tool-managed company skill library entry with the same shortname
+1. una skill de paquete local en `skills/<shortname>/SKILL.md`
+2. un paquete de skill referenciado o incluido cuyo slug o shortname declarado coincida
+3. una entrada de biblioteca de skill de compañía gestionada por herramienta con el mismo shortname
 
-Rules:
+Reglas:
 
-- exporters should emit shortnames in `AGENTS.md` whenever possible
-- importers should not require full file paths for ordinary skill references
-- the skill package itself should carry any complexity around external refs, vendoring, mirrors, or pinned upstream content
-- this keeps `AGENTS.md` readable and consistent with `skills.sh`-style sharing
+- los exportadores deben emitir shortnames en `AGENTS.md` siempre que sea posible
+- los importadores no deben requerir rutas de archivo completas para referencias de skill ordinarias
+- el paquete de skill mismo debe llevar cualquier complejidad alrededor de refs externas, vendoring, espejos, o contenido upstream fijado
+- esto mantiene `AGENTS.md` legible y consistente con el compartir estilo `skills.sh`
 
 ## 9. PROJECT.md
 
-`PROJECT.md` defines a lightweight project package.
+`PROJECT.md` define un paquete de proyecto ligero.
 
-### Example
+### Ejemplo
 
 ```yaml
 name: Q2 Launch
@@ -235,19 +235,19 @@ description: Ship the Q2 launch plan and supporting assets
 owner: cto
 ```
 
-### Semantics
+### Semántica
 
-- a project package groups related starter tasks and supporting markdown
-- `owner` should reference an agent slug when there is a clear project owner
-- a conventional `tasks/` subfolder should be discovered implicitly
-- `includes` may contain `TASK.md`, `SKILL.md`, or supporting docs when explicit wiring is needed
-- project packages are intended to seed planned work, not represent runtime task state
+- un paquete de proyecto agrupa tareas iniciadoras relacionadas y markdown de soporte
+- `owner` debe hacer referencia a un slug de agente cuando hay un propietario de proyecto claro
+- una subcarpeta `tasks/` convencional debe descubrirse implícitamente
+- `includes` puede contener `TASK.md`, `SKILL.md`, o docs de soporte cuando se necesita cableado explícito
+- los paquetes de proyecto están destinados a iniciar trabajo planificado, no a representar estado de tarea de runtime
 
 ## 10. TASK.md
 
-`TASK.md` defines a lightweight starter task.
+`TASK.md` define una tarea iniciadora ligera.
 
-### Example
+### Ejemplo
 
 ```yaml
 name: Monday Review
@@ -256,23 +256,23 @@ project: q2-launch
 recurring: true
 ```
 
-### Semantics
+### Semántica
 
-- body content is the canonical markdown task description
-- `assignee` should reference an agent slug inside the package
-- `project` should reference a project slug when the task belongs to a `PROJECT.md`
-- `recurring: true` marks the task as ongoing recurring work instead of a one-time starter task
-- tasks are intentionally basic seed work: title, markdown body, assignee, project linkage, and optional `recurring: true`
-- tools may also support optional fields like `priority`, `labels`, or `metadata`, but they should not require them in the base package
+- el contenido del cuerpo es la descripción de tarea markdown canónica
+- `assignee` debe hacer referencia a un slug de agente dentro del paquete
+- `project` debe hacer referencia a un slug de proyecto cuando la tarea pertenece a un `PROJECT.md`
+- `recurring: true` marca la tarea como trabajo recurrente continuado en lugar de una tarea iniciadora de una sola vez
+- las tareas son intencionalmente trabajo iniciador básico: título, cuerpo markdown, asignado, vinculación de proyecto, y `recurring: true` opcional
+- las herramientas también pueden soportar campos opcionales como `priority`, `labels`, o `metadata`, pero no deben requerirlos en el paquete base
 
-### Recurring Tasks
+### Tareas Recurrentes
 
-- the base package only needs to say whether a task is recurring
-- vendors may attach the actual schedule / trigger / runtime fidelity in a vendor extension such as `.paperclip.yaml`
-- this keeps `TASK.md` portable while still allowing richer runtime systems to round-trip their own automation details
-- legacy packages may still use `schedule.recurrence` during transition, but exporters should prefer `recurring: true`
+- el paquete base solo necesita decir si una tarea es recurrente
+- los vendors pueden adjuntar la fidelidad real de horario / trigger / runtime en una extensión de vendor como `.paperclip.yaml`
+- esto mantiene `TASK.md` portable mientras aún permite a sistemas de runtime más rico hacer round-trip de sus propios detalles de automatización
+- los paquetes heredados pueden aún usar `schedule.recurrence` durante la transición, pero los exportadores deben preferir `recurring: true`
 
-Example Paperclip extension:
+Ejemplo de extensión Paperclip:
 
 ```yaml
 routines:
@@ -283,24 +283,24 @@ routines:
         timezone: America/Chicago
 ```
 
-- vendors should ignore unknown recurring-task extensions they do not understand
-- vendors importing legacy `schedule.recurrence` data may translate it into their own runtime trigger model, but new exports should prefer the simpler `recurring: true` base field
+- los vendors deben ignorar extensiones de tarea recurrente desconocida que no entiendan
+- los vendors importando datos heredados de `schedule.recurrence` pueden traducirlo a su propio modelo de trigger de runtime, pero las nuevas exportaciones deben preferir el campo base `recurring: true` más simple
 
-## 11. SKILL.md Compatibility
+## 11. Compatibilidad SKILL.md
 
-A skill package must remain a valid Agent Skills package.
+Un paquete de skill debe permanecer un paquete válido de Agent Skills.
 
-Rules:
+Reglas:
 
-- `SKILL.md` should follow the Agent Skills spec
-- Paperclip must not require extra top-level fields for skill validity
-- Paperclip-specific extensions must live under `metadata.paperclip` or `metadata.sources`
-- a skill directory may include `scripts/`, `references/`, and `assets/` exactly as the Agent Skills ecosystem expects
-- tools implementing this spec should treat `skills.sh` compatibility as a first-class goal rather than inventing a parallel skill format
+- `SKILL.md` debe seguir la especificación de Agent Skills
+- Paperclip no debe requerir campos top-level extra para validez de skill
+- las extensiones específicas de Paperclip deben vivir bajo `metadata.paperclip` o `metadata.sources`
+- un directorio de skill puede incluir `scripts/`, `references/`, y `assets/` exactamente como el ecosistema de Agent Skills espera
+- las herramientas implementando esta especificación deben tratar la compatibilidad de `skills.sh` como un objetivo de primera clase en lugar de inventar un formato de skill paralelo
 
-In other words, this spec extends Agent Skills upward into company/team/agent composition. It does not redefine skill package semantics.
+En otras palabras, esta especificación extiende Agent Skills hacia arriba en composición de compañía/equipo/agente. No redefine la semántica de paquete de skill.
 
-### Example compatible extension
+### Ejemplo de extensión compatible
 
 ```yaml
 ---
@@ -325,11 +325,11 @@ metadata:
 ---
 ```
 
-## 12. Source References
+## 12. Referencias de Fuente
 
-A package may point to upstream content instead of vendoring it.
+Un paquete puede apuntar a contenido upstream en lugar de vendorlo.
 
-### Source object
+### Objeto de fuente
 
 ```yaml
 sources:
@@ -346,7 +346,7 @@ sources:
     usage: referenced
 ```
 
-### Supported kinds
+### Tipos soportados
 
 - `local-file`
 - `local-dir`
@@ -354,47 +354,47 @@ sources:
 - `github-dir`
 - `url`
 
-### Usage modes
+### Modos de uso
 
-- `vendored`: bytes are included in the package
-- `referenced`: package points to upstream immutable content
-- `mirrored`: bytes are cached locally but upstream attribution remains canonical
+- `vendored`: los bytes se incluyen en el paquete
+- `referenced`: el paquete apunta a contenido upstream inmutable
+- `mirrored`: los bytes se cachean localmente pero la atribución upstream permanece canónica
 
-### Rules
+### Reglas
 
-- `commit` is required for `github-file` and `github-dir` in strict mode
-- `sha256` is strongly recommended and should be verified on fetch
-- branch-only refs may be allowed in development mode but must warn
-- exporters should default to `referenced` for third-party content unless redistribution is clearly allowed
+- `commit` es requerido para `github-file` y `github-dir` en modo estricto
+- `sha256` se recomienda fuertemente y debe ser verificado en fetch
+- las refs solo-rama pueden estar permitidas en modo desarrollo pero deben advertir
+- los exportadores deben por defecto usar `referenced` para contenido de terceros a menos que la redistribución esté claramente permitida
 
-## 13. Resolution Rules
+## 13. Reglas de Resolución
 
-Given a package root, an importer resolves in this order:
+Dado una raíz de paquete, un importador resuelve en este orden:
 
-1. local relative paths
-2. local absolute paths if explicitly allowed by the importing tool
-3. pinned GitHub refs
-4. generic URLs
+1. rutas relativas locales
+2. rutas absolutas locales si explícitamente permitidas por la herramienta de importación
+3. refs de GitHub fijadas
+4. URLs genéricas
 
-For pinned GitHub refs:
+Para refs de GitHub fijadas:
 
-1. resolve `repo + commit + path`
-2. fetch content
-3. verify `sha256` if present
-4. verify `blob` if present
-5. fail closed on mismatch
+1. resolver `repo + commit + path`
+2. obtener contenido
+3. verificar `sha256` si está presente
+4. verificar `blob` si está presente
+5. fallar cerrado en discrepancia
 
-An importer must surface:
+Un importador debe mostrar:
 
-- missing files
-- hash mismatches
-- missing licenses
-- referenced upstream content that requires network fetch
-- executable content in skills or scripts
+- archivos faltantes
+- discrepancias de hash
+- licencias faltantes
+- contenido upstream referenciado que requiere fetch de red
+- contenido ejecutable en skills o scripts
 
-## 14. Import Graph
+## 14. Gráfico de Importación
 
-A package importer should build a graph from:
+Un importador de paquete debe construir un gráfico desde:
 
 - `COMPANY.md`
 - `TEAM.md`
@@ -402,46 +402,46 @@ A package importer should build a graph from:
 - `PROJECT.md`
 - `TASK.md`
 - `SKILL.md`
-- local and external refs
+- refs locales y externas
 
-Suggested import UI behavior:
+Comportamiento sugerido de UI de importación:
 
-- render graph as a tree
-- checkbox at entity level, not raw file level
-- selecting an agent auto-selects required docs and referenced skills
-- selecting a team auto-selects its subtree
-- selecting a project auto-selects its included tasks
-- selecting a recurring task should make it clear that the import target is a routine / automation, not a one-time task
-- selecting referenced third-party content shows attribution, license, and fetch policy
+- renderizar gráfico como árbol
+- checkbox a nivel de entidad, no a nivel de archivo sin procesar
+- seleccionar un agente auto-selecciona docs requeridos y skills referenciadas
+- seleccionar un equipo auto-selecciona su subárbol
+- seleccionar un proyecto auto-selecciona sus tareas incluidas
+- seleccionar una tarea recurrente debe hacer claro que el destino de importación es una routine / automatización, no una tarea de una sola vez
+- seleccionar contenido referenciado de terceros muestra atribución, licencia, y política de fetch
 
-## 15. Vendor Extensions
+## 15. Extensiones de Vendor
 
-Vendor-specific data should live outside the base package shape.
+Los datos específicos de vendor deben vivir fuera de la forma de paquete base.
 
-For Paperclip, the preferred fidelity extension is:
+Para Paperclip, la extensión de fidelidad preferida es:
 
 ```text
 .paperclip.yaml
 ```
 
-Example uses:
+Usos de ejemplo:
 
-- adapter type and adapter config
-- adapter env inputs and defaults
-- runtime settings
-- permissions
-- budgets
-- approval policies
-- project execution workspace policies
-- issue/task Paperclip-only metadata
+- tipo de adapter y configuración de adapter
+- inputs de env de adapter y valores por defecto
+- configuración de runtime
+- permisos
+- presupuestos
+- políticas de aprobación
+- políticas de workspace de ejecución de proyecto
+- metadatos solo de Paperclip de issue/tarea
 
-Rules:
+Reglas:
 
-- the base package must remain readable without the extension
-- tools that do not understand a vendor extension should ignore it
-- Paperclip tools may emit the vendor extension by default as a sidecar while keeping the base markdown clean
+- el paquete base debe permanecer legible sin la extensión
+- las herramientas que no entienden una extensión de vendor deben ignorarla
+- las herramientas de Paperclip pueden emitir la extensión de vendor por defecto como un sidecar mientras mantienen el markdown base limpio
 
-Suggested Paperclip shape:
+Forma Paperclip sugerida:
 
 ```yaml
 schema: paperclip/v1
@@ -472,94 +472,94 @@ routines:
         timezone: America/Chicago
 ```
 
-Additional rules for Paperclip exporters:
+Reglas adicionales para exportadores de Paperclip:
 
-- do not duplicate `promptTemplate` when `AGENTS.md` already contains the agent instructions
-- do not export provider-specific secret bindings such as `secretId`, `version`, or `type: secret_ref`
-- export env inputs as portable declarations with `required` or `optional` semantics and optional defaults
-- warn on system-dependent values such as absolute commands and absolute `PATH` overrides
-- omit empty and default-valued Paperclip fields when possible
+- no duplicar `promptTemplate` cuando `AGENTS.md` ya contiene las instrucciones del agente
+- no exportar vinculaciones secretas específicas de proveedor tales como `secretId`, `version`, o `type: secret_ref`
+- exportar inputs de env como declaraciones portables con semántica `required` u `optional` y valores por defecto opcionales
+- advertir sobre valores dependientes del sistema tales como comandos absolutos y anulaciones de `PATH` absoluto
+- omitir campos Paperclip vacíos y con valores predeterminados cuando sea posible
 
-## 16. Export Rules
+## 16. Reglas de Exportación
 
-A compliant exporter should:
+Un exportador compatible debe:
 
-- emit markdown roots and relative folder layout
-- omit machine-local ids and timestamps
-- omit secret values
-- omit machine-specific paths
-- preserve task descriptions and recurring-task declarations when exporting tasks
-- omit empty/default fields
-- default to the vendor-neutral base package
-- Paperclip exporters should emit `.paperclip.yaml` as a sidecar by default
-- preserve attribution and source references
-- prefer `referenced` over silent vendoring for third-party content
-- preserve `SKILL.md` as-is when exporting compatible skills
+- emitir raíces markdown y layout de carpeta relativa
+- omitir ids y timestamps locales de máquina
+- omitir valores secretos
+- omitir rutas específicas de máquina
+- preservar descripciones de tarea y declaraciones de tarea recurrente al exportar tareas
+- omitir campos vacíos/predeterminados
+- por defecto al paquete base agnóstico de vendor
+- los exportadores de Paperclip deben emitir `.paperclip.yaml` como un sidecar por defecto
+- preservar atribución y referencias de fuente
+- preferir `referenced` sobre vendoring silencioso para contenido de terceros
+- preservar `SKILL.md` tal cual al exportar skills compatibles
 
-## 17. Licensing And Attribution
+## 17. Licencias y Atribución
 
-A compliant tool must:
+Una herramienta compatible debe:
 
-- preserve `license` and `attribution` metadata when importing and exporting
-- distinguish vendored vs referenced content
-- not silently inline referenced third-party content during export
-- surface missing license metadata as a warning
-- surface restrictive or unknown licenses before install/import if content is vendored or mirrored
+- preservar metadatos de `license` y `attribution` al importar y exportar
+- distinguir contenido vendored vs referenced
+- no insertar silenciosamente contenido referenciado de terceros durante la exportación
+- mostrar metadatos de licencia faltante como una advertencia
+- mostrar licencias restrictivas o desconocidas antes de install/import si el contenido es vendored o mirrored
 
-## 18. Optional Lock File
+## 18. Archivo de Bloqueo Opcional
 
-Authoring does not require a lock file.
+La autoría no requiere un archivo de bloqueo.
 
-Tools may generate an optional lock file such as:
+Las herramientas pueden generar un archivo de bloqueo opcional tales como:
 
 ```text
 company-package.lock.json
 ```
 
-Purpose:
+Propósito:
 
-- cache resolved refs
-- record final hashes
-- support reproducible installs
+- cachear refs resueltos
+- registrar hashes finales
+- soportar installs reproducibles
 
-Rules:
+Reglas:
 
-- lock files are optional
-- lock files are generated artifacts, not canonical authoring input
-- the markdown package remains the source of truth
+- los archivos de bloqueo son opcionales
+- los archivos de bloqueo son artefactos generados, no entrada de autoría canónica
+- el paquete markdown permanece como la fuente de verdad
 
-## 19. Paperclip Mapping
+## 19. Mapeo de Paperclip
 
-Paperclip can map this spec to its runtime model like this:
+Paperclip puede mapear esta especificación a su modelo de runtime así:
 
-- base package:
-  - `COMPANY.md` -> company metadata
-  - `TEAM.md` -> importable org subtree
-  - `AGENTS.md` -> agent identity and instructions
-  - `PROJECT.md` -> starter project definition
-  - `TASK.md` -> starter issue/task definition, or recurring task template when `recurring: true`
-  - `SKILL.md` -> imported skill package
-  - `sources[]` -> provenance and pinned upstream refs
-- Paperclip extension:
-  - `.paperclip.yaml` -> adapter config, runtime config, env input declarations, permissions, budgets, routine triggers, and other Paperclip-specific fidelity
+- paquete base:
+  - `COMPANY.md` -> metadatos de compañía
+  - `TEAM.md` -> subárbol de organización importable
+  - `AGENTS.md` -> identidad e instrucciones de agente
+  - `PROJECT.md` -> definición de proyecto iniciador
+  - `TASK.md` -> definición de tarea/issue iniciadora, o plantilla de tarea recurrente cuando `recurring: true`
+  - `SKILL.md` -> paquete de skill importado
+  - `sources[]` -> proveniencia y refs upstream fijados
+- Extensión Paperclip:
+  - `.paperclip.yaml` -> configuración de adapter, configuración de runtime, declaraciones de entrada de env, permisos, presupuestos, triggers de routine, y otra fidelidad específica de Paperclip
 
-Inline Paperclip-only metadata that must live inside a shared markdown file should use:
+Los metadatos solo de Paperclip inline que deben vivir dentro de un archivo markdown compartido deben usar:
 
 - `metadata.paperclip`
 
-That keeps the base format broader than Paperclip.
+Eso mantiene el formato base más amplio que Paperclip.
 
-This specification itself remains vendor-neutral and intended for any agent-company runtime, not only Paperclip.
+Esta especificación misma permanece agnóstica de vendor e intentada para cualquier runtime de agent-company, no solo Paperclip.
 
-## 20. Cutover
+## 20. Transición
 
-Paperclip should cut over to this markdown-first package model as the primary portability format.
+Paperclip debe hacer transición a este modelo de paquete markdown-first como el formato de portabilidad primario.
 
-`paperclip.manifest.json` does not need to be preserved as a compatibility requirement for the future package system.
+`paperclip.manifest.json` no necesita ser preservado como un requisito de compatibilidad para el sistema de paquete futuro.
 
-For Paperclip, this should be treated as a hard cutover in product direction rather than a long-lived dual-format strategy.
+Para Paperclip, esto debe ser tratado como una transición dura en dirección de producto en lugar de una estrategia dual-formato de vida larga.
 
-## 21. Minimal Example
+## 21. Ejemplo Mínimo
 
 ```text
 lean-dev-shop/
@@ -580,17 +580,17 @@ lean-dev-shop/
 └── skills/
     └── review/SKILL.md
 
-Optional:
+Opcional:
 
 ```text
 .paperclip.yaml
 ```
 ```
 
-**Recommendation**
-This is the direction I would take:
+**Recomendación**
+Esta es la dirección que tomaría:
 
-- make this the human-facing spec
-- define `SKILL.md` compatibility as non-negotiable
-- treat this spec as an extension of Agent Skills, not a parallel format
-- make `companies.sh` a discovery layer for repos implementing this spec, not a publishing authority
+- hacer esta la especificación orientada a humanos
+- definir compatibilidad de `SKILL.md` como innegociable
+- tratar esta especificación como una extensión de Agent Skills, no un formato paralelo
+- hacer `companies.sh` una capa de descubrimiento para repos implementando esta especificación, no una autoridad de publicación
