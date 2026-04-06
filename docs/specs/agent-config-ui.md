@@ -1,286 +1,286 @@
-# Agent Configuration & Activity UI
+# UI de Configuración y Actividad de Agentes
 
-## Context
+## Contexto
 
-Agents are the employees of a Paperclip company. Each agent has an adapter type (`claude_local`, `codex_local`, `process`, `http`) that determines how it runs, a position in the org chart (who it reports to), a heartbeat policy (how/when it wakes up), and a budget. The UI at `/agents` needs to support creating and configuring agents, viewing their org hierarchy, and inspecting what they've been doing -- their run history, live logs, and accumulated costs.
+Los agentes son los empleados de una compañía Paperclip. Cada agente tiene un tipo de adapter (`claude_local`, `codex_local`, `process`, `http`) que determina cómo se ejecuta, una posición en el organigrama (a quién reporta), una política de heartbeat (cómo/cuándo se despierta), y un presupuesto. La UI en `/agents` necesita soportar crear y configurar agentes, ver su jerarquía de organización, e inspeccionar qué han estado haciendo -- su historial de ejecuciones, logs en vivo, y costos acumulados.
 
-This spec covers three surfaces:
+Esta especificación cubre tres superficies:
 
-1. **Agent Creation Dialog** -- the "New Agent" flow
-2. **Agent Detail Page** -- configuration, activity, and logs
-3. **Agents List Page** -- improvements to the existing list
+1. **Diálogo de Creación de Agente** -- el flujo "Nuevo Agente"
+2. **Página de Detalle de Agente** -- configuración, actividad, y logs
+3. **Página de Lista de Agentes** -- mejoras a la lista existente
 
 ---
 
-## 1. Agent Creation Dialog
+## 1. Diálogo de Creación de Agente
 
-Follows the existing `NewIssueDialog` / `NewProjectDialog` pattern: a `Dialog` component with expand/minimize toggle, company badge breadcrumb, and Cmd+Enter submit.
+Sigue el patrón existente `NewIssueDialog` / `NewProjectDialog`: un componente `Dialog` con alternar expandir/minimizar, breadcrumb de badge de compañía, y submit con Cmd+Enter.
 
-### Fields
+### Campos
 
-**Identity (always visible):**
+**Identidad (siempre visible):**
 
-| Field | Control | Required | Default | Notes |
+| Campo | Control | Requerido | Predeterminado | Notas |
 |-------|---------|----------|---------|-------|
-| Name | Text input (large, auto-focused) | Yes | -- | e.g. "Alice", "Build Bot" |
-| Title | Text input (subtitle style) | No | -- | e.g. "VP of Engineering" |
-| Role | Chip popover (select) | No | `general` | Values from `AGENT_ROLES`: ceo, cto, cmo, cfo, engineer, designer, pm, qa, devops, researcher, general |
-| Reports To | Chip popover (agent select) | No | -- | Dropdown of existing agents in the company. If this is the first agent, auto-set role to `ceo` and gray out Reports To. Otherwise required unless role is `ceo`. |
-| Capabilities | Text input | No | -- | Free-text description of what this agent can do |
+| Nombre | Text input (grande, auto-enfocado) | Sí | -- | p.ej. "Alice", "Build Bot" |
+| Título | Text input (estilo subtítulo) | No | -- | p.ej. "VP de Ingeniería" |
+| Rol | Chip popover (seleccionar) | No | `general` | Valores de `AGENT_ROLES`: ceo, cto, cmo, cfo, engineer, designer, pm, qa, devops, researcher, general |
+| Reporta a | Chip popover (seleccionar agente) | No | -- | Dropdown de agentes existentes en la compañía. Si este es el primer agente, auto-establecer rol a `ceo` y desactivar Reporta a. De lo contrario requerido a menos que rol sea `ceo`. |
+| Capacidades | Text input | No | -- | Descripción de texto libre de qué puede hacer este agente |
 
-**Adapter (collapsible section, default open):**
+**Adapter (sección colapsible, abierto por defecto):**
 
-| Field | Control | Default | Notes |
+| Campo | Control | Predeterminado | Notas |
 |-------|---------|---------|-------|
-| Adapter Type | Chip popover (select) | `claude_local` | `claude_local`, `codex_local`, `process`, `http` |
-| Test environment | Button | -- | Runs adapter-specific diagnostics and returns pass/warn/fail checks for current unsaved config |
-| CWD | Text input | -- | Working directory for local adapters |
-| Prompt Template | Textarea | -- | Supports `{{ agent.id }}`, `{{ agent.name }}` etc. |
-| Model | Text input | -- | Optional model override |
+| Tipo de Adapter | Chip popover (seleccionar) | `claude_local` | `claude_local`, `codex_local`, `process`, `http` |
+| Entorno de prueba | Botón | -- | Ejecuta diagnósticos específicos del adapter y retorna verificaciones pass/warn/fail para la configuración actual no guardada |
+| CWD | Text input | -- | Directorio de trabajo para adapters locales |
+| Plantilla de Prompt | Textarea | -- | Soporta `{{ agent.id }}`, `{{ agent.name }}` etc. |
+| Modelo | Text input | -- | Anulación de modelo opcional |
 
-**Adapter-specific fields (shown/hidden based on adapter type):**
+**Campos específicos del adapter (mostrados/ocultados basado en tipo de adapter):**
 
 *claude_local:*
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
-| Max Turns Per Run | Number input | 80 |
-| Skip Permissions | Toggle | true |
+| Max Turns Por Ejecución | Number input | 80 |
+| Saltar Permisos | Toggle | true |
 
 *codex_local:*
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
-| Search | Toggle | false |
+| Búsqueda | Toggle | false |
 | Bypass Sandbox | Toggle | true |
 
 *process:*
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
-| Command | Text input | -- |
-| Args | Text input (comma-separated) | -- |
+| Comando | Text input | -- |
+| Args | Text input (separado por comas) | -- |
 
 *http:*
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
 | URL | Text input | -- |
-| Method | Select | POST |
-| Headers | Key-value pairs | -- |
+| Método | Select | POST |
+| Headers | Pares clave-valor | -- |
 
-**Runtime (collapsible section, default collapsed):**
+**Runtime (sección colapsible, colapsado por defecto):**
 
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
-| Context Mode | Chip popover | `thin` |
-| Monthly Budget (cents) | Number input | 0 |
-| Timeout (sec) | Number input | 900 |
-| Grace Period (sec) | Number input | 15 |
-| Extra Args | Text input | -- |
-| Env Vars | Key-value pair editor | -- |
+| Modo de Contexto | Chip popover | `thin` |
+| Presupuesto Mensual (centavos) | Number input | 0 |
+| Timeout (seg) | Number input | 900 |
+| Período de Gracia (seg) | Number input | 15 |
+| Args Extra | Text input | -- |
+| Variables Env | Editor de pares clave-valor | -- |
 
-**Heartbeat Policy (collapsible section, default collapsed):**
+**Política de Heartbeat (sección colapsible, colapsado por defecto):**
 
-| Field | Control | Default |
+| Campo | Control | Predeterminado |
 |-------|---------|---------|
-| Enabled | Toggle | true |
-| Interval (sec) | Number input | 300 |
-| Wake on Assignment | Toggle | true |
-| Wake on On-Demand | Toggle | true |
-| Wake on Automation | Toggle | true |
-| Cooldown (sec) | Number input | 10 |
+| Habilitado | Toggle | true |
+| Intervalo (seg) | Number input | 300 |
+| Despertar en Asignación | Toggle | true |
+| Despertar en Bajo Demanda | Toggle | true |
+| Despertar en Automatización | Toggle | true |
+| Cooldown (seg) | Number input | 10 |
 
-### Behavior
+### Comportamiento
 
-- On submit, calls `agentsApi.create(companyId, data)` where `data` packs identity fields at the top level and adapter-specific fields into `adapterConfig` and heartbeat/runtime into `runtimeConfig`.
-- After creation, navigate to the new agent's detail page.
-- If the company has zero agents, pre-fill role as `ceo` and disable Reports To.
-- The adapter config section updates its visible fields when adapter type changes, preserving any shared field values (cwd, promptTemplate, etc.).
+- Al submit, llama `agentsApi.create(companyId, data)` donde `data` empaqueta campos de identidad en el nivel superior y campos específicos del adapter en `adapterConfig` y heartbeat/runtime en `runtimeConfig`.
+- Después de la creación, navega a la página de detalle del nuevo agente.
+- Si la compañía tiene cero agentes, pre-llena rol como `ceo` y desactiva Reporta a.
+- La sección de configuración del adapter actualiza sus campos visibles cuando el tipo de adapter cambia, preservando cualquier valor de campo compartido (cwd, promptTemplate, etc.).
 
 ---
 
-## 2. Agent Detail Page
+## 2. Página de Detalle de Agente
 
-Restructure the existing tabbed layout. Keep the header (name, role, title, status badge, action buttons) and add richer tabs.
+Reestructura el layout tabbed existente. Mantén el header (nombre, rol, título, badge de estado, botones de acción) y agrega tabs más ricos.
 
 ### Header
 
 ```
-[StatusBadge]  Agent Name                    [Invoke] [Pause/Resume] [...]
-               Role / Title
+[StatusBadge]  Nombre de Agente                    [Invocar] [Pausa/Reanudar] [...]
+               Rol / Título
 ```
 
-The `[...]` overflow menu contains: Terminate, Reset Session, Create API Key.
+El menú de overflow `[...]` contiene: Terminar, Reiniciar Sesión, Crear Clave API.
 
 ### Tabs
 
-#### Overview Tab
+#### Tab Descripción General
 
-Two-column layout: left column is a summary card, right column is the org position.
+Layout de dos columnas: columna izquierda es una tarjeta de resumen, columna derecha es la posición de organización.
 
-**Summary card:**
-- Adapter type + model (if set)
-- Heartbeat interval (e.g. "every 5 min") or "Disabled"
-- Last heartbeat time (relative, e.g. "3 min ago")
-- Session status: "Active (session abc123...)" or "No session"
-- Current month spend / budget with progress bar
+**Tarjeta de resumen:**
+- Tipo de adapter + modelo (si está establecido)
+- Intervalo de heartbeat (p.ej. "cada 5 min") o "Deshabilitado"
+- Tiempo del último heartbeat (relativo, p.ej. "hace 3 min")
+- Estado de sesión: "Activo (sesión abc123...)" o "Sin sesión"
+- Gasto del mes actual / presupuesto con barra de progreso
 
-**Org position card:**
-- Reports to: clickable agent name (links to their detail page)
-- Direct reports: list of agents who report to this agent (clickable)
+**Tarjeta de posición de organización:**
+- Reporta a: nombre de agente clickeable (enlace a su página de detalle)
+- Reportes directos: lista de agentes que reportan a este agente (clickeable)
 
-#### Configuration Tab
+#### Tab de Configuración
 
-Editable form with the same sections as the creation dialog (Adapter, Runtime, Heartbeat Policy) but pre-populated with current values. Uses inline editing -- click a value to edit, press Enter or blur to save via `agentsApi.update()`.
+Formulario editable con las mismas secciones que el diálogo de creación (Adapter, Runtime, Política de Heartbeat) pero pre-poblado con valores actuales. Usa edición inline -- haz clic en un valor para editar, presiona Enter o desenfoca para guardar vía `agentsApi.update()`.
 
-Sections:
-- **Identity**: name, title, role, reports to, capabilities
-- **Adapter Config**: all adapter-specific fields for the current adapter type
-- **Heartbeat Policy**: enable/disable, interval, wake-on triggers, cooldown
-- **Runtime**: context mode, budget, timeout, grace, env vars, extra args
+Secciones:
+- **Identidad**: nombre, título, rol, reporta a, capacidades
+- **Configuración de Adapter**: todos los campos específicos del adapter para el tipo de adapter actual
+- **Política de Heartbeat**: habilitar/deshabilitar, intervalo, triggers de despertar, cooldown
+- **Runtime**: modo de contexto, presupuesto, timeout, gracia, variables env, args extra
 
-Each section is a collapsible card. Save happens per-field (PATCH on blur/enter), not a single form submit. Validation errors show inline.
+Cada sección es una tarjeta colapsible. El guardado sucede por campo (PATCH en desenfoque/enter), no un único submit de formulario. Los errores de validación se muestran inline.
 
-#### Runs Tab
+#### Tab de Ejecuciones
 
-This is the primary activity/history view. Shows a paginated list of heartbeat runs, most recent first.
+Esta es la vista principal de actividad/historial. Muestra una lista paginada de ejecuciones de heartbeat, la más reciente primero.
 
-**Run list item:**
+**Elemento de lista de ejecución:**
 ```
-[StatusIcon] #run-id-short   source: timer     2 min ago     1.2k tokens   $0.03
-             "Reviewed 3 PRs and filed 2 issues"
+[StatusIcon] #run-id-short   source: timer     hace 2 min     1.2k tokens   $0.03
+             "Revisó 3 PRs e filed 2 issues"
 ```
 
-Fields per row:
-- Status icon (green check = succeeded, red X = failed, yellow spinner = running, gray clock = queued, orange timeout = timed_out, slash = cancelled)
-- Run ID (short, first 8 chars)
-- Invocation source chip (timer, assignment, on_demand, automation)
-- Relative timestamp
-- Token usage summary (total input + output)
-- Cost
-- Result summary (first line of result or error)
+Campos por fila:
+- Icono de estado (check verde = exitoso, X rojo = falló, spinner amarillo = corriendo, reloj gris = encolado, timeout naranja = timed_out, barra diagonal = cancelado)
+- ID de Ejecución (corto, primeros 8 caracteres)
+- Chip de fuente de invocación (timer, assignment, on_demand, automation)
+- Timestamp relativo
+- Resumen de uso de tokens (total input + output)
+- Costo
+- Resumen de resultado (primera línea de resultado o error)
 
-**Clicking a run** opens a run detail inline (accordion expand) or a slide-over panel showing:
+**Hacer clic en una ejecución** abre un detalle de ejecución inline (expansión de acordeón) o un panel slide-over que muestra:
 
-- Full status timeline (queued -> running -> outcome) with timestamps
-- Session before/after
-- Token breakdown: input, output, cached input
-- Cost breakdown
-- Error message and error code (if failed)
-- Exit code and signal (if applicable)
+- Línea de tiempo de estado completo (encolado -> corriendo -> resultado) con timestamps
+- Sesión antes/después
+- Desglose de tokens: input, output, input cacheado
+- Desglose de costo
+- Mensaje de error y código de error (si falló)
+- Código de salida y señal (si es aplicable)
 
-**Log viewer** within the run detail:
-- Streams `heartbeat_run_events` for the run, ordered by `seq`
-- Each event rendered as a log line with timestamp, level (color-coded), and message
-- Events of type `stdout`/`stderr` shown in monospace
-- System events shown with distinct styling
-- For running runs, auto-scrolls and appends live via WebSocket events (`heartbeat.run.event`, `heartbeat.run.log`)
-- "View full log" link fetches from `heartbeatsApi.log(runId)` and shows in a scrollable monospace container
-- Truncation: show last 200 events by default, "Load more" button to fetch earlier events
+**Visor de log** dentro del detalle de ejecución:
+- Streams `heartbeat_run_events` para la ejecución, ordenado por `seq`
+- Cada evento renderizado como una línea de log con timestamp, nivel (codificado por color), y mensaje
+- Eventos de tipo `stdout`/`stderr` mostrados en monoespaciado
+- Eventos del sistema mostrados con estilo distinto
+- Para ejecuciones en corrimiento, auto-scrolls y se agrega en vivo vía WebSocket events (`heartbeat.run.event`, `heartbeat.run.log`)
+- Enlace "Ver log completo" obtiene desde `heartbeatsApi.log(runId)` y muestra en un contenedor monoespaciado scrollable
+- Truncamiento: mostrar últimos 200 eventos por defecto, botón "Cargar más" para obtener eventos anteriores
 
-#### Issues Tab
+#### Tab de Issues
 
-Keep as-is: list of issues assigned to this agent with status, clickable to navigate to issue detail.
+Mantén tal cual: lista de issues asignadas a este agente con estado, clickeable para navegar a detalle de issue.
 
-#### Costs Tab
+#### Tab de Costos
 
-Expand the existing costs tab:
+Expande el tab de costos existente:
 
-- **Cumulative totals** from `agent_runtime_state`: total input tokens, total output tokens, total cached tokens, total cost
-- **Monthly budget** progress bar (current month spend vs budget)
-- **Per-run cost table**: date, run ID, tokens in/out/cached, cost -- sortable by date or cost
-- **Chart** (stretch): simple bar chart of daily spend over last 30 days
+- **Totales acumulativos** desde `agent_runtime_state`: total de tokens input, total de tokens output, total de tokens cacheados, costo total
+- **Barra de progreso de presupuesto mensual** (gasto del mes actual vs presupuesto)
+- **Tabla de costo por ejecución**: fecha, ID de ejecución, tokens in/out/cached, costo -- ordenable por fecha o costo
+- **Gráfico** (stretch): gráfico de barras simple de gasto diario en los últimos 30 días
 
-### Properties Panel (Right Sidebar)
+### Panel de Propiedades (Barra Lateral Derecha)
 
-The existing `AgentProperties` panel continues to show the quick-glance info. Add:
-- Session ID (truncated, with copy button)
-- Last error (if any, in red)
-- Link to "View Configuration" (scrolls to / switches to Configuration tab)
+El panel existente `AgentProperties` continúa mostrando la información de vista rápida. Agrega:
+- ID de Sesión (truncado, con botón de copia)
+- Último error (si hay, en rojo)
+- Enlace a "Ver Configuración" (scrolls a / cambia a tab de Configuración)
 
 ---
 
-## 3. Agents List Page
+## 3. Página de Lista de Agentes
 
-### Current state
+### Estado actual
 
-Shows a flat list of agents with status badge, name, role, title, and budget bar.
+Muestra una lista plana de agentes con badge de estado, nombre, rol, título, y barra de presupuesto.
 
-### Improvements
+### Mejoras
 
-**Add "New Agent" button** in the header (Plus icon + "New Agent"), opens the creation dialog.
+**Agrega botón "Nuevo Agente"** en el header (Icono Plus + "Nuevo Agente"), abre el diálogo de creación.
 
-**Add view toggle**: List view (current) and Org Chart view.
+**Agrega alternar de vista**: vista de Lista (actual) y vista de Organigrama.
 
-**Org Chart view:**
-- Tree layout showing reporting hierarchy
-- Each node shows: agent name, role, status badge
-- CEO at the top, direct reports below, etc.
-- Uses the `agentsApi.org(companyId)` endpoint which already returns `OrgNode[]`
-- Clicking a node navigates to agent detail
+**Vista de Organigrama:**
+- Layout de árbol mostrando jerarquía de reporteo
+- Cada nodo muestra: nombre de agente, rol, badge de estado
+- CEO en la parte superior, reportes directos abajo, etc.
+- Usa el endpoint `agentsApi.org(companyId)` que ya retorna `OrgNode[]`
+- Hacer clic en un nodo navega a detalle de agente
 
-**List view improvements:**
-- Add adapter type as a small chip/tag on each row
-- Add "last active" relative timestamp
-- Add running indicator (animated dot) if agent currently has a running heartbeat
+**Mejoras de vista de Lista:**
+- Agrega tipo de adapter como un chip/tag pequeño en cada fila
+- Agrega timestamp relativo "última activo"
+- Agrega indicador de corrimiento (punto animado) si el agente actualmente tiene un heartbeat corriendo
 
-**Filtering:**
-- Tab filters: All, Active, Paused, Error (similar to Issues page pattern)
+**Filtrado:**
+- Filtros de Tab: Todos, Activos, Pausados, Error (similar al patrón de página de Issues)
 
 ---
 
-## 4. Component Inventory
+## 4. Inventario de Componentes
 
-New components needed:
+Nuevos componentes necesarios:
 
-| Component | Purpose |
+| Componente | Propósito |
 |-----------|---------|
-| `NewAgentDialog` | Agent creation form dialog |
-| `AgentConfigForm` | Shared form sections for create + edit (adapter, heartbeat, runtime) |
-| `AdapterConfigFields` | Conditional fields based on adapter type |
-| `HeartbeatPolicyFields` | Heartbeat configuration fields |
-| `EnvVarEditor` | Key-value pair editor for environment variables |
-| `RunListItem` | Single run row in the runs list |
-| `RunDetail` | Expanded run detail with log viewer |
-| `LogViewer` | Streaming log viewer with auto-scroll |
-| `OrgChart` | Tree visualization of agent hierarchy |
-| `AgentSelect` | Reusable agent picker (for Reports To, etc.) |
+| `NewAgentDialog` | Diálogo de formulario de creación de agente |
+| `AgentConfigForm` | Secciones de formulario compartidas para crear + editar (adapter, heartbeat, runtime) |
+| `AdapterConfigFields` | Campos condicionales basados en tipo de adapter |
+| `HeartbeatPolicyFields` | Campos de configuración de heartbeat |
+| `EnvVarEditor` | Editor de pares clave-valor para variables de entorno |
+| `RunListItem` | Fila de ejecución única en la lista de ejecuciones |
+| `RunDetail` | Detalle de ejecución expandido con visor de log |
+| `LogViewer` | Visor de log streaming con auto-scroll |
+| `OrgChart` | Visualización de árbol de jerarquía de agentes |
+| `AgentSelect` | Selector de agente reutilizable (para Reporta a, etc.) |
 
-Reused existing components:
+Componentes existentes reutilizados:
 - `StatusBadge`, `EntityRow`, `EmptyState`, `PropertyRow`
 - shadcn: `Dialog`, `Tabs`, `Button`, `Popover`, `Command`, `Separator`, `Toggle`
 
 ---
 
-## 5. API Surface
+## 5. Superficie de API
 
-All endpoints already exist. No new server work needed for V1.
+Todos los endpoints ya existen. Sin nuevo trabajo de servidor necesario para V1.
 
-| Action | Endpoint | Used by |
+| Acción | Endpoint | Usado por |
 |--------|----------|---------|
-| List agents | `GET /companies/:id/agents` | List page |
-| Get org tree | `GET /companies/:id/org` | Org chart view |
-| Create agent | `POST /companies/:id/agents` | Creation dialog |
-| Update agent | `PATCH /agents/:id` | Configuration tab |
-| Pause/Resume/Terminate | `POST /agents/:id/{action}` | Header actions |
-| Reset session | `POST /agents/:id/runtime-state/reset-session` | Overflow menu |
-| Create API key | `POST /agents/:id/keys` | Overflow menu |
-| Get runtime state | `GET /agents/:id/runtime-state` | Overview tab, properties panel |
-| Invoke/Wakeup | `POST /agents/:id/heartbeat/invoke` | Header invoke button |
-| List runs | `GET /companies/:id/heartbeat-runs?agentId=X` | Runs tab |
-| Cancel run | `POST /heartbeat-runs/:id/cancel` | Run detail |
-| Run events | `GET /heartbeat-runs/:id/events` | Log viewer |
-| Run log | `GET /heartbeat-runs/:id/log` | Full log view |
+| Listar agentes | `GET /companies/:id/agents` | Página de lista |
+| Obtener árbol de organización | `GET /companies/:id/org` | Vista de organigrama |
+| Crear agente | `POST /companies/:id/agents` | Diálogo de creación |
+| Actualizar agente | `PATCH /agents/:id` | Tab de configuración |
+| Pausa/Reanudar/Terminar | `POST /agents/:id/{action}` | Acciones de header |
+| Reiniciar sesión | `POST /agents/:id/runtime-state/reset-session` | Menú de overflow |
+| Crear clave API | `POST /agents/:id/keys` | Menú de overflow |
+| Obtener estado de runtime | `GET /agents/:id/runtime-state` | Tab descripción general, panel de propiedades |
+| Invocar/Despertar | `POST /agents/:id/heartbeat/invoke` | Botón de invocación de header |
+| Listar ejecuciones | `GET /companies/:id/heartbeat-runs?agentId=X` | Tab de ejecuciones |
+| Cancelar ejecución | `POST /heartbeat-runs/:id/cancel` | Detalle de ejecución |
+| Eventos de ejecución | `GET /heartbeat-runs/:id/events` | Visor de log |
+| Log de ejecución | `GET /heartbeat-runs/:id/log` | Vista de log completo |
 
 ---
 
-## 6. Implementation Order
+## 6. Orden de Implementación
 
-1. **New Agent Dialog** -- unblocks agent creation from the UI
-2. **Agents List improvements** -- add New Agent button, tab filters, adapter chip, running indicator
-3. **Agent Detail: Configuration tab** -- editable adapter/heartbeat/runtime config
-4. **Agent Detail: Runs tab** -- run history list with status, tokens, cost
-5. **Agent Detail: Run Detail + Log Viewer** -- expandable run detail with streaming logs
-6. **Agent Detail: Overview tab** -- summary card, org position
-7. **Agent Detail: Costs tab** -- expanded cost breakdown
-8. **Org Chart view** -- tree visualization on list page
-9. **Properties panel updates** -- session ID, last error
+1. **Diálogo Nuevo Agente** -- desbloquea creación de agente desde la UI
+2. **Mejoras de Lista de Agentes** -- agrega botón Nuevo Agente, filtros de tab, chip de adapter, indicador de corrimiento
+3. **Detalle de Agente: Tab de Configuración** -- configuración editable de adapter/heartbeat/runtime
+4. **Detalle de Agente: Tab de Ejecuciones** -- lista de historial de ejecuciones con estado, tokens, costo
+5. **Detalle de Agente: Detalle de Ejecución + Visor de Log** -- detalle de ejecución expandible con logs streaming
+6. **Detalle de Agente: Tab Descripción General** -- tarjeta de resumen, posición de organización
+7. **Detalle de Agente: Tab de Costos** -- desglose de costo expandido
+8. **Vista de Organigrama** -- visualización de árbol en página de lista
+9. **Actualizaciones de panel de propiedades** -- ID de sesión, último error
 
-Steps 1-5 are the core. Steps 6-9 are polish.
+Los pasos 1-5 son el núcleo. Los pasos 6-9 son pulido.

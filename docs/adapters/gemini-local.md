@@ -1,45 +1,45 @@
 ---
 title: Gemini Local
-summary: Gemini CLI local adapter setup and configuration
+summary: Configuración del adapter local de Gemini CLI
 ---
 
-The `gemini_local` adapter runs Google's Gemini CLI locally. It supports session persistence with `--resume`, skills injection, and structured `stream-json` output parsing.
+El adapter `gemini_local` ejecuta el CLI de Gemini de Google localmente. Soporta persistencia de sesión con `--resume`, inyección de skills, y análisis de salida `stream-json` estructurado.
 
-## Prerequisites
+## Requisitos Previos
 
-- Gemini CLI installed (`gemini` command available)
-- `GEMINI_API_KEY` or `GOOGLE_API_KEY` set, or local Gemini CLI auth configured
+- CLI de Gemini instalado (comando `gemini` disponible)
+- `GEMINI_API_KEY` o `GOOGLE_API_KEY` establecido, o autenticación local de Gemini CLI configurada
 
-## Configuration Fields
+## Campos de Configuración
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Requerido | Descripción |
 |-------|------|----------|-------------|
-| `cwd` | string | Yes | Working directory for the agent process (absolute path; created automatically if missing when permissions allow) |
-| `model` | string | No | Gemini model to use. Defaults to `auto`. |
-| `promptTemplate` | string | No | Prompt used for all runs |
-| `instructionsFilePath` | string | No | Markdown instructions file prepended to the prompt |
-| `env` | object | No | Environment variables (supports secret refs) |
-| `timeoutSec` | number | No | Process timeout (0 = no timeout) |
-| `graceSec` | number | No | Grace period before force-kill |
-| `yolo` | boolean | No | Pass `--approval-mode yolo` for unattended operation |
+| `cwd` | string | Sí | Directorio de trabajo para el proceso del agente (ruta absoluta; se crea automáticamente si falta cuando los permisos lo permiten) |
+| `model` | string | No | Modelo Gemini a usar. Predeterminado a `auto`. |
+| `promptTemplate` | string | No | Prompt usado para todas las ejecuciones |
+| `instructionsFilePath` | string | No | Archivo de instrucciones Markdown antepuesto al prompt |
+| `env` | object | No | Variables de entorno (soporta referencias secretas) |
+| `timeoutSec` | number | No | Timeout del proceso (0 = sin timeout) |
+| `graceSec` | number | No | Período de gracia antes de force-kill |
+| `yolo` | boolean | No | Pasa `--approval-mode yolo` para operación desatendida |
 
-## Session Persistence
+## Persistencia de Sesión
 
-The adapter persists Gemini session IDs between heartbeats. On the next wake, it resumes the existing conversation with `--resume` so the agent retains context.
+El adapter persiste los IDs de sesión de Gemini entre heartbeats. En el próximo despertar, reanuda la conversación existente con `--resume` para que el agente reetenga contexto.
 
-Session resume is cwd-aware: if the working directory changed since the last run, a fresh session starts instead.
+La reanudación de sesión es sensible a cwd: si el directorio de trabajo cambió desde la última ejecución, se inicia una sesión nueva en su lugar.
 
-If resume fails with an unknown session error, the adapter automatically retries with a fresh session.
+Si la reanudación falla con un error de sesión desconocido, el adapter automáticamente reintenta con una sesión nueva.
 
-## Skills Injection
+## Inyección de Skills
 
-The adapter symlinks Paperclip skills into the Gemini global skills directory (`~/.gemini/skills`). Existing user skills are not overwritten.
+El adapter crea symlinks de skills de Paperclip en el directorio global de skills de Gemini (`~/.gemini/skills`). Los skills existentes del usuario no se sobrescriben.
 
-## Environment Test
+## Prueba del Entorno
 
-Use the "Test Environment" button in the UI to validate the adapter config. It checks:
+Usa el botón "Test Environment" en la UI para validar la configuración del adapter. Verifica:
 
-- Gemini CLI is installed and accessible
-- Working directory is absolute and available (auto-created if missing and permitted)
-- API key/auth hints (`GEMINI_API_KEY` or `GOOGLE_API_KEY`)
-- A live hello probe (`gemini --output-format json "Respond with hello."`) to verify CLI readiness
+- CLI de Gemini está instalado y accesible
+- El directorio de trabajo es absoluto y está disponible (se crea automáticamente si falta y está permitido)
+- Pistas de clave API/autenticación (`GEMINI_API_KEY` o `GOOGLE_API_KEY`)
+- Una prueba viva de hello (`gemini --output-format json "Respond with hello."`) para verificar la disponibilidad del CLI

@@ -1,68 +1,68 @@
 ---
-title: Execution Workspaces And Runtime Services
-summary: How project runtime configuration, execution workspaces, and issue runs fit together
+title: Espacios de Ejecución y Servicios de Runtime
+summary: Cómo la configuración de runtime del proyecto, espacios de ejecución y ejecuciones de problemas encajan juntos
 ---
 
-This guide documents the intended runtime model for projects, execution workspaces, and issue runs in Paperclip.
+Esta guía documenta el modelo de runtime previsto para proyectos, espacios de ejecución y ejecuciones de problemas en Paperclip.
 
-## Project runtime configuration
+## Configuración de runtime del proyecto
 
-You can define how to run a project on the project workspace itself.
+Puedes definir cómo ejecutar un proyecto en el workspace del proyecto mismo.
 
-- Project workspace runtime config describes how to run services for that project checkout.
-- This is the default runtime configuration that child execution workspaces may inherit.
-- Defining the config does not start anything by itself.
+- La configuración de runtime del workspace del proyecto describe cómo ejecutar servicios para ese checkout de proyecto.
+- Esta es la configuración de runtime predeterminada que los workspaces de ejecución hijo pueden heredar.
+- Definir la configuración no inicia nada por sí solo.
 
-## Manual runtime control
+## Control manual de runtime
 
-Runtime services are manually controlled from the UI.
+Los servicios de runtime se controlan manualmente desde la interfaz.
 
-- Project workspace runtime services are started and stopped from the project workspace UI.
-- Execution workspace runtime services are started and stopped from the execution workspace UI.
-- Paperclip does not automatically start or stop these runtime services as part of issue execution.
-- Paperclip also does not automatically restart workspace runtime services on server boot.
+- Los servicios de runtime del workspace del proyecto se inician y detienen desde la interfaz del workspace del proyecto.
+- Los servicios de runtime del workspace de ejecución se inician y detienen desde la interfaz del workspace de ejecución.
+- Paperclip no inicia o detiene automáticamente estos servicios de runtime como parte de la ejecución del problema.
+- Paperclip tampoco reinicia automáticamente servicios de runtime del workspace en el arranque del servidor.
 
-## Execution workspace inheritance
+## Herencia del workspace de ejecución
 
-Execution workspaces isolate code and runtime state from the project primary workspace.
+Los espacios de ejecución aíslan el código y el estado de runtime del workspace principal del proyecto.
 
-- An isolated execution workspace has its own checkout path, branch, and local runtime instance.
-- The runtime configuration may inherit from the linked project workspace by default.
-- The execution workspace may override that runtime configuration with its own workspace-specific settings.
-- The inherited configuration answers "how to run the service", but the running process is still specific to that execution workspace.
+- Un workspace de ejecución aislado tiene su propia ruta de checkout, rama e instancia de runtime local.
+- La configuración de runtime puede heredar del workspace del proyecto vinculado por defecto.
+- El workspace de ejecución puede anular esa configuración de runtime con sus propias configuraciones específicas del workspace.
+- La configuración heredada responde "cómo ejecutar el servicio", pero el proceso en ejecución sigue siendo específico de ese workspace de ejecución.
 
-## Issues and execution workspaces
+## Problemas y espacios de ejecución
 
-Issues are attached to execution workspace behavior, not to automatic runtime management.
+Los problemas se adjuntan al comportamiento del workspace de ejecución, no a la gestión automática de runtime.
 
-- An issue may create a new execution workspace when you choose an isolated workspace mode.
-- An issue may reuse an existing execution workspace when you choose reuse.
-- Multiple issues may intentionally share one execution workspace so they can work against the same branch and running runtime services.
-- Assigning or running an issue does not automatically start or stop runtime services for that workspace.
+- Un problema puede crear un nuevo workspace de ejecución cuando eliges modo de workspace aislado.
+- Un problema puede reutilizar un workspace de ejecución existente cuando eliges reutilización.
+- Múltiples problemas pueden compartir intencionalmente un workspace de ejecución para que puedan trabajar contra la misma rama y servicios de runtime en ejecución.
+- Asignar o ejecutar un problema no inicia o detiene automáticamente servicios de runtime para ese workspace.
 
-## Execution workspace lifecycle
+## Ciclo de vida del workspace de ejecución
 
-Execution workspaces are durable until a human closes them.
+Los espacios de ejecución son duraderos hasta que un humano los cierra.
 
-- The UI can archive an execution workspace.
-- Closing an execution workspace stops its runtime services and cleans up its workspace artifacts when allowed.
-- Shared workspaces that point at the project primary checkout are treated more conservatively during cleanup than disposable isolated workspaces.
+- La interfaz puede archivar un workspace de ejecución.
+- Cerrar un workspace de ejecución detiene sus servicios de runtime y limpia sus artefactos de workspace cuando está permitido.
+- Los workspaces compartidos que apuntan al checkout principal del proyecto se tratan más conservadoramente durante la limpieza que los workspaces aislados desechables.
 
-## Resolved workspace logic during heartbeat runs
+## Lógica de workspace resuelto durante ejecuciones de heartbeat
 
-Heartbeat still resolves a workspace for the run, but that is about code location and session continuity, not runtime-service control.
+El heartbeat sigue resolviendo un workspace para la ejecución, pero eso se trata de ubicación de código y continuidad de sesión, no de control de servicios de runtime.
 
-1. Heartbeat resolves a base workspace for the run.
-2. Paperclip realizes the effective execution workspace, including creating or reusing a worktree when needed.
-3. Paperclip persists execution-workspace metadata such as paths, refs, and provisioning settings.
-4. Heartbeat passes the resolved code workspace to the agent run.
-5. Workspace runtime services remain manual UI-managed controls rather than automatic heartbeat-managed services.
+1. El heartbeat resuelve un workspace base para la ejecución.
+2. Paperclip realiza el workspace de ejecución efectivo, incluyendo creación o reutilización de un worktree cuando sea necesario.
+3. Paperclip persiste metadatos del workspace de ejecución como rutas, refs y configuraciones de provisión.
+4. El heartbeat pasa el workspace de código resuelto a la ejecución del agente.
+5. Los servicios de runtime del workspace permanecen como controles gestionados por la interfaz manual en lugar de servicios gestionados por heartbeat automático.
 
-## Current implementation guarantees
+## Garantías de implementación actual
 
-With the current implementation:
+Con la implementación actual:
 
-- Project workspace runtime config is the fallback for execution workspace UI controls.
-- Execution workspace runtime overrides are stored on the execution workspace.
-- Heartbeat runs do not auto-start workspace runtime services.
-- Server startup does not auto-restart workspace runtime services.
+- La configuración de runtime del workspace del proyecto es el respaldo para controles de interfaz del workspace de ejecución.
+- Los overrides de runtime del workspace de ejecución se almacenan en el workspace de ejecución.
+- Las ejecuciones de heartbeat no inician automáticamente servicios de runtime del workspace.
+- El arranque del servidor no reinicia automáticamente servicios de runtime del workspace.

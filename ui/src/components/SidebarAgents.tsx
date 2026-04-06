@@ -81,7 +81,7 @@ export function SidebarAgents() {
               )}
             />
             <span className="text-[10px] font-medium uppercase tracking-widest font-mono text-muted-foreground/60">
-              Agents
+              Agentes
             </span>
           </CollapsibleTrigger>
           <button
@@ -120,7 +120,7 @@ export function SidebarAgents() {
                 {(agent.pauseReason === "budget" || runCount > 0) && (
                   <span className="ml-auto flex items-center gap-1.5 shrink-0">
                     {agent.pauseReason === "budget" ? (
-                      <BudgetSidebarMarker title="Agent paused by budget" />
+                      <BudgetSidebarMarker title="Agente pausado por presupuesto" />
                     ) : null}
                     {runCount > 0 ? (
                       <span className="relative flex h-2 w-2">

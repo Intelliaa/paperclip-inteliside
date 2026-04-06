@@ -1,25 +1,25 @@
 ---
-title: Setup Commands
-summary: Onboard, run, doctor, and configure
+title: Comandos de Configuración
+summary: Incorporar, ejecutar, doctor y configurar
 ---
 
-Instance setup and diagnostics commands.
+Comandos de configuración de instancia y diagnósticos.
 
 ## `paperclipai run`
 
-One-command bootstrap and start:
+Bootstrap e inicio en un comando:
 
 ```sh
 pnpm paperclipai run
 ```
 
-Does:
+Hace:
 
-1. Auto-onboards if config is missing
-2. Runs `paperclipai doctor` with repair enabled
-3. Starts the server when checks pass
+1. Auto-configura si falta configuración
+2. Ejecuta `paperclipai doctor` con reparación habilitada
+3. Inicia el servidor cuando los controles pasan
 
-Choose a specific instance:
+Elige una instancia específica:
 
 ```sh
 pnpm paperclipai run --instance dev
@@ -27,53 +27,53 @@ pnpm paperclipai run --instance dev
 
 ## `paperclipai onboard`
 
-Interactive first-time setup:
+Configuración interactiva de primera vez:
 
 ```sh
 pnpm paperclipai onboard
 ```
 
-If Paperclip is already configured, rerunning `onboard` keeps the existing config in place. Use `paperclipai configure` to change settings on an existing install.
+Si Paperclip ya está configurado, ejecutar nuevamente `onboard` mantiene la configuración existente. Usa `paperclipai configure` para cambiar configuraciones en una instalación existente.
 
-First prompt:
+Primer prompt:
 
-1. `Quickstart` (recommended): local defaults (embedded database, no LLM provider, local disk storage, default secrets)
-2. `Advanced setup`: full interactive configuration
+1. `Inicio Rápido` (recomendado): predeterminados locales (base de datos incorporada, sin proveedor de LLM, almacenamiento en disco local, secretos predeterminados)
+2. `Configuración Avanzada`: configuración interactiva completa
 
-Start immediately after onboarding:
+Inicia inmediatamente después de la incorporación:
 
 ```sh
 pnpm paperclipai onboard --run
 ```
 
-Non-interactive defaults + immediate start (opens browser on server listen):
+Predeterminados no interactivos + inicio inmediato (abre navegador en escucha del servidor):
 
 ```sh
 pnpm paperclipai onboard --yes
 ```
 
-On an existing install, `--yes` now preserves the current config and just starts Paperclip with that setup.
+En una instalación existente, `--yes` ahora preserva la configuración actual e inicia Paperclip con esa configuración.
 
 ## `paperclipai doctor`
 
-Health checks with optional auto-repair:
+Verificaciones de salud con reparación automática opcional:
 
 ```sh
 pnpm paperclipai doctor
 pnpm paperclipai doctor --repair
 ```
 
-Validates:
+Valida:
 
-- Server configuration
-- Database connectivity
-- Secrets adapter configuration
-- Storage configuration
-- Missing key files
+- Configuración del servidor
+- Conectividad de la base de datos
+- Configuración del adaptador de secretos
+- Configuración de almacenamiento
+- Archivos clave faltantes
 
 ## `paperclipai configure`
 
-Update configuration sections:
+Actualizar secciones de configuración:
 
 ```sh
 pnpm paperclipai configure --section server
@@ -83,7 +83,7 @@ pnpm paperclipai configure --section storage
 
 ## `paperclipai env`
 
-Show resolved environment configuration:
+Mostrar configuración de entorno resuelta:
 
 ```sh
 pnpm paperclipai env
@@ -91,29 +91,29 @@ pnpm paperclipai env
 
 ## `paperclipai allowed-hostname`
 
-Allow a private hostname for authenticated/private mode:
+Permite un nombre de host privado para modo autenticado/privado:
 
 ```sh
 pnpm paperclipai allowed-hostname my-tailscale-host
 ```
 
-## Local Storage Paths
+## Rutas de Almacenamiento Local
 
-| Data | Default Path |
+| Datos | Ruta Predeterminada |
 |------|-------------|
 | Config | `~/.paperclip/instances/default/config.json` |
-| Database | `~/.paperclip/instances/default/db` |
+| Base de datos | `~/.paperclip/instances/default/db` |
 | Logs | `~/.paperclip/instances/default/logs` |
-| Storage | `~/.paperclip/instances/default/data/storage` |
-| Secrets key | `~/.paperclip/instances/default/secrets/master.key` |
+| Almacenamiento | `~/.paperclip/instances/default/data/storage` |
+| Clave de secretos | `~/.paperclip/instances/default/secrets/master.key` |
 
-Override with:
+Anular con:
 
 ```sh
 PAPERCLIP_HOME=/custom/home PAPERCLIP_INSTANCE_ID=dev pnpm paperclipai run
 ```
 
-Or pass `--data-dir` directly on any command:
+O pasa `--data-dir` directamente en cualquier comando:
 
 ```sh
 pnpm paperclipai run --data-dir ./tmp/paperclip-dev

@@ -277,7 +277,7 @@ export function Layout() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[200] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        Skip to Main Content
+        Skip to main content
       </a>
       <WorktreeBanner />
       <DevRestartBanner devServer={health?.devServer} />
@@ -324,8 +324,8 @@ export function Layout() {
                 <Button variant="ghost" size="icon-sm" className="text-muted-foreground shrink-0" asChild>
                   <Link
                     to={instanceSettingsTarget}
-                    aria-label="Instance settings"
-                    title="Instance settings"
+                    aria-label="Instance Settings"
+                    title="Instance Settings"
                     onClick={() => {
                       if (isMobile) setSidebarOpen(false);
                     }}
@@ -382,8 +382,8 @@ export function Layout() {
                 <Button variant="ghost" size="icon-sm" className="text-muted-foreground shrink-0" asChild>
                   <Link
                     to={instanceSettingsTarget}
-                    aria-label="Instance settings"
-                    title="Instance settings"
+                    aria-label="Instance Settings"
+                    title="Instance Settings"
                     onClick={() => {
                       if (isMobile) setSidebarOpen(false);
                     }}

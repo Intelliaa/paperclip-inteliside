@@ -16,8 +16,8 @@ export function ReportsToPicker({
   onChange,
   disabled = false,
   excludeAgentIds = [],
-  disabledEmptyLabel = "Reports to: N/A (CEO)",
-  chooseLabel = "Reports to...",
+  disabledEmptyLabel = "Reporta a: N/A (CEO)",
+  chooseLabel = "Reporta a...",
 }: {
   agents: Agent[];
   value: string | null;
@@ -51,7 +51,7 @@ export function ReportsToPicker({
           {unknownManager ? (
             <>
               <User className="h-3 w-3 shrink-0 text-muted-foreground" />
-              <span className="min-w-0 truncate text-muted-foreground">Unknown manager (stale ID)</span>
+              <span className="min-w-0 truncate text-muted-foreground">Unknown manager (obsolete ID)</span>
             </>
           ) : current ? (
             <>
@@ -99,7 +99,7 @@ export function ReportsToPicker({
         )}
         {unknownManager && (
           <div className="px-2 py-1.5 text-xs text-muted-foreground border-b border-border mb-0.5">
-            Saved manager is missing from this company. Choose a new manager or clear.
+            The saved manager does not exist in this company. Choose a new manager or clear the selection.
           </div>
         )}
         {rows.map((a) => (

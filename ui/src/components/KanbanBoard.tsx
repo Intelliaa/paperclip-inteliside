@@ -32,8 +32,18 @@ const boardStatuses = [
   "cancelled",
 ];
 
+const STATUS_LABELS: Record<string, string> = {
+  todo: "Por hacer",
+  in_progress: "En Progreso",
+  in_review: "En Revisión",
+  blocked: "Bloqueado",
+  done: "Hecho",
+  cancelled: "Cancelado",
+  backlog: "Backlog",
+};
+
 function statusLabel(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return STATUS_LABELS[status] ?? status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 interface Agent {

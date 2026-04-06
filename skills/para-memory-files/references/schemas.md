@@ -1,6 +1,6 @@
-# Schemas and Memory Decay
+# Esquemas y Decaimiento de Memoria
 
-## Atomic Fact Schema (items.yaml)
+## Esquema de Hechos Atómicos (items.yaml)
 
 ```yaml
 - id: entity-001
@@ -17,19 +17,19 @@
   access_count: 0
 ```
 
-## Memory Decay
+## Decaimiento de Memoria
 
-Facts decay in retrieval priority over time so stale info does not crowd out recent context.
+Los hechos decaen en prioridad de recuperación con el tiempo para que la información obsoleta no desplace el contexto reciente.
 
-**Access tracking:** When a fact is used in conversation, bump `access_count` and set `last_accessed` to today. During heartbeat extraction, scan the session for referenced entity facts and update their access metadata.
+**Seguimiento de acceso:** Cuando un hecho se usa en una conversación, incrementa `access_count` y establece `last_accessed` a hoy. Durante la extracción del heartbeat, escanea la sesión en busca de hechos de entidades referenciados y actualiza sus metadatos de acceso.
 
-**Recency tiers (for summary.md rewriting):**
+**Niveles de recencia (para reescritura de summary.md):**
 
-- **Hot** (accessed in last 7 days) -- include prominently in summary.md.
-- **Warm** (8-30 days ago) -- include at lower priority.
-- **Cold** (30+ days or never accessed) -- omit from summary.md. Still in items.yaml, retrievable on demand.
-- High `access_count` resists decay -- frequently used facts stay warm longer.
+- **Caliente** (accedido en los últimos 7 días) -- incluir prominentemente en summary.md.
+- **Tibio** (hace 8-30 días) -- incluir con menor prioridad.
+- **Frío** (más de 30 días o nunca accedido) -- omitir de summary.md. Sigue en items.yaml, recuperable bajo demanda.
+- Un `access_count` alto resiste el decaimiento -- los hechos usados frecuentemente permanecen tibios más tiempo.
 
-**Weekly synthesis:** Sort by recency tier, then by access_count within tier. Cold facts drop out of the summary but remain in items.yaml. Accessing a cold fact reheats it.
+**Síntesis semanal:** Ordena por nivel de recencia, luego por access_count dentro del nivel. Los hechos fríos salen del resumen pero permanecen en items.yaml. Acceder a un hecho frío lo recalienta.
 
-No deletion. Decay only affects retrieval priority via summary.md curation. The full record always lives in items.yaml.
+Sin eliminación. El decaimiento solo afecta la prioridad de recuperación mediante la curación de summary.md. El registro completo siempre vive en items.yaml.

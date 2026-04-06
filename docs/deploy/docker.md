@@ -1,33 +1,33 @@
 ---
 title: Docker
-summary: Docker Compose quickstart
+summary: Inicio rápido con Docker Compose
 ---
 
-Run Paperclip in Docker without installing Node or pnpm locally.
+Ejecuta Paperclip en Docker sin instalar Node o pnpm localmente.
 
-## Compose Quickstart (Recommended)
+## Compose Inicio Rápido (Recomendado)
 
 ```sh
 docker compose -f docker/docker-compose.quickstart.yml up --build
 ```
 
-Open [http://localhost:3100](http://localhost:3100).
+Abre [http://localhost:3100](http://localhost:3100).
 
-Defaults:
+Predeterminados:
 
-- Host port: `3100`
-- Data directory: `./data/docker-paperclip`
+- Puerto del host: `3100`
+- Directorio de datos: `./data/docker-paperclip`
 
-Override with environment variables:
+Anula con variables de entorno:
 
 ```sh
 PAPERCLIP_PORT=3200 PAPERCLIP_DATA_DIR=../data/pc \
   docker compose -f docker/docker-compose.quickstart.yml up --build
 ```
 
-**Note:** `PAPERCLIP_DATA_DIR` is resolved relative to the compose file (`docker/`), so `../data/pc` maps to `data/pc` in the project root.
+**Nota:** `PAPERCLIP_DATA_DIR` se resuelve relativo al archivo compose (`docker/`), así que `../data/pc` se asigna a `data/pc` en la raíz del proyecto.
 
-## Manual Docker Build
+## Build Manual de Docker
 
 ```sh
 docker build -t paperclip-local .
@@ -39,23 +39,23 @@ docker run --name paperclip \
   paperclip-local
 ```
 
-## Data Persistence
+## Persistencia de Datos
 
-All data is persisted under the bind mount (`./data/docker-paperclip`):
+Todos los datos se persisten bajo el bind mount (`./data/docker-paperclip`):
 
-- Embedded PostgreSQL data
-- Uploaded assets
-- Local secrets key
-- Agent workspace data
+- Datos de PostgreSQL embebido
+- Assets subidos
+- Clave de secretos local
+- Datos del workspace del agente
 
-## Claude and Codex Adapters in Docker
+## Adapters Claude y Codex en Docker
 
-The Docker image pre-installs:
+La imagen Docker preinstala:
 
-- `claude` (Anthropic Claude Code CLI)
-- `codex` (OpenAI Codex CLI)
+- `claude` (CLI de Anthropic Claude Code)
+- `codex` (CLI de OpenAI Codex)
 
-Pass API keys to enable local adapter runs inside the container:
+Pasa las claves API para habilitar ejecuciones del adapter local dentro del contenedor:
 
 ```sh
 docker run --name paperclip \
@@ -68,4 +68,4 @@ docker run --name paperclip \
   paperclip-local
 ```
 
-Without API keys, the app runs normally — adapter environment checks will surface missing prerequisites.
+Sin claves API, la app se ejecuta normalmente — las verificaciones del entorno del adapter surfacearán los requisitos previos faltantes.

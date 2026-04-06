@@ -197,7 +197,7 @@ export function RoutineRunVariablesDialog({
         <DialogHeader>
           <DialogTitle>Run routine</DialogTitle>
           <DialogDescription>
-            Fill in the routine variables before starting the execution issue.
+            Complete the routine variables before starting the execution task.
           </DialogDescription>
         </DialogHeader>
 

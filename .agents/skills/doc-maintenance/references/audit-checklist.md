@@ -1,85 +1,85 @@
-# Doc Maintenance Audit Checklist
+# Lista de Verificación de Auditoría de Mantenimiento de Documentación
 
-Use this checklist when auditing each target document. For each item, compare
-against the change summary from git history.
+Usar esta lista de verificación al auditar cada documento objetivo. Para cada elemento, comparar
+contra el resumen de cambios del historial de git.
 
 ## README.md
 
-### Features table
-- [ ] Each feature card reflects a shipped capability
-- [ ] No feature cards for things that don't exist yet
-- [ ] No major shipped features missing from the table
+### Tabla de funcionalidades
+- [ ] Cada tarjeta de funcionalidad refleja una capacidad enviada
+- [ ] No hay tarjetas de funcionalidad para cosas que aún no existen
+- [ ] No faltan funcionalidades principales enviadas en la tabla
 
-### Roadmap
-- [ ] Nothing listed as "planned" or "coming soon" that already shipped
-- [ ] No removed/cancelled items still listed
-- [ ] Items reflect current priorities (cross-check with recent PRs)
+### Hoja de ruta
+- [ ] Nada listado como "planificado" o "próximamente" que ya se envió
+- [ ] No hay elementos eliminados/cancelados aún listados
+- [ ] Los elementos reflejan las prioridades actuales (verificar cruzando con PRs recientes)
 
-### Quickstart
-- [ ] `npx paperclipai onboard` command is correct
-- [ ] Manual install steps are accurate (clone URL, commands)
-- [ ] Prerequisites (Node version, pnpm version) are current
-- [ ] Server URL and port are correct
+### Inicio rápido
+- [ ] El comando `npx paperclipai onboard` es correcto
+- [ ] Los pasos de instalación manual son precisos (URL de clonación, comandos)
+- [ ] Los prerequisitos (versión de Node, versión de pnpm) están actualizados
+- [ ] La URL y puerto del servidor son correctos
 
-### "What is Paperclip" section
-- [ ] High-level description is accurate
-- [ ] Step table (Define goal / Hire team / Approve and run) is correct
+### Sección "Qué es Paperclip"
+- [ ] La descripción de alto nivel es precisa
+- [ ] La tabla de pasos (Definir objetivo / Contratar equipo / Aprobar y ejecutar) es correcta
 
-### "Works with" table
-- [ ] All supported adapters/runtimes are listed
-- [ ] No removed adapters still listed
-- [ ] Logos and labels match current adapter names
+### Tabla "Funciona con"
+- [ ] Todos los adapters/runtimes soportados están listados
+- [ ] No hay adapters eliminados aún listados
+- [ ] Los logos y etiquetas coinciden con los nombres actuales de adapter
 
-### "Paperclip is right for you if"
-- [ ] Use cases are still accurate
-- [ ] No claims about capabilities that don't exist
+### "Paperclip es para ti si"
+- [ ] Los casos de uso siguen siendo precisos
+- [ ] No hay afirmaciones sobre capacidades que no existen
 
-### "Why Paperclip is special"
-- [ ] Technical claims are accurate (atomic execution, governance, etc.)
-- [ ] No features listed that were removed or significantly changed
+### "Por qué Paperclip es especial"
+- [ ] Las afirmaciones técnicas son precisas (ejecución atómica, gobernanza, etc.)
+- [ ] No hay funcionalidades listadas que fueron eliminadas o cambiaron significativamente
 
 ### FAQ
-- [ ] Answers are still correct
-- [ ] No references to removed features or outdated behavior
+- [ ] Las respuestas siguen siendo correctas
+- [ ] No hay referencias a funcionalidades eliminadas o comportamiento obsoleto
 
-### Development section
-- [ ] Commands are accurate (`pnpm dev`, `pnpm build`, etc.)
-- [ ] Link to DEVELOPING.md is correct
+### Sección de desarrollo
+- [ ] Los comandos son precisos (`pnpm dev`, `pnpm build`, etc.)
+- [ ] El enlace a DEVELOPING.md es correcto
 
 ## doc/SPEC.md
 
-### Company Model
-- [ ] Fields match current schema
-- [ ] Governance model description is accurate
+### Modelo de Compañía
+- [ ] Los campos coinciden con el esquema actual
+- [ ] La descripción del modelo de gobernanza es precisa
 
-### Agent Model
-- [ ] Adapter types match what's actually supported
-- [ ] Agent configuration description is accurate
-- [ ] No features described as "not supported" or "not V1" that shipped
+### Modelo de Agente
+- [ ] Los tipos de adapter coinciden con lo que realmente está soportado
+- [ ] La descripción de configuración del agente es precisa
+- [ ] No hay funcionalidades descritas como "no soportado" o "no en V1" que se enviaron
 
-### Task Model
-- [ ] Task hierarchy description is accurate
-- [ ] Status values match current implementation
+### Modelo de Tarea
+- [ ] La descripción de jerarquía de tareas es precisa
+- [ ] Los valores de estado coinciden con la implementación actual
 
-### Extensions / Plugins
-- [ ] If plugins are shipped, no "not in V1" or "future" language
-- [ ] Plugin model description matches implementation
+### Extensiones / Plugins
+- [ ] Si los plugins están enviados, no hay lenguaje de "no en V1" o "futuro"
+- [ ] La descripción del modelo de plugin coincide con la implementación
 
-### Open Questions
-- [ ] Resolved questions removed or updated
-- [ ] No "TBD" items that have been decided
+### Preguntas Abiertas
+- [ ] Preguntas resueltas eliminadas o actualizadas
+- [ ] No hay elementos "por definir" que ya se decidieron
 
 ## doc/PRODUCT.md
 
-### Core Concepts
-- [ ] Company, Employees, Task Management descriptions accurate
-- [ ] Agent Execution modes described correctly
-- [ ] No missing major concepts
+### Conceptos Fundamentales
+- [ ] Las descripciones de Compañía, Empleados, Gestión de Tareas son precisas
+- [ ] Los modos de Ejecución de Agentes están descritos correctamente
+- [ ] No faltan conceptos principales
 
-### Principles
-- [ ] Principles haven't been contradicted by shipped features
-- [ ] No principles referencing removed capabilities
+### Principios
+- [ ] Los principios no han sido contradichos por funcionalidades enviadas
+- [ ] No hay principios que referencien capacidades eliminadas
 
-### User Flow
-- [ ] Dream scenario still reflects actual onboarding
-- [ ] Steps are achievable with current features
+### Flujo de Usuario
+- [ ] El escenario ideal sigue reflejando la incorporación real
+- [ ] Los pasos son alcanzables con las funcionalidades actuales

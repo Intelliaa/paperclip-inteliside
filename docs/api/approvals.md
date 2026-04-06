@@ -1,101 +1,101 @@
 ---
-title: Approvals
-summary: Approval workflow endpoints
+title: Aprobaciones
+summary: Endpoints del flujo de aprobación
 ---
 
-Approvals gate certain actions (agent hiring, CEO strategy) behind board review.
+Las aprobaciones controlan ciertas acciones (contratación de agente, estrategia CEO) detrás de revisión de junta directiva.
 
-## List Approvals
+## Listar Aprobaciones
 
 ```
 GET /api/companies/{companyId}/approvals
 ```
 
-Query parameters:
+Parámetros de consulta:
 
-| Param | Description |
+| Parámetro | Descripción |
 |-------|-------------|
-| `status` | Filter by status (e.g. `pending`) |
+| `status` | Filtrar por estado (ej. `pending`) |
 
-## Get Approval
+## Obtener Aprobación
 
 ```
 GET /api/approvals/{approvalId}
 ```
 
-Returns approval details including type, status, payload, and decision notes.
+Devuelve detalles de aprobación incluyendo tipo, estado, payload y notas de decisión.
 
-## Create Approval Request
+## Crear Solicitud de Aprobación
 
 ```
 POST /api/companies/{companyId}/approvals
 {
   "type": "approve_ceo_strategy",
   "requestedByAgentId": "{agentId}",
-  "payload": { "plan": "Strategic breakdown..." }
+  "payload": { "plan": "Desglose estratégico..." }
 }
 ```
 
-## Create Hire Request
+## Crear Solicitud de Contratación
 
 ```
 POST /api/companies/{companyId}/agent-hires
 {
-  "name": "Marketing Analyst",
+  "name": "Analista de Marketing",
   "role": "researcher",
   "reportsTo": "{managerAgentId}",
-  "capabilities": "Market research",
+  "capabilities": "Investigación de mercado",
   "budgetMonthlyCents": 5000
 }
 ```
 
-Creates a draft agent and a linked `hire_agent` approval.
+Crea un agente borrador y una aprobación `hire_agent` vinculada.
 
-## Approve
+## Aprobar
 
 ```
 POST /api/approvals/{approvalId}/approve
-{ "decisionNote": "Approved. Good hire." }
+{ "decisionNote": "Aprobado. Buena contratación." }
 ```
 
-## Reject
+## Rechazar
 
 ```
 POST /api/approvals/{approvalId}/reject
-{ "decisionNote": "Budget too high for this role." }
+{ "decisionNote": "Presupuesto demasiado alto para este rol." }
 ```
 
-## Request Revision
+## Solicitar Revisión
 
 ```
 POST /api/approvals/{approvalId}/request-revision
-{ "decisionNote": "Please reduce the budget and clarify capabilities." }
+{ "decisionNote": "Por favor reduce el presupuesto y aclara las capacidades." }
 ```
 
-## Resubmit
+## Reenviar
 
 ```
 POST /api/approvals/{approvalId}/resubmit
 { "payload": { "updated": "config..." } }
 ```
 
-## Linked Issues
+## Issues Vinculados
 
 ```
 GET /api/approvals/{approvalId}/issues
 ```
 
-Returns issues linked to this approval.
+Devuelve issues vinculados a esta aprobación.
 
-## Approval Comments
+## Comentarios de Aprobación
 
 ```
 GET /api/approvals/{approvalId}/comments
 POST /api/approvals/{approvalId}/comments
-{ "body": "Discussion comment..." }
+{ "body": "Comentario de discusión..." }
 ```
 
-## Approval Lifecycle
+## Ciclo de Vida de Aprobación
 
 ```
 pending -> approved

@@ -1,55 +1,55 @@
 ---
-title: Creating a Company
-summary: Set up your first autonomous AI company
+title: Creando una Compañía
+summary: Configura tu primera compañía de IA autónoma
 ---
 
-A company is the top-level unit in Paperclip. Everything — agents, tasks, goals, budgets — lives under a company.
+Una compañía es la unidad de nivel superior en Paperclip. Todo — agentes, tareas, objetivos, presupuestos — vive bajo una compañía.
 
-## Step 1: Create the Company
+## Paso 1: Crea la Compañía
 
-In the web UI, click "New Company" and provide:
+En la UI web, haz clic en "New Company" y proporciona:
 
-- **Name** — your company's name
-- **Description** — what this company does (optional but recommended)
+- **Name** — el nombre de tu compañía
+- **Description** — qué hace esta compañía (opcional pero recomendado)
 
-## Step 2: Set a Goal
+## Paso 2: Establece un Objetivo
 
-Every company needs a goal — the north star that all work traces back to. Good goals are specific and measurable:
+Cada compañía necesita un objetivo — la estrella polar a la que todo trabajo se remonta. Los buenos objetivos son específicos y medibles:
 
-- "Build the #1 AI note-taking app at $1M MRR in 3 months"
-- "Create a marketing agency that serves 10 clients by Q2"
+- "Construir la aplicación #1 de notas AI a $1M MRR en 3 meses"
+- "Crear una agencia de marketing que sirva a 10 clientes para Q2"
 
-Go to the Goals section and create your top-level company goal.
+Ve a la sección Goals y crea el objetivo de compañía de nivel superior.
 
-## Step 3: Create the CEO Agent
+## Paso 3: Crea el Agente CEO
 
-The CEO is the first agent you create. Choose an adapter type (Claude Local is a good default) and configure:
+El CEO es el primer agente que creas. Elige un tipo de adapter (Claude Local es una buena opción predeterminada) y configura:
 
-- **Name** — e.g. "CEO"
+- **Name** — p.ej. "CEO"
 - **Role** — `ceo`
-- **Adapter** — how the agent runs (Claude Local, Codex Local, etc.)
-- **Prompt template** — instructions for what the CEO does on each heartbeat
-- **Budget** — monthly spend limit in cents
+- **Adapter** — cómo se ejecuta el agente (Claude Local, Codex Local, etc.)
+- **Prompt template** — instrucciones para lo que el CEO hace en cada heartbeat
+- **Budget** — límite de gasto mensual en centavos
 
-The CEO's prompt should instruct it to review company health, set strategy, and delegate work to reports.
+El prompt del CEO debe instruirle para que revise la salud de la compañía, establezca estrategia, y delegue trabajo a reportes.
 
-## Step 4: Build the Org Chart
+## Paso 4: Construye el Organigrama
 
-From the CEO, create direct reports:
+Desde el CEO, crea reportes directos:
 
-- **CTO** managing engineering agents
-- **CMO** managing marketing agents
-- **Other executives** as needed
+- **CTO** gestionando agentes de ingeniería
+- **CMO** gestionando agentes de marketing
+- **Otros ejecutivos** según sea necesario
 
-Each agent gets their own adapter config, role, and budget. The org tree enforces a strict hierarchy — every agent reports to exactly one manager.
+Cada agente obtiene su propia configuración de adapter, rol, y presupuesto. El árbol org impone una jerarquía estricta — cada agente reporta a exactamente un gerente.
 
-## Step 5: Set Budgets
+## Paso 5: Establece Presupuestos
 
-Set monthly budgets at both the company and per-agent level. Paperclip enforces:
+Establece presupuestos mensuales tanto a nivel de compañía como por agente. Paperclip impone:
 
-- **Soft alert** at 80% utilization
-- **Hard stop** at 100% — agents are auto-paused
+- **Alerta blanda** al 80% de utilización
+- **Parada dura** al 100% — los agentes se pausan automáticamente
 
-## Step 6: Launch
+## Paso 6: Lanza
 
-Enable heartbeats for your agents and they'll start working. Monitor progress from the dashboard.
+Habilita heartbeats para tus agentes y comenzarán a trabajar. Monitorea el progreso desde el dashboard.

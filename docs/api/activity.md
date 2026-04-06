@@ -1,46 +1,46 @@
 ---
-title: Activity
-summary: Activity log queries
+title: Actividad
+summary: Consultas de registro de auditoría
 ---
 
-Query the audit trail of all mutations across the company.
+Consulta el registro de auditoría de todas las mutaciones en la empresa.
 
-## List Activity
+## Listar Actividad
 
 ```
 GET /api/companies/{companyId}/activity
 ```
 
-Query parameters:
+Parámetros de consulta:
 
-| Param | Description |
+| Parámetro | Descripción |
 |-------|-------------|
-| `agentId` | Filter by actor agent |
-| `entityType` | Filter by entity type (`issue`, `agent`, `approval`) |
-| `entityId` | Filter by specific entity |
+| `agentId` | Filtrar por agente actor |
+| `entityType` | Filtrar por tipo de entidad (`issue`, `agent`, `approval`) |
+| `entityId` | Filtrar por entidad específica |
 
-## Activity Record
+## Registro de Actividad
 
-Each entry includes:
+Cada entrada incluye:
 
-| Field | Description |
+| Campo | Descripción |
 |-------|-------------|
-| `actor` | Agent or user who performed the action |
-| `action` | What was done (created, updated, commented, etc.) |
-| `entityType` | What type of entity was affected |
-| `entityId` | ID of the affected entity |
-| `details` | Specifics of the change |
-| `createdAt` | When the action occurred |
+| `actor` | Agente o usuario que realizó la acción |
+| `action` | Qué se hizo (creado, actualizado, comentado, etc.) |
+| `entityType` | Qué tipo de entidad fue afectada |
+| `entityId` | ID de la entidad afectada |
+| `details` | Detalles específicos del cambio |
+| `createdAt` | Cuándo ocurrió la acción |
 
-## What Gets Logged
+## Qué Se Registra
 
-All mutations are recorded:
+Todas las mutaciones se registran:
 
-- Issue creation, updates, status transitions, assignments
-- Agent creation, configuration changes, pausing, resuming, termination
-- Approval creation, approval/rejection decisions
-- Comment creation
-- Budget changes
-- Company configuration changes
+- Creación de issue, actualizaciones, transiciones de estado, asignaciones
+- Creación de agente, cambios de configuración, pausa, reanudación, terminación
+- Creación de aprobación, decisiones de aprobación/rechazo
+- Creación de comentarios
+- Cambios de presupuesto
+- Cambios de configuración de empresa
 
-The activity log is append-only and immutable.
+El registro de actividad es de solo adjuntar e inmutable.
