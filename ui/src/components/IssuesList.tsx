@@ -31,8 +31,22 @@ import type { Issue } from "@paperclipai/shared";
 const statusOrder = ["in_progress", "todo", "backlog", "in_review", "blocked", "done", "cancelled"];
 const priorityOrder = ["critical", "high", "medium", "low"];
 
+const STATUS_LABELS: Record<string, string> = {
+  todo: "Por hacer",
+  in_progress: "En Progreso",
+  in_review: "En Revisión",
+  blocked: "Bloqueado",
+  done: "Hecho",
+  cancelled: "Cancelado",
+  backlog: "Backlog",
+  critical: "Crítico",
+  high: "Alto",
+  medium: "Medio",
+  low: "Bajo",
+};
+
 function statusLabel(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return STATUS_LABELS[status] ?? status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 /* ── View state ── */
@@ -66,10 +80,10 @@ const defaultViewState: IssueViewState = {
 };
 
 const quickFilterPresets = [
-  { label: "All", statuses: [] as string[] },
-  { label: "Active", statuses: ["todo", "in_progress", "in_review", "blocked"] },
+  { label: "Todos", statuses: [] as string[] },
+  { label: "Activo", statuses: ["todo", "in_progress", "in_review", "blocked"] },
   { label: "Backlog", statuses: ["backlog"] },
-  { label: "Completed", statuses: ["done", "cancelled"] },
+  { label: "Completado", statuses: ["done", "cancelled"] },
 ];
 function getViewState(key: string): IssueViewState {
   try {
@@ -505,7 +519,7 @@ export function IssuesList({
                               onCheckedChange={() => updateView({ assignees: toggleInArray(viewState.assignees, "__me") })}
                             />
                             <User className="h-3.5 w-3.5 text-muted-foreground" />
-                            <span className="text-sm">Me</span>
+                            <span className="text-sm">Yo</span>
                           </label>
                         )}
                         {(agents ?? []).map((agent) => (
