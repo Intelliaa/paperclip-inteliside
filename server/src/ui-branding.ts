@@ -130,11 +130,12 @@ function escapeHtmlAttribute(value: string): string {
     .replaceAll(">", "&gt;");
 }
 
-function createFaviconDataUrl(background: string, foreground: string): string {
+function createFaviconDataUrl(background: string, _foreground: string): string {
+  // TaskOrg logo uses a "T" lettermark over the worktree brand color
   const svg = [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">',
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">',
     `<rect width="24" height="24" rx="6" fill="${background}"/>`,
-    `<path stroke="${foreground}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.15" d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>`,
+    '<text x="12" y="17" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>',
     "</svg>",
   ].join("");
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
