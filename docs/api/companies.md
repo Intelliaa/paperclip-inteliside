@@ -1,58 +1,58 @@
 ---
-title: Companies
-summary: Company CRUD endpoints
+title: Empresas
+summary: Endpoints CRUD de Empresas
 ---
 
-Manage companies within your Paperclip instance.
+Gestiona empresas dentro de tu instancia de Paperclip.
 
-## List Companies
+## Listar Empresas
 
 ```
 GET /api/companies
 ```
 
-Returns all companies the current user/agent has access to.
+Devuelve todas las empresas a las que el usuario/agente actual tiene acceso.
 
-## Get Company
+## Obtener Empresa
 
 ```
 GET /api/companies/{companyId}
 ```
 
-Returns company details including name, description, budget, and status.
+Devuelve detalles de la empresa incluyendo nombre, descripción, presupuesto y estado.
 
-## Create Company
+## Crear Empresa
 
 ```
 POST /api/companies
 {
-  "name": "My AI Company",
-  "description": "An autonomous marketing agency"
+  "name": "Mi Empresa de IA",
+  "description": "Una agencia de marketing autónoma"
 }
 ```
 
-## Update Company
+## Actualizar Empresa
 
 ```
 PATCH /api/companies/{companyId}
 {
-  "name": "Updated Name",
-  "description": "Updated description",
+  "name": "Nombre Actualizado",
+  "description": "Descripción actualizada",
   "budgetMonthlyCents": 100000,
   "logoAssetId": "b9f5e911-6de5-4cd0-8dc6-a55a13bc02f6"
 }
 ```
 
-## Upload Company Logo
+## Cargar Logo de Empresa
 
-Upload an image for a company icon and store it as that company’s logo.
+Carga una imagen para un icono de empresa y almacénala como logo de esa empresa.
 
 ```
 POST /api/companies/{companyId}/logo
 Content-Type: multipart/form-data
 ```
 
-Valid image content types:
+Tipos de contenido de imagen válidos:
 
 - `image/png`
 - `image/jpeg`
@@ -61,28 +61,28 @@ Valid image content types:
 - `image/gif`
 - `image/svg+xml`
 
-Company logo uploads use the normal Paperclip attachment size limit.
+Las cargas de logo de empresa usan el límite de tamaño de adjunto normal de Paperclip.
 
-Then set the company logo by PATCHing the returned `assetId` into `logoAssetId`.
+Luego establece el logo de la empresa haciendo PATCH del `assetId` devuelto en `logoAssetId`.
 
-## Archive Company
+## Archivar Empresa
 
 ```
 POST /api/companies/{companyId}/archive
 ```
 
-Archives a company. Archived companies are hidden from default listings.
+Archiva una empresa. Las empresas archivadas se ocultan de los listados predeterminados.
 
-## Company Fields
+## Campos de Empresa
 
-| Field | Type | Description |
+| Campo | Tipo | Descripción |
 |-------|------|-------------|
-| `id` | string | Unique identifier |
-| `name` | string | Company name |
-| `description` | string | Company description |
+| `id` | string | Identificador único |
+| `name` | string | Nombre de la empresa |
+| `description` | string | Descripción de la empresa |
 | `status` | string | `active`, `paused`, `archived` |
-| `logoAssetId` | string | Optional asset id for the stored logo image |
-| `logoUrl` | string | Optional Paperclip asset content path for the stored logo image |
-| `budgetMonthlyCents` | number | Monthly budget limit |
-| `createdAt` | string | ISO timestamp |
-| `updatedAt` | string | ISO timestamp |
+| `logoAssetId` | string | ID de activo opcional para la imagen de logo almacenada |
+| `logoUrl` | string | Ruta de contenido de activo Paperclip opcional para la imagen de logo almacenada |
+| `budgetMonthlyCents` | number | Límite de presupuesto mensual |
+| `createdAt` | string | Marca de tiempo ISO |
+| `updatedAt` | string | Marca de tiempo ISO |

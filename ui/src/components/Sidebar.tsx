@@ -57,7 +57,7 @@ export function Sidebar() {
           />
         )}
         <span className="flex-1 text-sm font-bold text-foreground truncate pl-1">
-          {selectedCompany?.name ?? "Select company"}
+          {selectedCompany?.name ?? "Seleccionar empresa"}
         </span>
         <Button
           variant="ghost"
@@ -77,9 +77,10 @@ export function Sidebar() {
             className="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-muted-foreground hover:bg-accent/50 hover:text-foreground transition-colors"
           >
             <SquarePen className="h-4 w-4 shrink-0" />
-            <span className="truncate">New Issue</span>
+            <span className="truncate">Nueva Tarea</span>
           </button>
           <SidebarNavItem to="/dashboard" label="Dashboard" icon={LayoutDashboard} liveCount={liveRunCount} />
+
           <SidebarNavItem
             to="/inbox"
             label="Inbox"
@@ -97,22 +98,22 @@ export function Sidebar() {
           />
         </div>
 
-        <SidebarSection label="Work">
-          <SidebarNavItem to="/issues" label="Issues" icon={CircleDot} />
-          <SidebarNavItem to="/routines" label="Routines" icon={Repeat} textBadge="Beta" textBadgeTone="amber" />
-          <SidebarNavItem to="/goals" label="Goals" icon={Target} />
+        <SidebarSection label="Trabajo">
+          <SidebarNavItem to="/issues" label="Tareas" icon={CircleDot} />
+          <SidebarNavItem to="/routines" label="Rutinas" icon={Repeat} textBadge="Beta" textBadgeTone="amber" />
+          <SidebarNavItem to="/goals" label="Objetivos" icon={Target} />
         </SidebarSection>
 
         <SidebarProjects />
 
         <SidebarAgents />
 
-        <SidebarSection label="Company">
-          <SidebarNavItem to="/org" label="Org" icon={Network} />
+        <SidebarSection label="Empresa">
+          <SidebarNavItem to="/org" label="Organización" icon={Network} />
           <SidebarNavItem to="/skills" label="Skills" icon={Boxes} />
-          <SidebarNavItem to="/costs" label="Costs" icon={DollarSign} />
-          <SidebarNavItem to="/activity" label="Activity" icon={History} />
-          <SidebarNavItem to="/company/settings" label="Settings" icon={Settings} />
+          <SidebarNavItem to="/costs" label="Costos" icon={DollarSign} />
+          <SidebarNavItem to="/activity" label="Actividad" icon={History} />
+          <SidebarNavItem to="/company/settings" label="Configuración" icon={Settings} />
         </SidebarSection>
 
         <PluginSlotOutlet

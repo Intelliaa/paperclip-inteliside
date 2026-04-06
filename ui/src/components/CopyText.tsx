@@ -6,11 +6,11 @@ interface CopyTextProps {
   /** What to display. Defaults to `text`. */
   children?: React.ReactNode;
   className?: string;
-  /** Tooltip message shown after copying. Default: "Copied!" */
+  /** Tooltip message shown after copying. Default: "¡Copiado!" */
   copiedLabel?: string;
 }
 
-export function CopyText({ text, children, className, copiedLabel = "Copied!" }: CopyTextProps) {
+export function CopyText({ text, children, className, copiedLabel = "¡Copiado!" }: CopyTextProps) {
   const [visible, setVisible] = useState(false);
   const [label, setLabel] = useState(copiedLabel);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -37,7 +37,7 @@ export function CopyText({ text, children, className, copiedLabel = "Copied!" }:
       }
       setLabel(copiedLabel);
     } catch {
-      setLabel("Copy failed");
+      setLabel("Error al copiar");
     }
     clearTimeout(timerRef.current);
     setVisible(true);

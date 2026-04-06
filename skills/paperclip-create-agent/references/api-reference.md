@@ -1,6 +1,6 @@
-# Paperclip Create Agent API Reference
+# Referencia de la API de Creación de Agentes de Paperclip
 
-## Core Endpoints
+## Endpoints Principales
 
 - `GET /llms/agent-configuration.txt`
 - `GET /llms/agent-configuration/:adapterType.txt`
@@ -17,7 +17,7 @@
 - `POST /api/issues/:issueId/approvals`
 - `GET /api/approvals/:approvalId/issues`
 
-Approval collaboration:
+Colaboración en aprobaciones:
 
 - `GET /api/approvals/:approvalId`
 - `POST /api/approvals/:approvalId/request-revision` (board)
@@ -28,7 +28,7 @@ Approval collaboration:
 
 ## `POST /api/companies/:companyId/agent-hires`
 
-Request body matches agent create shape:
+El cuerpo de la solicitud coincide con la forma de creación de agente:
 
 ```json
 {
@@ -58,7 +58,7 @@ Request body matches agent create shape:
 }
 ```
 
-Response:
+Respuesta:
 
 ```json
 {
@@ -77,13 +77,13 @@ Response:
 }
 ```
 
-If company setting disables required approval, `approval` is `null` and the agent is created as `idle`.
+Si la configuración de la empresa desactiva la aprobación requerida, `approval` es `null` y el agente se crea como `idle`.
 
-`desiredSkills` accepts company skill ids, canonical keys, or a unique slug. The server resolves and stores canonical company skill keys.
+`desiredSkills` acepta IDs de skills de empresa, claves canónicas o un slug único. El servidor resuelve y almacena las claves canónicas de skills de empresa.
 
-## Approval Lifecycle
+## Ciclo de Vida de la Aprobación
 
-Statuses:
+Estados:
 
 - `pending`
 - `revision_requested`
@@ -91,15 +91,15 @@ Statuses:
 - `rejected`
 - `cancelled`
 
-For hire approvals:
+Para aprobaciones de contratación:
 
-- approved: linked agent transitions `pending_approval -> idle`
-- rejected: linked agent is terminated
+- aprobada: el agente vinculado transiciona `pending_approval -> idle`
+- rechazada: el agente vinculado es terminado
 
-## Safety Notes
+## Notas de Seguridad
 
-- Config read APIs redact obvious secrets.
-- `pending_approval` agents cannot run heartbeats, receive assignments, or create keys.
-- All actions are logged in activity for auditability.
-- Use markdown in issue/approval comments and include links to approval, agent, and source issue.
-- After approval resolution, requester may be woken with `PAPERCLIP_APPROVAL_ID` and should reconcile linked issues.
+- Las APIs de lectura de configuración redactan secretos obvios.
+- Los agentes `pending_approval` no pueden ejecutar heartbeats, recibir asignaciones ni crear claves.
+- Todas las acciones se registran en actividad para auditabilidad.
+- Usa markdown en comentarios de issues/aprobaciones e incluye enlaces a la aprobación, agente e issue de origen.
+- Después de la resolución de la aprobación, el solicitante puede ser despertado con `PAPERCLIP_APPROVAL_ID` y debe reconciliar los issues vinculados.

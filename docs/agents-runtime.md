@@ -1,186 +1,186 @@
-# Agent Runtime Guide
+# Guía de Runtime del Agente
 
-Status: User-facing guide
-Last updated: 2026-03-26
-Audience: Operators setting up and running agents in Paperclip
+Estado: Guía dirigida al usuario
+Última actualización: 2026-03-26
+Audiencia: Operadores que configuren y ejecuten agentes en Paperclip
 
-## 1. What this system does
+## 1. Qué hace este sistema
 
-Agents in Paperclip do not run continuously.  
-They run in **heartbeats**: short execution windows triggered by a wakeup.
+Los agentes en Paperclip no se ejecutan continuamente.  
+Se ejecutan en **heartbeats**: ventanas de ejecución cortas activadas por un despertar.
 
-Each heartbeat:
+Cada heartbeat:
 
-1. Starts the configured agent adapter (for example, Claude CLI or Codex CLI)
-2. Gives it the current prompt/context
-3. Lets it work until it exits, times out, or is cancelled
-4. Stores results (status, token usage, errors, logs)
-5. Updates the UI live
+1. Inicia el adapter del agente configurado (por ejemplo, Claude CLI o Codex CLI)
+2. Le da el prompt/contexto actual
+3. Lo deja trabajar hasta que salga, agote el tiempo o sea cancelado
+4. Almacena resultados (estado, uso de tokens, errores, logs)
+5. Actualiza la interfaz en vivo
 
-## 2. When an agent wakes up
+## 2. Cuándo un agente se despierta
 
-An agent can be woken up in four ways:
+Un agente puede ser despertado de cuatro formas:
 
-- `timer`: scheduled interval (for example every 5 minutes)
-- `assignment`: when work is assigned/checked out to that agent
-- `on_demand`: manual wakeup (button/API)
-- `automation`: system-triggered wakeup for future automations
+- `timer`: intervalo programado (por ejemplo cada 5 minutos)
+- `assignment`: cuando trabajo es asignado/checkeado al agente
+- `on_demand`: despertar manual (botón/API)
+- `automation`: despertar activado por el sistema para automaciones futuras
 
-If an agent is already running, new wakeups are merged (coalesced) instead of launching duplicate runs.
+Si un agente ya está ejecutándose, nuevos despertares se fusionan (coalescen) en lugar de lanzar ejecuciones duplicadas.
 
-## 3. What to configure per agent
+## 3. Qué configurar por agente
 
-## 3.1 Adapter choice
+## 3.1 Elección del Adapter
 
-Built-in adapters:
+Adapters incorporados:
 
-- `claude_local`: runs your local `claude` CLI
-- `codex_local`: runs your local `codex` CLI
-- `opencode_local`: runs your local `opencode` CLI
-- `cursor`: runs Cursor in background mode
-- `pi_local`: runs an embedded Pi agent locally
-- `hermes_local`: runs your local `hermes` CLI (`hermes-paperclip-adapter`)
-- `openclaw_gateway`: connects to an OpenClaw gateway endpoint
-- `process`: generic shell command adapter
-- `http`: calls an external HTTP endpoint
+- `claude_local`: ejecuta tu CLI `claude` local
+- `codex_local`: ejecuta tu CLI `codex` local
+- `opencode_local`: ejecuta tu CLI `opencode` local
+- `cursor`: ejecuta Cursor en modo background
+- `pi_local`: ejecuta un agente Pi incr ustado localmente
+- `hermes_local`: ejecuta tu CLI `hermes` local (`hermes-paperclip-adapter`)
+- `openclaw_gateway`: se conecta a un endpoint de gateway OpenClaw
+- `process`: adapter genérico de comandos shell
+- `http`: llama un endpoint HTTP externo
 
-External plugin adapters (install via the adapter manager or API):
+Adapters de plugins externos (instala vía el administrador de adapters o API):
 
-- `droid_local`: runs your local Factory Droid CLI (`@henkey/droid-paperclip-adapter`)
+- `droid_local`: ejecuta tu CLI Factory Droid local (`@henkey/droid-paperclip-adapter`)
 
-For local CLI adapters (`claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `droid_local`), Paperclip assumes the CLI is already installed and authenticated on the host machine.
+Para adapters de CLI locales (`claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `droid_local`), Paperclip asume que el CLI ya está instalado y autenticado en la máquina host.
 
-## 3.2 Runtime behavior
+## 3.2 Comportamiento de Runtime
 
-In agent runtime settings, configure heartbeat policy:
+En la configuración de runtime del agente, configura la política de heartbeat:
 
-- `enabled`: allow scheduled heartbeats
-- `intervalSec`: timer interval (0 = disabled)
-- `wakeOnAssignment`: wake when assigned work
-- `wakeOnOnDemand`: allow ping-style on-demand wakeups
-- `wakeOnAutomation`: allow system automation wakeups
+- `enabled`: permitir heartbeats programados
+- `intervalSec`: intervalo del timer (0 = deshabilitado)
+- `wakeOnAssignment`: despertar cuando se asigna trabajo
+- `wakeOnOnDemand`: permitir despertares bajo demanda estilo ping
+- `wakeOnAutomation`: permitir despertares de automatización del sistema
 
-## 3.3 Working directory and execution limits
+## 3.3 Directorio de trabajo y límites de ejecución
 
-For local adapters, set:
+Para adapters locales, establece:
 
-- `cwd` (working directory)
-- `timeoutSec` (max runtime per heartbeat)
-- `graceSec` (time before force-kill after timeout/cancel)
-- optional env vars and extra CLI args
-- use **Test environment** in agent configuration to run adapter-specific diagnostics before saving
+- `cwd` (directorio de trabajo)
+- `timeoutSec` (máximo runtime por heartbeat)
+- `graceSec` (tiempo antes de matar forzadamente después de timeout/cancelación)
+- variables env opcionales y argumentos CLI extra
+- usa **Test environment** en la configuración del agente para ejecutar diagnósticos específicos del adapter antes de guardar
 
-## 3.4 Prompt templates
+## 3.4 Plantillas de Prompt
 
-You can set:
+Puedes establecer:
 
-- `promptTemplate`: used for every run (first run and resumed sessions)
+- `promptTemplate`: usado para cada ejecución (primera ejecución y sesiones reanudadas)
 
-Templates support variables like `{{agent.id}}`, `{{agent.name}}`, and run context values.
+Las plantillas soportan variables como `{{agent.id}}`, `{{agent.name}}`, y valores de contexto de ejecución.
 
-> **Note:** `bootstrapPromptTemplate` is deprecated and should not be used for new agents. Existing configs that use it will continue to work but should be migrated to the managed instructions bundle system.
+> **Nota:** `bootstrapPromptTemplate` está deprecado y no debe usarse para nuevos agentes. Las configuraciones existentes que lo usan continuarán funcionando pero deberían migrarse al sistema de bundle de instrucciones gestionado.
 
-## 4. Session resume behavior
+## 4. Comportamiento de Reanudación de Sesión
 
-Paperclip stores session IDs for resumable adapters.
+Paperclip almacena IDs de sesión para adapters reanudables.
 
-- Next heartbeat reuses the saved session automatically.
-- This gives continuity across heartbeats.
-- You can reset a session if context gets stale or confused.
+- El próximo heartbeat reutiliza la sesión guardada automáticamente.
+- Esto proporciona continuidad entre heartbeats.
+- Puedes reiniciar una sesión si el contexto se vuelve obsoleto o confuso.
 
-Use session reset when:
+Usa reinicio de sesión cuando:
 
-- you significantly changed prompt strategy
-- the agent is stuck in a bad loop
-- you want a clean restart
+- hayas cambiado significativamente la estrategia de prompt
+- el agente esté atrapado en un mal bucle
+- quieras un reinicio limpio
 
-## 5. Logs, status, and run history
+## 5. Logs, estado e historial de ejecución
 
-For each heartbeat run you get:
+Para cada ejecución de heartbeat obtienes:
 
-- run status (`queued`, `running`, `succeeded`, `failed`, `timed_out`, `cancelled`)
-- error text and stderr/stdout excerpts
-- token usage/cost when available from the adapter
-- full logs (stored outside core run rows, optimized for large output)
+- estado de ejecución (`queued`, `running`, `succeeded`, `failed`, `timed_out`, `cancelled`)
+- texto de error y fragmentos de stderr/stdout
+- uso de tokens/costo cuando está disponible del adapter
+- logs completos (almacenados fuera de las filas de ejecución principal, optimizados para salida grande)
 
-In local/dev setups, full logs are stored on disk under the configured run-log path.
+En configuraciones local/dev, los logs completos se almacenan en disco bajo la ruta de run-log configurada.
 
-## 6. Live updates in the UI
+## 6. Actualizaciones en vivo en la UI
 
-Paperclip pushes runtime/activity updates to the browser in real time.
+Paperclip empuja actualizaciones de runtime/actividad al navegador en tiempo real.
 
-You should see live changes for:
+Deberías ver cambios en vivo para:
 
-- agent status
-- heartbeat run status
-- task/activity updates caused by agent work
-- dashboard/cost/activity panels as relevant
+- estado del agente
+- estado de ejecución de heartbeat
+- actualizaciones de tarea/actividad causadas por trabajo del agente
+- paneles de dashboard/costo/actividad según sea relevante
 
-If the connection drops, the UI reconnects automatically.
+Si la conexión se cae, la UI se reconecta automáticamente.
 
-## 7. Common operating patterns
+## 7. Patrones Operacionales Comunes
 
-## 7.1 Simple autonomous loop
+## 7.1 Bucle autónomo simple
 
-1. Enable timer wakeups (for example every 300s)
-2. Keep assignment wakeups on
-3. Use a focused prompt template
-4. Watch run logs and adjust prompt/config over time
+1. Habilita despertares por timer (por ejemplo cada 300s)
+2. Mantén despertares por asignación activados
+3. Usa una plantilla de prompt enfocada
+4. Observa los logs de ejecución y ajusta prompt/config con el tiempo
 
-## 7.2 Event-driven loop (less constant polling)
+## 7.2 Bucle impulsado por eventos (menos polling constante)
 
-1. Disable timer or set a long interval
-2. Keep wake-on-assignment enabled
-3. Use on-demand wakeups for manual nudges
+1. Deshabilita timer o establece un intervalo largo
+2. Mantén wake-on-assignment habilitado
+3. Usa despertares bajo demanda para nudos manuales
 
-## 7.3 Safety-first loop
+## 7.3 Bucle prioritario en seguridad
 
-1. Short timeout
-2. Conservative prompt
-3. Monitor errors + cancel quickly when needed
-4. Reset sessions when drift appears
+1. Timeout corto
+2. Prompt conservador
+3. Monitorea errores + cancela rápidamente cuando sea necesario
+4. Reinicia sesiones cuando aparezca divergencia
 
-## 8. Troubleshooting
+## 8. Solución de Problemas
 
-If runs fail repeatedly:
+Si las ejecuciones fallan repetidamente:
 
-1. Check adapter command availability (e.g. `claude`/`codex`/`opencode`/`hermes` installed and logged in).
-2. Verify `cwd` exists and is accessible.
-3. Inspect run error + stderr excerpt, then full log.
-4. Confirm timeout is not too low.
-5. Reset session and retry.
-6. Pause agent if it is causing repeated bad updates.
+1. Verifica disponibilidad de comando adapter (p.ej. `claude`/`codex`/`opencode`/`hermes` instalado e iniciado sesión).
+2. Verifica que `cwd` exista y sea accesible.
+3. Inspecciona error de ejecución + fragmento de stderr, luego log completo.
+4. Confirma que timeout no sea demasiado bajo.
+5. Reinicia sesión e intenta de nuevo.
+6. Pausa agente si está causando actualizaciones malas repetidas.
 
-Typical failure causes:
+Causas típicas de fallo:
 
-- CLI not installed/authenticated
-- bad working directory
-- malformed adapter args/env
-- prompt too broad or missing constraints
-- process timeout
+- CLI no instalado/autenticado
+- directorio de trabajo incorrecto
+- argumentos/env del adapter malformados
+- prompt demasiado amplio o restricciones faltantes
+- timeout de proceso
 
-Claude-specific note:
+Nota específica de Claude:
 
-- If `ANTHROPIC_API_KEY` is set in adapter env or host environment, Claude uses API-key auth instead of subscription login. Paperclip surfaces this as a warning in environment tests, not a hard error.
+- Si `ANTHROPIC_API_KEY` está configurada en env del adapter o entorno host, Claude usa autenticación por clave API en lugar de login de suscripción. Paperclip lo muestra como una advertencia en tests de entorno, no como un error duro.
 
-## 9. Security and risk notes
+## 9. Notas de Seguridad y Riesgo
 
-Local CLI adapters run unsandboxed on the host machine.
+Los adapters CLI locales se ejecutan sin sandbox en la máquina host.
 
-That means:
+Eso significa:
 
-- prompt instructions matter
-- configured credentials/env vars are sensitive
-- working directory permissions matter
+- las instrucciones de prompt importan
+- las credenciales configuradas/variables env son sensibles
+- los permisos del directorio de trabajo importan
 
-Start with least privilege where possible, and avoid exposing secrets in broad reusable prompts unless intentionally required.
+Comienza con privilegios mínimos donde sea posible, y evita exponer secretos en prompts reutilizables amplios a menos que sea intencionalmente requerido.
 
-## 10. Minimal setup checklist
+## 10. Lista de Verificación de Configuración Mínima
 
-1. Choose adapter (e.g. `claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `cursor`, or `openclaw_gateway`). External plugins like `droid_local` are also available via the adapter manager.
-2. Set `cwd` to the target workspace (for local adapters).
-3. Optionally add a prompt template (`promptTemplate`) or use the managed instructions bundle.
-4. Configure heartbeat policy (timer and/or assignment wakeups).
-5. Trigger a manual wakeup.
-6. Confirm run succeeds and session/token usage is recorded.
-7. Watch live updates and iterate prompt/config.
+1. Elige adapter (p.ej. `claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `cursor`, u `openclaw_gateway`). Los plugins externos como `droid_local` también están disponibles vía el administrador de adapters.
+2. Establece `cwd` al workspace de destino (para adapters locales).
+3. Opcionalmente agrega una plantilla de prompt (`promptTemplate`) o usa el bundle de instrucciones gestionado.
+4. Configura la política de heartbeat (despertares por timer y/o asignación).
+5. Activa un despertar manual.
+6. Confirma que la ejecución tiene éxito y que el uso de sesión/tokens se registra.
+7. Observa actualizaciones en vivo e itera prompt/config.

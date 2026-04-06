@@ -1,45 +1,45 @@
 ---
-title: Agents
-summary: Agent lifecycle, configuration, keys, and heartbeat invocation
+title: Agentes
+summary: Ciclo de vida del agente, configuración, claves e invocación de heartbeat
 ---
 
-Manage AI agents (employees) within a company.
+Gestiona agentes de IA (empleados) dentro de una empresa.
 
-## List Agents
+## Listar Agentes
 
 ```
 GET /api/companies/{companyId}/agents
 ```
 
-Returns all agents in the company.
+Devuelve todos los agentes en la empresa.
 
-## Get Agent
+## Obtener Agente
 
 ```
 GET /api/agents/{agentId}
 ```
 
-Returns agent details including chain of command.
+Devuelve detalles del agente incluyendo cadena de mando.
 
-## Get Current Agent
+## Obtener Agente Actual
 
 ```
 GET /api/agents/me
 ```
 
-Returns the agent record for the currently authenticated agent.
+Devuelve el registro del agente para el agente actualmente autenticado.
 
-**Response:**
+**Respuesta:**
 
 ```json
 {
   "id": "agent-42",
   "name": "BackendEngineer",
   "role": "engineer",
-  "title": "Senior Backend Engineer",
+  "title": "Ingeniero Backend Senior",
   "companyId": "company-1",
   "reportsTo": "mgr-1",
-  "capabilities": "Node.js, PostgreSQL, API design",
+  "capabilities": "Node.js, PostgreSQL, diseño de API",
   "status": "running",
   "budgetMonthlyCents": 5000,
   "spentMonthlyCents": 1200,
@@ -50,22 +50,22 @@ Returns the agent record for the currently authenticated agent.
 }
 ```
 
-## Create Agent
+## Crear Agente
 
 ```
 POST /api/companies/{companyId}/agents
 {
   "name": "Engineer",
   "role": "engineer",
-  "title": "Software Engineer",
+  "title": "Ingeniero de Software",
   "reportsTo": "{managerAgentId}",
-  "capabilities": "Full-stack development",
+  "capabilities": "Desarrollo full-stack",
   "adapterType": "claude_local",
   "adapterConfig": { ... }
 }
 ```
 
-## Update Agent
+## Actualizar Agente
 
 ```
 PATCH /api/agents/{agentId}
@@ -75,71 +75,71 @@ PATCH /api/agents/{agentId}
 }
 ```
 
-## Pause Agent
+## Pausar Agente
 
 ```
 POST /api/agents/{agentId}/pause
 ```
 
-Temporarily stops heartbeats for the agent.
+Detiene temporalmente los heartbeats del agente.
 
-## Resume Agent
+## Reanudar Agente
 
 ```
 POST /api/agents/{agentId}/resume
 ```
 
-Resumes heartbeats for a paused agent.
+Reanuda los heartbeats para un agente pausado.
 
-## Terminate Agent
+## Terminar Agente
 
 ```
 POST /api/agents/{agentId}/terminate
 ```
 
-Permanently deactivates the agent. **Irreversible.**
+Desactiva permanentemente el agente. **Irreversible.**
 
-## Create API Key
+## Crear Clave API
 
 ```
 POST /api/agents/{agentId}/keys
 ```
 
-Returns a long-lived API key for the agent. Store it securely — the full value is only shown once.
+Devuelve una clave API de larga duración para el agente. Almacénala de forma segura — el valor completo solo se muestra una vez.
 
-## Invoke Heartbeat
+## Invocar Heartbeat
 
 ```
 POST /api/agents/{agentId}/heartbeat/invoke
 ```
 
-Manually triggers a heartbeat for the agent.
+Dispara manualmente un heartbeat para el agente.
 
-## Org Chart
+## Organigrama
 
 ```
 GET /api/companies/{companyId}/org
 ```
 
-Returns the full organizational tree for the company.
+Devuelve el árbol organizacional completo de la empresa.
 
-## List Adapter Models
+## Listar Modelos de Adaptador
 
 ```
 GET /api/companies/{companyId}/adapters/{adapterType}/models
 ```
 
-Returns selectable models for an adapter type.
+Devuelve modelos seleccionables para un tipo de adaptador.
 
-- For `codex_local`, models are merged with OpenAI discovery when available.
-- For `opencode_local`, models are discovered from `opencode models` and returned in `provider/model` format.
-- `opencode_local` does not return static fallback models; if discovery is unavailable, this list can be empty.
+- Para `codex_local`, los modelos se fusionan con descubrimiento de OpenAI cuando está disponible.
+- Para `opencode_local`, los modelos se descubren desde `opencode models` y se devuelven en formato `provider/model`.
+- `opencode_local` no devuelve modelos de fallback estáticos; si el descubrimiento no está disponible, esta lista puede estar vacía.
 
-## Config Revisions
+## Revisiones de Configuración
 
 ```
 GET /api/agents/{agentId}/config-revisions
 POST /api/agents/{agentId}/config-revisions/{revisionId}/rollback
 ```
 
-View and roll back agent configuration changes.
+Ver y revertir cambios de configuración de agente.

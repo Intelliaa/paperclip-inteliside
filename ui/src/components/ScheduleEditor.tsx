@@ -122,7 +122,7 @@ function describeSchedule(cron: string): string {
     case "every_minute":
       return "Every minute";
     case "every_hour":
-      return `Every hour at :${minute.padStart(2, "0")}`;
+      return `Every hour at minute :${minute.padStart(2, "0")}`;
     case "every_day":
       return `Every day at ${timeStr}`;
     case "weekdays":
@@ -132,9 +132,9 @@ function describeSchedule(cron: string): string {
       return `Every ${day} at ${timeStr}`;
     }
     case "monthly":
-      return `Monthly on the ${dayOfMonth}${ordinalSuffix(Number(dayOfMonth))} at ${timeStr}`;
+      return `Monthly on day ${dayOfMonth} at ${timeStr}`;
     case "custom":
-      return cron || "No schedule set";
+      return cron || "No schedule configured";
   }
 }
 

@@ -84,8 +84,8 @@ export function NewAgentDialog() {
     closeNewAgent();
     openNewIssue({
       assigneeAgentId: ceoAgent?.id,
-      title: "Create a new agent",
-      description: "(type in what kind of agent you want here)",
+      title: "Crear un nuevo agente",
+      description: "(escribe aquí qué tipo de agente deseas)",
     });
   }
 
@@ -138,15 +138,14 @@ export function NewAgentDialog() {
                   <Bot className="h-6 w-6 text-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  We recommend letting your CEO handle agent setup — they know the
-                  org structure and can configure reporting, permissions, and
-                  adapters.
+                  We recommend letting your CEO manage agent configuration — they understand your
+                  organizational structure and can set up permissions and adapters.
                 </p>
               </div>
 
               <Button className="w-full" size="lg" onClick={handleAskCeo}>
                 <Bot className="h-4 w-4 mr-2" />
-                Ask the CEO to create a new agent
+                Ask CEO to create a new agent
               </Button>
 
               {/* Advanced link */}
@@ -155,7 +154,7 @@ export function NewAgentDialog() {
                   className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
                   onClick={handleAdvancedConfig}
                 >
-                  I want advanced configuration myself
+                  I want to configure manually
                 </button>
               </div>
             </>
@@ -170,7 +169,7 @@ export function NewAgentDialog() {
                   Back
                 </button>
                 <p className="text-sm text-muted-foreground">
-                  Choose your adapter type for advanced setup.
+                  Choose an adapter type for advanced configuration.
                 </p>
               </div>
 

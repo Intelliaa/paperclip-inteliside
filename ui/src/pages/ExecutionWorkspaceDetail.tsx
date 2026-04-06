@@ -347,11 +347,11 @@ export function ExecutionWorkspaceDetail() {
     },
   });
 
-  if (workspaceQuery.isLoading) return <p className="text-sm text-muted-foreground">Loading workspace…</p>;
+  if (workspaceQuery.isLoading) return <p className="text-sm text-muted-foreground">Cargando espacio de trabajo…</p>;
   if (workspaceQuery.error) {
     return (
       <p className="text-sm text-destructive">
-        {workspaceQuery.error instanceof Error ? workspaceQuery.error.message : "Failed to load workspace"}
+        {workspaceQuery.error instanceof Error ? workspaceQuery.error.message : "Error al cargar el espacio de trabajo"}
       </p>
     );
   }
@@ -383,7 +383,7 @@ export function ExecutionWorkspaceDetail() {
           <Button variant="ghost" size="sm" asChild>
             <Link to={project ? `/projects/${projectRef}/workspaces` : "/projects"}>
               <ArrowLeft className="mr-1 h-4 w-4" />
-              Back to all workspaces
+              Volver a todos los espacios de trabajo
             </Link>
           </Button>
           <StatusPill>{workspace.mode}</StatusPill>
@@ -399,13 +399,13 @@ export function ExecutionWorkspaceDetail() {
               <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
                 <div className="space-y-2">
                   <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                    Execution workspace
+                    Espacio de trabajo de ejecución
                   </div>
                   <h1 className="text-2xl font-semibold">{workspace.name}</h1>
                   <p className="max-w-2xl text-sm text-muted-foreground">
-                    Configure the concrete runtime workspace that Paperclip reuses for this issue flow. These settings stay
-                    attached to the execution workspace so future runs can keep local paths, repo refs, provisioning, teardown,
-                    and runtime-service behavior in sync with the actual workspace being reused.
+                    Configura el espacio de trabajo runtime concreto que Paperclip reutiliza para este flujo de incidencias. Esta configuración permanece
+                    adjunta al espacio de trabajo de ejecución para que las futuras ejecuciones mantengan las rutas locales, referencias de repositorio, aprovisionamiento, eliminación,
+                    y el comportamiento del servicio runtime en sincronización con el espacio de trabajo real siendo reutilizado.
                   </p>
                 </div>
                 <div className="flex w-full shrink-0 items-center gap-2 sm:w-auto">
@@ -415,7 +415,7 @@ export function ExecutionWorkspaceDetail() {
                     onClick={() => setCloseDialogOpen(true)}
                     disabled={workspace.status === "archived"}
                   >
-                    {workspace.status === "cleanup_failed" ? "Retry close" : "Close workspace"}
+                    {workspace.status === "cleanup_failed" ? "Reintentar cerrar" : "Cerrar espacio de trabajo"}
                   </Button>
                 </div>
               </div>
@@ -423,15 +423,15 @@ export function ExecutionWorkspaceDetail() {
               <Separator className="my-5" />
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Workspace name">
+                <Field label="Nombre del espacio de trabajo">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                     value={form.name}
                     onChange={(event) => setForm((current) => current ? { ...current, name: event.target.value } : current)}
-                    placeholder="Execution workspace name"
+                    placeholder="Nombre del espacio de trabajo de ejecución"
                   />
                 </Field>
-                <Field label="Branch name" hint="Useful for isolated worktrees">
+                <Field label="Nombre de rama" hint="Útil para worktrees aislados">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.branchName}
@@ -442,34 +442,34 @@ export function ExecutionWorkspaceDetail() {
               </div>
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <Field label="Working directory">
+                <Field label="Directorio de trabajo">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.cwd}
                     onChange={(event) => setForm((current) => current ? { ...current, cwd: event.target.value } : current)}
-                    placeholder="/absolute/path/to/workspace"
+                    placeholder="/ruta/absoluta/al/espacio-de-trabajo"
                   />
                 </Field>
-                <Field label="Provider path / ref">
+                <Field label="Ruta del proveedor / ref">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.providerRef}
                     onChange={(event) => setForm((current) => current ? { ...current, providerRef: event.target.value } : current)}
-                    placeholder="/path/to/worktree or provider ref"
+                    placeholder="/ruta/al/worktree o ref del proveedor"
                   />
                 </Field>
               </div>
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <Field label="Repo URL">
+                <Field label="URL del repositorio">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                     value={form.repoUrl}
                     onChange={(event) => setForm((current) => current ? { ...current, repoUrl: event.target.value } : current)}
-                    placeholder="https://github.com/org/repo"
+                    placeholder="https://github.com/org/repositorio"
                   />
                 </Field>
-                <Field label="Base ref">
+                <Field label="Ref base">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.baseRef}
@@ -480,7 +480,7 @@ export function ExecutionWorkspaceDetail() {
               </div>
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <Field label="Provision command" hint="Runs when Paperclip prepares this execution workspace">
+                <Field label="Comando de aprovisionamiento" hint="Se ejecuta cuando Paperclip prepara este espacio de trabajo de ejecución">
                   <textarea
                     className="min-h-28 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.provisionCommand}
@@ -488,7 +488,7 @@ export function ExecutionWorkspaceDetail() {
                     placeholder="bash ./scripts/provision-worktree.sh"
                   />
                 </Field>
-                <Field label="Teardown command" hint="Runs when the execution workspace is archived or cleaned up">
+                <Field label="Comando de eliminación" hint="Se ejecuta cuando el espacio de trabajo de ejecución se archiva o se limpia">
                   <textarea
                     className="min-h-28 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.teardownCommand}
@@ -499,7 +499,7 @@ export function ExecutionWorkspaceDetail() {
               </div>
 
               <div className="mt-4 grid gap-4">
-                <Field label="Cleanup command" hint="Workspace-specific cleanup before teardown">
+                <Field label="Comando de limpieza" hint="Limpieza específica del espacio de trabajo antes de la eliminación">
                   <textarea
                     className="min-h-24 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.cleanupCommand}
@@ -512,14 +512,14 @@ export function ExecutionWorkspaceDetail() {
                   <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                     <div>
                       <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                        Runtime config source
+                        Fuente de configuración runtime
                       </div>
                       <p className="mt-1 text-sm text-muted-foreground">
                         {runtimeConfigSource === "execution_workspace"
-                          ? "This execution workspace currently overrides the project workspace runtime config."
+                          ? "Este espacio de trabajo de ejecución actualmente anula la configuración runtime del espacio de trabajo del proyecto."
                           : runtimeConfigSource === "project_workspace"
-                            ? "This execution workspace is inheriting the project workspace runtime config."
-                            : "No runtime config is currently defined on this execution workspace or its project workspace."}
+                            ? "Este espacio de trabajo de ejecución está heredando la configuración runtime del espacio de trabajo del proyecto."
+                            : "Actualmente no hay configuración runtime definida en este espacio de trabajo de ejecución o en su espacio de trabajo del proyecto."}
                       </p>
                     </div>
                     <Button
@@ -535,12 +535,12 @@ export function ExecutionWorkspaceDetail() {
                         } : current)
                       }
                     >
-                      Reset to inherit
+                      Restablecer para heredar
                     </Button>
                   </div>
                 </div>
 
-                <Field label="Runtime services JSON" hint="Concrete workspace runtime settings for this execution workspace. Leave this inheriting unless you need a one-off override. If you are missing the right commands, ask your CEO to set them up for you.">
+                <Field label="JSON de servicios runtime" hint="Configuración concreta del runtime del espacio de trabajo para este espacio de trabajo de ejecución. Deja heredar a menos que necesites un override único. Si te faltan los comandos correctos, pide a tu CEO que los configure para ti.">
                   <div className="mb-2 flex items-center gap-2 text-xs text-muted-foreground">
                     <input
                       id="inherit-runtime-config"
@@ -550,7 +550,7 @@ export function ExecutionWorkspaceDetail() {
                         setForm((current) => current ? { ...current, inheritRuntime: event.target.checked } : current)
                       }
                     />
-                    <label htmlFor="inherit-runtime-config">Inherit project workspace runtime config</label>
+                    <label htmlFor="inherit-runtime-config">Heredar configuración runtime del espacio de trabajo del proyecto</label>
                   </div>
                   <textarea
                     className="min-h-48 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none disabled:cursor-not-allowed disabled:opacity-60"
@@ -565,7 +565,7 @@ export function ExecutionWorkspaceDetail() {
               <div className="mt-5 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                 <Button className="w-full sm:w-auto" disabled={!isDirty || updateWorkspace.isPending} onClick={saveChanges}>
                   {updateWorkspace.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Save changes
+                  Guardar cambios
                 </Button>
                 <Button
                   variant="outline"
@@ -577,11 +577,11 @@ export function ExecutionWorkspaceDetail() {
                     setRuntimeActionMessage(null);
                   }}
                 >
-                  Reset
+                  Restablecer
                 </Button>
                 {errorMessage ? <p className="text-sm text-destructive">{errorMessage}</p> : null}
                 {!errorMessage && runtimeActionMessage ? <p className="text-sm text-muted-foreground">{runtimeActionMessage}</p> : null}
-                {!errorMessage && !isDirty ? <p className="text-sm text-muted-foreground">No unsaved changes.</p> : null}
+                {!errorMessage && !isDirty ? <p className="text-sm text-muted-foreground">Sin cambios sin guardar.</p> : null}
               </div>
             </div>
           </div>
@@ -589,23 +589,23 @@ export function ExecutionWorkspaceDetail() {
           <div className="space-y-6">
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="space-y-1">
-                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Linked objects</div>
-                <h2 className="text-lg font-semibold">Workspace context</h2>
+                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Objetos vinculados</div>
+                <h2 className="text-lg font-semibold">Contexto del espacio de trabajo</h2>
               </div>
               <Separator className="my-4" />
-              <DetailRow label="Project">
+              <DetailRow label="Proyecto">
                 {project ? <Link to={`/projects/${projectRef}`} className="hover:underline">{project.name}</Link> : <MonoValue value={workspace.projectId} />}
               </DetailRow>
-              <DetailRow label="Project workspace">
+              <DetailRow label="Espacio de trabajo del proyecto">
                 {project && linkedProjectWorkspace ? (
                   <WorkspaceLink project={project} workspace={linkedProjectWorkspace} />
                 ) : workspace.projectWorkspaceId ? (
                   <MonoValue value={workspace.projectWorkspaceId} />
                 ) : (
-                  "None"
+                  "Ninguno"
                 )}
               </DetailRow>
-              <DetailRow label="Source issue">
+              <DetailRow label="Incidencia de origen">
                 {sourceIssue ? (
                   <Link to={issueUrl(sourceIssue)} className="hover:underline">
                     {sourceIssue.identifier ?? sourceIssue.id} · {sourceIssue.title}
@@ -613,10 +613,10 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.sourceIssueId ? (
                   <MonoValue value={workspace.sourceIssueId} />
                 ) : (
-                  "None"
+                  "Ninguno"
                 )}
               </DetailRow>
-              <DetailRow label="Derived from">
+              <DetailRow label="Derivado de">
                 {derivedWorkspace ? (
                   <Link to={`/execution-workspaces/${derivedWorkspace.id}`} className="hover:underline">
                     {derivedWorkspace.name}
@@ -624,69 +624,69 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.derivedFromExecutionWorkspaceId ? (
                   <MonoValue value={workspace.derivedFromExecutionWorkspaceId} />
                 ) : (
-                  "None"
+                  "Ninguno"
                 )}
               </DetailRow>
-              <DetailRow label="Workspace ID">
+              <DetailRow label="ID del espacio de trabajo">
                 <MonoValue value={workspace.id} />
               </DetailRow>
             </div>
 
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="space-y-1">
-                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Paths and refs</div>
-                <h2 className="text-lg font-semibold">Concrete location</h2>
+                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Rutas y referencias</div>
+                <h2 className="text-lg font-semibold">Ubicación concreta</h2>
               </div>
               <Separator className="my-4" />
-              <DetailRow label="Working dir">
-                {workspace.cwd ? <MonoValue value={workspace.cwd} copy /> : "None"}
+              <DetailRow label="Directorio de trabajo">
+                {workspace.cwd ? <MonoValue value={workspace.cwd} copy /> : "Ninguno"}
               </DetailRow>
-              <DetailRow label="Provider ref">
-                {workspace.providerRef ? <MonoValue value={workspace.providerRef} copy /> : "None"}
+              <DetailRow label="Ref del proveedor">
+                {workspace.providerRef ? <MonoValue value={workspace.providerRef} copy /> : "Ninguno"}
               </DetailRow>
-              <DetailRow label="Repo URL">
+              <DetailRow label="URL del repositorio">
                 {workspace.repoUrl && isSafeExternalUrl(workspace.repoUrl) ? (
                   <div className="inline-flex max-w-full items-start gap-2">
                     <a href={workspace.repoUrl} target="_blank" rel="noreferrer" className="inline-flex min-w-0 items-center gap-1 break-all hover:underline">
                       {workspace.repoUrl}
                       <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                     </a>
-                    <CopyText text={workspace.repoUrl} className="shrink-0 text-muted-foreground hover:text-foreground" copiedLabel="Copied">
+                    <CopyText text={workspace.repoUrl} className="shrink-0 text-muted-foreground hover:text-foreground" copiedLabel="Copiado">
                       <Copy className="h-3.5 w-3.5" />
                     </CopyText>
                   </div>
                 ) : workspace.repoUrl ? (
                   <MonoValue value={workspace.repoUrl} copy />
                 ) : (
-                  "None"
+                  "Ninguno"
                 )}
               </DetailRow>
-              <DetailRow label="Base ref">
-                {workspace.baseRef ? <MonoValue value={workspace.baseRef} copy /> : "None"}
+              <DetailRow label="Ref base">
+                {workspace.baseRef ? <MonoValue value={workspace.baseRef} copy /> : "Ninguno"}
               </DetailRow>
-              <DetailRow label="Branch">
-                {workspace.branchName ? <MonoValue value={workspace.branchName} copy /> : "None"}
+              <DetailRow label="Rama">
+                {workspace.branchName ? <MonoValue value={workspace.branchName} copy /> : "Ninguno"}
               </DetailRow>
-              <DetailRow label="Opened">{formatDateTime(workspace.openedAt)}</DetailRow>
-              <DetailRow label="Last used">{formatDateTime(workspace.lastUsedAt)}</DetailRow>
-              <DetailRow label="Cleanup">
+              <DetailRow label="Abierto">{formatDateTime(workspace.openedAt)}</DetailRow>
+              <DetailRow label="Última vez usado">{formatDateTime(workspace.lastUsedAt)}</DetailRow>
+              <DetailRow label="Limpieza">
                 {workspace.cleanupEligibleAt
                   ? `${formatDateTime(workspace.cleanupEligibleAt)}${workspace.cleanupReason ? ` · ${workspace.cleanupReason}` : ""}`
-                  : "Not scheduled"}
+                  : "No programado"}
               </DetailRow>
             </div>
 
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="space-y-1">
-                  <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Runtime services</div>
-                  <h2 className="text-lg font-semibold">Attached services</h2>
+                  <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Servicios runtime</div>
+                  <h2 className="text-lg font-semibold">Servicios adjuntos</h2>
                   <p className="text-sm text-muted-foreground">
-                    Source: {runtimeConfigSource === "execution_workspace"
-                      ? "execution workspace override"
+                    Origen: {runtimeConfigSource === "execution_workspace"
+                      ? "override del espacio de trabajo de ejecución"
                       : runtimeConfigSource === "project_workspace"
-                        ? "project workspace default"
-                        : "none"}
+                        ? "defecto del espacio de trabajo del proyecto"
+                        : "ninguno"}
                   </p>
                 </div>
                 <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap">
@@ -698,7 +698,7 @@ export function ExecutionWorkspaceDetail() {
                     onClick={() => controlRuntimeServices.mutate("start")}
                   >
                     {controlRuntimeServices.isPending ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : null}
-                    Start
+                    Iniciar
                   </Button>
                   <Button
                     variant="outline"
@@ -707,7 +707,7 @@ export function ExecutionWorkspaceDetail() {
                     disabled={controlRuntimeServices.isPending || !effectiveRuntimeConfig || !workspace.cwd}
                     onClick={() => controlRuntimeServices.mutate("restart")}
                   >
-                    Restart
+                    Reiniciar
                   </Button>
                   <Button
                     variant="outline"
@@ -716,7 +716,7 @@ export function ExecutionWorkspaceDetail() {
                     disabled={controlRuntimeServices.isPending || !hasActiveRuntimeServices(workspace)}
                     onClick={() => controlRuntimeServices.mutate("stop")}
                   >
-                    Stop
+                    Detener
                   </Button>
                 </div>
               </div>
@@ -749,16 +749,16 @@ export function ExecutionWorkspaceDetail() {
               ) : (
                 <p className="text-sm text-muted-foreground">
                   {effectiveRuntimeConfig
-                    ? "No runtime services are currently running for this execution workspace."
-                    : "No runtime config is defined for this execution workspace yet."}
+                    ? "No hay servicios runtime ejecutándose actualmente para este espacio de trabajo de ejecución."
+                    : "No hay configuración de runtime definida para este espacio de trabajo de ejecución aún."}
                 </p>
               )}
             </div>
 
             <div className="rounded-2xl border border-border bg-card p-5">
               <div className="space-y-1">
-                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Recent operations</div>
-                <h2 className="text-lg font-semibold">Runtime and cleanup logs</h2>
+                <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Operaciones recientes</div>
+                <h2 className="text-lg font-semibold">Registros de runtime y limpieza</h2>
               </div>
               <Separator className="my-4" />
               {workspaceOperationsQuery.isLoading ? (
@@ -767,7 +767,7 @@ export function ExecutionWorkspaceDetail() {
                 <p className="text-sm text-destructive">
                   {workspaceOperationsQuery.error instanceof Error
                     ? workspaceOperationsQuery.error.message
-                    : "Failed to load workspace operations."}
+                    : "Error al cargar las operaciones del espacio de trabajo."}
                 </p>
               ) : workspaceOperationsQuery.data && workspaceOperationsQuery.data.length > 0 ? (
                 <div className="space-y-3">
@@ -792,7 +792,7 @@ export function ExecutionWorkspaceDetail() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No workspace operations have been recorded yet.</p>
+                <p className="text-sm text-muted-foreground">Aún no se han registrado operaciones del espacio de trabajo.</p>
               )}
             </div>
           </div>
@@ -801,22 +801,22 @@ export function ExecutionWorkspaceDetail() {
         <div className="rounded-2xl border border-border bg-card p-5">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div className="space-y-1">
-              <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Linked issues</div>
-              <h2 className="text-lg font-semibold">Issues using this workspace</h2>
+              <div className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Incidencias vinculadas</div>
+              <h2 className="text-lg font-semibold">Incidencias usando este espacio de trabajo</h2>
               <p className="text-sm text-muted-foreground">
-                Any issue attached to this execution workspace appears here so you can review the full session context before reusing or closing it.
+                Cualquier incidencia adjunta a este espacio de trabajo de ejecución aparece aquí para que puedas revisar el contexto completo de la sesión antes de reutilizarlo o cerrarlo.
               </p>
             </div>
-            <StatusPill>{linkedIssues.length} linked</StatusPill>
+            <StatusPill>{linkedIssues.length} vinculadas</StatusPill>
           </div>
           <Separator className="my-4" />
           {linkedIssuesQuery.isLoading ? (
-            <p className="text-sm text-muted-foreground">Loading linked issues…</p>
+            <p className="text-sm text-muted-foreground">Cargando incidencias vinculadas…</p>
           ) : linkedIssuesQuery.error ? (
             <p className="text-sm text-destructive">
               {linkedIssuesQuery.error instanceof Error
                 ? linkedIssuesQuery.error.message
-                : "Failed to load linked issues."}
+                : "Error al cargar las incidencias vinculadas."}
             </p>
           ) : linkedIssues.length > 0 ? (
             <div className="-mx-1 flex gap-3 overflow-x-auto px-1 pb-1">
@@ -843,7 +843,7 @@ export function ExecutionWorkspaceDetail() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No issues are currently linked to this execution workspace.</p>
+            <p className="text-sm text-muted-foreground">Actualmente no hay incidencias vinculadas a este espacio de trabajo de ejecución.</p>
           )}
         </div>
       </div>

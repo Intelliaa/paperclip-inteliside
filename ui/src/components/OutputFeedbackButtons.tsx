@@ -130,7 +130,7 @@ export function OutputFeedbackButtons({
           onClick={() => handleVote("down")}
         >
           <ThumbsDown className="mr-1.5 h-3.5 w-3.5" />
-          Needs work
+          Needs improvement
         </Button>
         {rightSlot ? <div className="ml-auto">{rightSlot}</div> : null}
       </div>
@@ -140,7 +140,7 @@ export function OutputFeedbackButtons({
           <Textarea
             value={downvoteReason}
             onChange={(event) => setDownvoteReason(event.target.value)}
-            placeholder="Add a short note"
+            placeholder="Add a brief note"
             className="min-h-20 resize-y bg-background"
             disabled={disabled || isSaving}
           />
@@ -156,7 +156,7 @@ export function OutputFeedbackButtons({
                 setDownvoteAllowSharing(undefined);
               }}
             >
-              Dismiss
+              Discard
             </Button>
             <Button
               type="button"
@@ -188,8 +188,8 @@ export function OutputFeedbackButtons({
           <DialogHeader>
             <DialogTitle>Save your feedback sharing preference</DialogTitle>
             <DialogDescription>
-              Choose whether voted AI outputs can be shared with Paperclip Labs. This
-              answer becomes the default for future thumbs up and thumbs down votes.
+              Choose whether AI outputs you vote on can be shared with Paperclip Labs. This
+              becomes your default for future upvotes and downvotes.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 text-sm text-muted-foreground">
@@ -198,9 +198,9 @@ export function OutputFeedbackButtons({
             </p>
             <p>
               Choose <span className="font-medium text-foreground">Always allow</span> to share
-              this vote and future voted AI outputs. Choose{" "}
+              this vote and future AI outputs you vote on. Choose{" "}
               <span className="font-medium text-foreground">Don't allow</span> to keep this vote
-              and future votes local.
+              and future votes private.
             </p>
             <p>
               You can change this later in Instance Settings &gt; General.

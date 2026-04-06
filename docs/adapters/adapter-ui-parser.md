@@ -1,9 +1,9 @@
 ---
-title: Adapter UI Parser Contract
-summary: Ship a custom run-log parser so the Paperclip UI renders your adapter's output correctly
+title: Contrato de Adapter UI Parser
+summary: Envía un parser personalizado de log de ejecución para que la UI de Paperclip renderice la salida de tu adapter correctamente
 ---
 
-When Paperclip runs an agent, stdout is streamed to the UI in real time. The UI needs a **parser** to convert raw stdout lines into structured transcript entries (tool calls, tool results, assistant messages, system events). Without a custom parser, the UI falls back to a generic shell parser that treats every non-system line as `assistant` output — tool commands leak as plain text, durations are lost, and errors are invisible.
+Cuando Paperclip ejecuta un agente, stdout se transmite a la UI en tiempo real. La UI necesita un **parser** para convertir líneas de stdout crudo en entradas de transcripción estructuradas (llamadas de herramienta, resultados de herramientas, mensajes del asistente, eventos del sistema). Sin un parser personalizado, la UI recurre a un parser shell genérico que trata cada línea no sistema como salida `assistant` — los comandos de herramienta se filtran como texto plano, las duraciones se pierden, y los errores son invisibles.
 
 ## The Problem
 

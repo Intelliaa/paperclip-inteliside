@@ -1,24 +1,24 @@
-# Agent Companies Specification Reference
+# Referencia de la Especificación Agent Companies
 
-The normative specification lives at:
+La especificación normativa se encuentra en:
 
 - Web: https://agentcompanies.io/specification
 - Local: docs/companies/companies-spec.md
 
-Read the local spec file before generating any package files. The spec defines the canonical format and all frontmatter fields. Below is a quick-reference summary for common authoring tasks.
+Lee el archivo local de la especificación antes de generar cualquier archivo del paquete. La especificación define el formato canónico y todos los campos de frontmatter. A continuación se presenta un resumen de referencia rápida para tareas comunes de autoría.
 
-## Package Kinds
+## Tipos de Paquete
 
-| File       | Kind    | Purpose                                           |
-| ---------- | ------- | ------------------------------------------------- |
-| COMPANY.md | company | Root entrypoint, org boundary and defaults        |
-| TEAM.md    | team    | Reusable org subtree                              |
-| AGENTS.md  | agent   | One role, instructions, and attached skills       |
-| PROJECT.md | project | Planned work grouping                             |
-| TASK.md    | task    | Portable starter task                             |
-| SKILL.md   | skill   | Agent Skills capability package (do not redefine) |
+| Archivo    | Tipo    | Propósito                                           |
+| ---------- | ------- | --------------------------------------------------- |
+| COMPANY.md | company | Punto de entrada raíz, límite organizacional y valores por defecto |
+| TEAM.md    | team    | Subárbol organizacional reutilizable                |
+| AGENTS.md  | agent   | Un rol, instrucciones y skills adjuntos             |
+| PROJECT.md | project | Agrupación de trabajo planificado                   |
+| TASK.md    | task    | Tarea inicial portátil                              |
+| SKILL.md   | skill   | Paquete de capacidades de Agent Skills (no redefinir) |
 
-## Directory Layout
+## Estructura de Directorios
 
 ```
 company-package/
@@ -39,10 +39,10 @@ company-package/
 ├── assets/
 ├── scripts/
 ├── references/
-└── .paperclip.yaml          (optional vendor extension)
+└── .paperclip.yaml          (extensión de proveedor opcional)
 ```
 
-## Common Frontmatter Fields
+## Campos Comunes de Frontmatter
 
 ```yaml
 schema: agentcompanies/v1
@@ -59,12 +59,12 @@ metadata: {}
 sources: []
 ```
 
-- `schema` usually appears only at package root
-- `kind` is optional when filename makes it obvious
-- `slug` must be URL-safe and stable
-- exporters should omit empty or default-valued fields
+- `schema` usualmente aparece solo en la raíz del paquete
+- `kind` es opcional cuando el nombre de archivo lo hace obvio
+- `slug` debe ser seguro para URL y estable
+- Los exportadores deben omitir campos vacíos o con valores por defecto
 
-## COMPANY.md Required Fields
+## Campos Obligatorios de COMPANY.md
 
 ```yaml
 name: Company Name
@@ -73,9 +73,9 @@ slug: company-slug
 schema: agentcompanies/v1
 ```
 
-Optional: `version`, `license`, `authors`, `goals`, `includes`, `requirements.secrets`
+Opcionales: `version`, `license`, `authors`, `goals`, `includes`, `requirements.secrets`
 
-## AGENTS.md Key Fields
+## Campos Clave de AGENTS.md
 
 ```yaml
 name: Agent Name
@@ -85,11 +85,11 @@ skills:
   - skill-shortname
 ```
 
-- Body content is the agent's default instructions
-- Skills resolve by shortname: `skills/<shortname>/SKILL.md`
-- Do not export machine-specific paths or secrets
+- El contenido del cuerpo son las instrucciones por defecto del agente
+- Los skills se resuelven por nombre corto: `skills/<shortname>/SKILL.md`
+- No exportar rutas específicas de máquina ni secretos
 
-## TEAM.md Key Fields
+## Campos Clave de TEAM.md
 
 ```yaml
 name: Team Name
@@ -101,7 +101,7 @@ includes:
   - ../../skills/skill-slug/SKILL.md
 ```
 
-## PROJECT.md Key Fields
+## Campos Clave de PROJECT.md
 
 ```yaml
 name: Project Name
@@ -109,7 +109,7 @@ description: What this project delivers
 owner: agent-slug
 ```
 
-## TASK.md Key Fields
+## Campos Clave de TASK.md
 
 ```yaml
 name: Task Name
@@ -125,7 +125,7 @@ schedule:
     time: { hour: 9, minute: 0 }
 ```
 
-## Source References (for external skills/content)
+## Referencias de Fuentes (para skills/contenido externo)
 
 ```yaml
 sources:
@@ -139,6 +139,6 @@ sources:
     usage: referenced
 ```
 
-Usage modes: `vendored` (bytes included), `referenced` (pointer only), `mirrored` (cached locally)
+Modos de uso: `vendored` (bytes incluidos), `referenced` (solo puntero), `mirrored` (cacheado localmente)
 
-Default to `referenced` for third-party content.
+Por defecto usar `referenced` para contenido de terceros.

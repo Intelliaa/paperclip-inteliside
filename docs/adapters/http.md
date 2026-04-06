@@ -1,39 +1,39 @@
 ---
-title: HTTP Adapter
-summary: HTTP webhook adapter
+title: Adapter HTTP
+summary: Adapter webhook HTTP
 ---
 
-The `http` adapter sends a webhook request to an external agent service. The agent runs externally and Paperclip just triggers it.
+El adapter `http` envía una solicitud webhook a un servicio de agente externo. El agente se ejecuta externamente y Paperclip solo lo dispara.
 
-## When to Use
+## Cuándo Usar
 
-- Agent runs as an external service (cloud function, dedicated server)
-- Fire-and-forget invocation model
-- Integration with third-party agent platforms
+- El agente se ejecuta como un servicio externo (función en nube, servidor dedicado)
+- Modelo de invocación fire-and-forget
+- Integración con plataformas de agentes de terceros
 
-## When Not to Use
+## Cuándo No Usar
 
-- If the agent runs locally on the same machine (use `process`, `claude_local`, or `codex_local`)
-- If you need stdout capture and real-time run viewing
+- Si el agente se ejecuta localmente en la misma máquina (usa `process`, `claude_local`, o `codex_local`)
+- Si necesitas captura de stdout y visualización de ejecuciones en tiempo real
 
-## Configuration
+## Configuración
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Requerido | Descripción |
 |-------|------|----------|-------------|
-| `url` | string | Yes | Webhook URL to POST to |
-| `headers` | object | No | Additional HTTP headers |
-| `timeoutSec` | number | No | Request timeout |
+| `url` | string | Sí | URL de webhook para POST |
+| `headers` | object | No | Headers HTTP adicionales |
+| `timeoutSec` | number | No | Timeout de solicitud |
 
-## How It Works
+## Cómo Funciona
 
-1. Paperclip sends a POST request to the configured URL
-2. The request body includes the execution context (agent ID, task info, wake reason)
-3. The external agent processes the request and calls back to the Paperclip API
-4. Response from the webhook is captured as the run result
+1. Paperclip envía una solicitud POST a la URL configurada
+2. El cuerpo de la solicitud incluye el contexto de ejecución (ID del agente, info de tarea, razón de despertar)
+3. El agente externo procesa la solicitud y llama de vuelta a la API de Paperclip
+4. La respuesta del webhook se captura como resultado de la ejecución
 
-## Request Body
+## Cuerpo de la Solicitud
 
-The webhook receives a JSON payload with:
+El webhook recibe un payload JSON con:
 
 ```json
 {
@@ -48,4 +48,4 @@ The webhook receives a JSON payload with:
 }
 ```
 
-The external agent uses `PAPERCLIP_API_URL` and an API key to call back to Paperclip.
+El agente externo usa `PAPERCLIP_API_URL` y una clave API para llamar de vuelta a Paperclip.

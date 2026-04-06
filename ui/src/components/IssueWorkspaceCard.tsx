@@ -15,9 +15,9 @@ import { Check, Copy, GitBranch, FolderOpen, Pencil, X } from "lucide-react";
 /* -------------------------------------------------------------------------- */
 
 const EXECUTION_WORKSPACE_OPTIONS = [
-  { value: "shared_workspace", label: "Project default" },
-  { value: "isolated_workspace", label: "New isolated workspace" },
-  { value: "reuse_existing", label: "Reuse existing workspace" },
+  { value: "shared_workspace", label: "Predeterminado del proyecto" },
+  { value: "isolated_workspace", label: "Nuevo workspace aislado" },
+  { value: "reuse_existing", label: "Reutilizar workspace existente" },
 ] as const;
 
 function issueModeForExistingWorkspace(mode: string | null | undefined) {
@@ -85,7 +85,7 @@ function CopyableInline({ value, label, mono }: { value: string; label?: string;
         type="button"
         className="shrink-0 p-0.5 rounded hover:bg-accent/50 transition-colors text-muted-foreground hover:text-foreground opacity-0 group-hover/copy:opacity-100 focus:opacity-100"
         onClick={handleCopy}
-        title={copied ? "Copied!" : "Copy"}
+        title={copied ? "¡Copiado!" : "Copiar"}
       >
         {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
       </button>
@@ -95,10 +95,10 @@ function CopyableInline({ value, label, mono }: { value: string; label?: string;
 
 function workspaceModeLabel(mode: string | null | undefined) {
   switch (mode) {
-    case "isolated_workspace": return "Isolated workspace";
-    case "operator_branch": return "Operator branch";
-    case "cloud_sandbox": return "Cloud sandbox";
-    case "adapter_managed": return "Adapter managed";
+    case "isolated_workspace": return "Workspace aislado";
+    case "operator_branch": return "Rama del operador";
+    case "cloud_sandbox": return "Sandbox en la nube";
+    case "adapter_managed": return "Gestionado por adapter";
     default: return "Workspace";
   }
 }
@@ -109,13 +109,13 @@ function configuredWorkspaceLabel(
 ) {
   switch (selection) {
     case "isolated_workspace":
-      return "New isolated workspace";
+      return "Nuevo workspace aislado";
     case "reuse_existing":
       return reusableWorkspace?.mode === "isolated_workspace"
-        ? "Existing isolated workspace"
-        : "Reuse existing workspace";
+        ? "Workspace aislado existente"
+        : "Reutilizar workspace existente";
     default:
-      return "Project default";
+      return "Predeterminado del proyecto";
   }
 }
 
@@ -386,10 +386,10 @@ export function IssueWorkspaceCard({
           {!workspace && (
             <div className="text-muted-foreground">
               {currentSelection === "isolated_workspace"
-                ? "A fresh isolated workspace will be created when this issue runs."
+                ? "A new isolated workspace will be created when this task is executed."
                 : currentSelection === "reuse_existing"
-                  ? "This issue will reuse an existing workspace when it runs."
-                  : "This issue will use the project default workspace configuration when it runs."}
+                  ? "This task will reuse an existing workspace when executed."
+                  : "This task will use the default project workspace configuration when executed."}
             </div>
           )}
           {currentSelection === "reuse_existing" && selectedReusableExecutionWorkspace && (
@@ -439,7 +439,7 @@ export function IssueWorkspaceCard({
             {EXECUTION_WORKSPACE_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.value === "reuse_existing" && configuredReusableWorkspace?.mode === "isolated_workspace"
-                  ? "Existing isolated workspace"
+                  ? "Workspace aislado existente"
                   : option.label}
               </option>
             ))}

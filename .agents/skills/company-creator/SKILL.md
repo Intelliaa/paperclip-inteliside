@@ -1,113 +1,113 @@
 ---
 name: company-creator
 description: >
-  Create agent company packages conforming to the Agent Companies specification
-  (agentcompanies/v1). Use when a user wants to create a new agent company from
-  scratch, build a company around an existing git repo or skills collection, or
-  scaffold a team/department of agents. Triggers on: "create a company", "make me
-  a company", "build a company from this repo", "set up an agent company",
-  "create a team of agents", "hire some agents", or when given a repo URL and
-  asked to turn it into a company. Do NOT use for importing an existing company
-  package (use the CLI import command instead) or for modifying a company that
-  is already running in Paperclip.
+  Crear paquetes de compañías de agentes conforme a la especificación Agent Companies
+  (agentcompanies/v1). Usar cuando un usuario quiera crear una nueva compañía de agentes
+  desde cero, construir una compañía a partir de un repositorio git existente o colección
+  de skills, o estructurar un equipo/departamento de agentes. Se activa con: "crear una
+  compañía", "hazme una compañía", "construir una compañía desde este repo", "configurar
+  una compañía de agentes", "crear un equipo de agentes", "contratar agentes", o cuando
+  se proporciona una URL de repositorio y se pide convertirlo en compañía. NO usar para
+  importar un paquete de compañía existente (usar el comando import del CLI en su lugar)
+  ni para modificar una compañía que ya está ejecutándose en Paperclip.
 ---
 
-# Company Creator
+# Creador de Compañías
 
-Create agent company packages that conform to the Agent Companies specification.
+Crear paquetes de compañías de agentes que cumplan con la especificación Agent Companies.
 
-Spec references:
+Referencias de la especificación:
 
-- Normative spec: `docs/companies/companies-spec.md` (read this before generating files)
-- Web spec: https://agentcompanies.io/specification
-- Protocol site: https://agentcompanies.io/
+- Especificación normativa: `docs/companies/companies-spec.md` (leer antes de generar archivos)
+- Especificación web: https://agentcompanies.io/specification
+- Sitio del protocolo: https://agentcompanies.io/
 
-## Two Modes
+## Dos Modos
 
-### Mode 1: Company From Scratch
+### Modo 1: Compañía Desde Cero
 
-The user describes what they want. Interview them to flesh out the vision, then generate the package.
+El usuario describe lo que quiere. Entrevístalo para desarrollar la visión y luego genera el paquete.
 
-### Mode 2: Company From a Repo
+### Modo 2: Compañía Desde un Repo
 
-The user provides a git repo URL, local path, or tweet. Analyze the repo, then create a company that wraps it.
+El usuario proporciona una URL de repositorio git, ruta local o tweet. Analiza el repositorio y luego crea una compañía que lo envuelva.
 
-See [references/from-repo-guide.md](references/from-repo-guide.md) for detailed repo analysis steps.
+Consulta [references/from-repo-guide.md](references/from-repo-guide.md) para los pasos detallados de análisis de repositorios.
 
-## Process
+## Proceso
 
-### Step 1: Gather Context
+### Paso 1: Recopilar Contexto
 
-Determine which mode applies:
+Determina qué modo aplica:
 
-- **From scratch**: What kind of company or team? What domain? What should the agents do?
-- **From repo**: Clone/read the repo. Scan for existing skills, agent configs, README, source structure.
+- **Desde cero**: ¿Qué tipo de compañía o equipo? ¿Qué dominio? ¿Qué deben hacer los agentes?
+- **Desde repo**: Clona/lee el repo. Busca skills existentes, configuraciones de agentes, README, estructura del código fuente.
 
-### Step 2: Interview (Use AskUserQuestion)
+### Paso 2: Entrevista (Usar AskUserQuestion)
 
-Do not skip this step. Use AskUserQuestion to align with the user before writing any files.
+No omitas este paso. Usa AskUserQuestion para alinearte con el usuario antes de escribir cualquier archivo.
 
-**For from-scratch companies**, ask about:
+**Para compañías desde cero**, pregunta sobre:
 
-- Company purpose and domain (1-2 sentences is fine)
-- What agents they need - propose a hiring plan based on what they described
-- Whether this is a full company (needs a CEO) or a team/department (no CEO required)
-- Any specific skills the agents should have
-- How work flows through the organization (see "Workflow" below)
-- Whether they want projects and starter tasks
+- Propósito y dominio de la compañía (1-2 oraciones es suficiente)
+- Qué agentes necesitan — propón un plan de contratación basado en lo que describieron
+- Si es una compañía completa (necesita un CEO) o un equipo/departamento (no requiere CEO)
+- Skills específicos que los agentes deban tener
+- Cómo fluye el trabajo a través de la organización (ver "Flujo de trabajo" abajo)
+- Si quieren proyectos y tareas iniciales
 
-**For from-repo companies**, present your analysis and ask:
+**Para compañías desde repo**, presenta tu análisis y pregunta:
 
-- Confirm the agents you plan to create and their roles
-- Whether to reference or vendor any discovered skills (default: reference)
-- Any additional agents or skills beyond what the repo provides
-- Company name and any customization
-- Confirm the workflow you inferred from the repo (see "Workflow" below)
+- Confirmar los agentes que planeas crear y sus roles
+- Si referenciar o incluir los skills descubiertos (por defecto: referenciar)
+- Agentes o skills adicionales más allá de lo que proporciona el repo
+- Nombre de la compañía y cualquier personalización
+- Confirmar el flujo de trabajo que inferiste del repo (ver "Flujo de trabajo" abajo)
 
-**Workflow — how does work move through this company?**
+**Flujo de trabajo — ¿cómo se mueve el trabajo a través de esta compañía?**
 
-A company is not just a list of agents with skills. It's an organization that takes ideas and turns them into work products. You need to understand the workflow so each agent knows:
+Una compañía no es solo una lista de agentes con skills. Es una organización que toma ideas y las convierte en productos de trabajo. Necesitas entender el flujo de trabajo para que cada agente sepa:
 
-- Who gives them work and in what form (a task, a branch, a question, a review request)
-- What they do with it
-- Who they hand off to when they're done, and what that handoff looks like
-- What "done" means for their role
+- Quién le da trabajo y en qué forma (una tarea, una rama, una pregunta, una solicitud de revisión)
+- Qué hace con ello
+- A quién le entrega cuando termina, y cómo es esa entrega
+- Qué significa "terminado" para su rol
 
-**Not every company is a pipeline.** Infer the right workflow pattern from context:
+**No todas las compañías son un pipeline.** Infiere el patrón de flujo de trabajo correcto según el contexto:
 
-- **Pipeline** — sequential stages, each agent hands off to the next. Use when the repo/domain has a clear linear process (e.g. plan → build → review → ship → QA, or content ideation → draft → edit → publish).
-- **Hub-and-spoke** — a manager delegates to specialists who report back independently. Use when agents do different kinds of work that don't feed into each other (e.g. a CEO who dispatches to a researcher, a marketer, and an analyst).
-- **Collaborative** — agents work together on the same things as peers. Use for small teams where everyone contributes to the same output (e.g. a design studio, a brainstorming team).
-- **On-demand** — agents are summoned as needed with no fixed flow. Use when agents are more like a toolbox of specialists the user calls directly.
+- **Pipeline** — etapas secuenciales, cada agente entrega al siguiente. Usar cuando el repo/dominio tiene un proceso lineal claro (ej. planificar → construir → revisar → enviar → QA, o ideación de contenido → borrador → edición → publicación).
+- **Hub-and-spoke** — un gerente delega a especialistas que reportan de forma independiente. Usar cuando los agentes hacen tipos diferentes de trabajo que no se alimentan entre sí (ej. un CEO que despacha a un investigador, un especialista en marketing y un analista).
+- **Colaborativo** — los agentes trabajan juntos en las mismas cosas como pares. Usar para equipos pequeños donde todos contribuyen al mismo resultado (ej. un estudio de diseño, un equipo de lluvia de ideas).
+- **Bajo demanda** — los agentes son convocados según se necesiten sin flujo fijo. Usar cuando los agentes son más como una caja de herramientas de especialistas que el usuario llama directamente.
 
-For from-scratch companies, propose a workflow pattern based on what they described and ask if it fits.
+Para compañías desde cero, propón un patrón de flujo de trabajo basado en lo que describieron y pregunta si encaja.
 
-For from-repo companies, infer the pattern from the repo's structure. If skills have a clear sequential dependency (like `plan-ceo-review → plan-eng-review → review → ship → qa`), that's a pipeline. If skills are independent capabilities, it's more likely hub-and-spoke or on-demand. State your inference in the interview so the user can confirm or adjust.
+Para compañías desde repo, infiere el patrón de la estructura del repositorio. Si los skills tienen una dependencia secuencial clara (como `plan-ceo-review → plan-eng-review → review → ship → qa`), eso es un pipeline. Si los skills son capacidades independientes, es más probable que sea hub-and-spoke o bajo demanda. Declara tu inferencia en la entrevista para que el usuario pueda confirmar o ajustar.
 
-**Key interviewing principles:**
+**Principios clave de la entrevista:**
 
-- Propose a concrete hiring plan. Don't ask open-ended "what agents do you want?" - suggest specific agents based on context and let the user adjust.
-- Keep it lean. Most users are new to agent companies. A few agents (3-5) is typical for a startup. Don't suggest 10+ agents unless the scope demands it.
-- From-scratch companies should start with a CEO who manages everyone. Teams/departments don't need one.
-- Ask 2-3 focused questions per round, not 10.
+- Propón un plan de contratación concreto. No preguntes abiertamente "¿qué agentes quieres?" — sugiere agentes específicos basados en el contexto y deja que el usuario ajuste.
+- Mantén la simplicidad. La mayoría de los usuarios son nuevos en compañías de agentes. Unos pocos agentes (3-5) es típico para una startup. No sugieras 10+ agentes a menos que el alcance lo demande.
+- Las compañías desde cero deberían comenzar con un CEO que gestione a todos. Los equipos/departamentos no necesitan uno.
+- Haz 2-3 preguntas enfocadas por ronda, no 10.
 
-### Step 3: Read the Spec
+### Paso 3: Leer la Especificación
 
-Before generating any files, read the normative spec:
+Antes de generar cualquier archivo, lee la especificación normativa:
 
 ```
 docs/companies/companies-spec.md
 ```
 
-Also read the quick reference: [references/companies-spec.md](references/companies-spec.md)
+También lee la referencia rápida: [references/companies-spec.md](references/companies-spec.md)
 
-And the example: [references/example-company.md](references/example-company.md)
+Y el ejemplo: [references/example-company.md](references/example-company.md)
 
-### Step 4: Generate the Package
+### Paso 4: Generar el Paquete
 
-Create the directory structure and all files. Follow the spec's conventions exactly.
+Crea la estructura de directorios y todos los archivos. Sigue las convenciones de la especificación exactamente.
 
-**Directory structure:**
+**Estructura de directorios:**
 
 ```
 <company-slug>/
@@ -115,85 +115,85 @@ Create the directory structure and all files. Follow the spec's conventions exac
 ├── agents/
 │   └── <slug>/AGENTS.md
 ├── teams/
-│   └── <slug>/TEAM.md        (if teams are needed)
+│   └── <slug>/TEAM.md        (si se necesitan equipos)
 ├── projects/
-│   └── <slug>/PROJECT.md     (if projects are needed)
+│   └── <slug>/PROJECT.md     (si se necesitan proyectos)
 ├── tasks/
-│   └── <slug>/TASK.md        (if tasks are needed)
+│   └── <slug>/TASK.md        (si se necesitan tareas)
 ├── skills/
-│   └── <slug>/SKILL.md       (if custom skills are needed)
-└── .paperclip.yaml            (Paperclip vendor extension)
+│   └── <slug>/SKILL.md       (si se necesitan skills personalizados)
+└── .paperclip.yaml            (extensión de proveedor Paperclip)
 ```
 
-**Rules:**
+**Reglas:**
 
-- Slugs must be URL-safe, lowercase, hyphenated
-- COMPANY.md gets `schema: agentcompanies/v1` - other files inherit it
-- Agent instructions go in the AGENTS.md body, not in .paperclip.yaml
-- Skills referenced by shortname in AGENTS.md resolve to `skills/<shortname>/SKILL.md`
-- For external skills, use `sources` with `usage: referenced` (see spec section 12)
-- Do not export secrets, machine-local paths, or database IDs
-- Omit empty/default fields
-- For companies generated from a repo, add a references footer at the bottom of COMPANY.md body:
+- Los slugs deben ser seguros para URL, en minúsculas, separados por guiones
+- COMPANY.md lleva `schema: agentcompanies/v1` — los demás archivos lo heredan
+- Las instrucciones del agente van en el cuerpo de AGENTS.md, no en .paperclip.yaml
+- Los skills referenciados por nombre corto en AGENTS.md se resuelven a `skills/<shortname>/SKILL.md`
+- Para skills externos, usar `sources` con `usage: referenced` (ver sección 12 de la especificación)
+- No exportar secretos, rutas locales de máquina ni IDs de base de datos
+- Omitir campos vacíos/por defecto
+- Para compañías generadas desde un repo, agregar un pie de referencias al final del cuerpo de COMPANY.md:
   `Generated from [repo-name](repo-url) with the company-creator skill from [Paperclip](https://github.com/paperclipai/paperclip)`
 
-**Reporting structure:**
+**Estructura de reporte:**
 
-- Every agent except the CEO should have `reportsTo` set to their manager's slug
-- The CEO has `reportsTo: null`
-- For teams without a CEO, the top-level agent has `reportsTo: null`
+- Cada agente excepto el CEO debe tener `reportsTo` configurado al slug de su gerente
+- El CEO tiene `reportsTo: null`
+- Para equipos sin CEO, el agente de nivel superior tiene `reportsTo: null`
 
-**Writing workflow-aware agent instructions:**
+**Escribir instrucciones de agente con conciencia del flujo de trabajo:**
 
-Each AGENTS.md body should include not just what the agent does, but how they fit into the organization's workflow. Include:
+Cada cuerpo de AGENTS.md debe incluir no solo lo que hace el agente, sino cómo encaja en el flujo de trabajo de la organización. Incluir:
 
-1. **Where work comes from** — "You receive feature ideas from the user" or "You pick up tasks assigned to you by the CTO"
-2. **What you produce** — "You produce a technical plan with architecture diagrams" or "You produce a reviewed, approved branch ready for shipping"
-3. **Who you hand off to** — "When your plan is locked, hand off to the Staff Engineer for implementation" or "When review passes, hand off to the Release Engineer to ship"
-4. **What triggers you** — "You are activated when a new feature idea needs product-level thinking" or "You are activated when a branch is ready for pre-landing review"
+1. **De dónde viene el trabajo** — "Recibes ideas de funcionalidades del usuario" o "Tomas tareas asignadas a ti por el CTO"
+2. **Qué produces** — "Produces un plan técnico con diagramas de arquitectura" o "Produces una rama revisada y aprobada lista para envío"
+3. **A quién entregas** — "Cuando tu plan está cerrado, entrega al Ingeniero Principal para implementación" o "Cuando la revisión pasa, entrega al Ingeniero de Release para envío"
+4. **Qué te activa** — "Te activas cuando una nueva idea de funcionalidad necesita pensamiento a nivel de producto" o "Te activas cuando una rama está lista para revisión pre-landing"
 
-This turns a collection of agents into an organization that actually works together. Without workflow context, agents operate in isolation — they do their job but don't know what happens before or after them.
+Esto convierte una colección de agentes en una organización que realmente trabaja junta. Sin contexto de flujo de trabajo, los agentes operan aislados — hacen su trabajo pero no saben qué pasa antes o después de ellos.
 
-### Step 5: Confirm Output Location
+### Paso 5: Confirmar Ubicación de Salida
 
-Ask the user where to write the package. Common options:
+Pregunta al usuario dónde escribir el paquete. Opciones comunes:
 
-- A subdirectory in the current repo
-- A new directory the user specifies
-- The current directory (if it's empty or they confirm)
+- Un subdirectorio en el repositorio actual
+- Un nuevo directorio que el usuario especifique
+- El directorio actual (si está vacío o confirman)
 
-### Step 6: Write README.md and LICENSE
+### Paso 6: Escribir README.md y LICENSE
 
-**README.md** — every company package gets a README. It should be a nice, readable introduction that someone browsing GitHub would appreciate. Include:
+**README.md** — cada paquete de compañía obtiene un README. Debe ser una introducción agradable y legible que alguien navegando GitHub apreciaría. Incluir:
 
-- Company name and what it does
-- The workflow / how the company operates
-- Org chart as a markdown list or table showing agents, titles, reporting structure, and skills
-- Brief description of each agent's role
-- Citations and references: link to the source repo (if from-repo), link to the Agent Companies spec (https://agentcompanies.io/specification), and link to Paperclip (https://github.com/paperclipai/paperclip)
-- A "Getting Started" section explaining how to import: `paperclipai company import --from <path>`
+- Nombre de la compañía y qué hace
+- El flujo de trabajo / cómo opera la compañía
+- Organigrama como lista o tabla markdown mostrando agentes, títulos, estructura de reporte y skills
+- Breve descripción del rol de cada agente
+- Citas y referencias: enlace al repo fuente (si es desde repo), enlace a la especificación Agent Companies (https://agentcompanies.io/specification), y enlace a Paperclip (https://github.com/paperclipai/paperclip)
+- Una sección "Primeros Pasos" explicando cómo importar: `paperclipai company import --from <path>`
 
-**LICENSE** — include a LICENSE file. The copyright holder is the user creating the company, not the upstream repo author (they made the skills, the user is making the company). Use the same license type as the source repo (if from-repo) or ask the user (if from-scratch). Default to MIT if unclear.
+**LICENSE** — incluir un archivo LICENSE. El titular del copyright es el usuario que crea la compañía, no el autor del repo upstream (ellos hicieron los skills, el usuario está haciendo la compañía). Usar el mismo tipo de licencia que el repo fuente (si es desde repo) o preguntar al usuario (si es desde cero). Por defecto MIT si no está claro.
 
-### Step 7: Write Files and Summarize
+### Paso 7: Escribir Archivos y Resumir
 
-Write all files, then give a brief summary:
+Escribe todos los archivos, luego da un breve resumen:
 
-- Company name and what it does
-- Agent roster with roles and reporting structure
-- Skills (custom + referenced)
-- Projects and tasks if any
-- The output path
+- Nombre de la compañía y qué hace
+- Lista de agentes con roles y estructura de reporte
+- Skills (personalizados + referenciados)
+- Proyectos y tareas si los hay
+- La ruta de salida
 
-## .paperclip.yaml Guidelines
+## Directrices de .paperclip.yaml
 
-The `.paperclip.yaml` file is the Paperclip vendor extension. It configures adapters and env inputs per agent.
+El archivo `.paperclip.yaml` es la extensión de proveedor de Paperclip. Configura adapters e inputs de entorno por agente.
 
-### Adapter Rules
+### Reglas de Adapter
 
-**Do not specify an adapter unless the repo or user context warrants it.** If you don't know what adapter the user wants, omit the adapter block entirely — Paperclip will use its default. Specifying an unknown adapter type causes an import error.
+**No especifiques un adapter a menos que el repo o el contexto del usuario lo justifique.** Si no sabes qué adapter quiere el usuario, omite el bloque de adapter por completo — Paperclip usará su valor por defecto. Especificar un tipo de adapter desconocido causa un error de importación.
 
-Paperclip's supported adapter types (these are the ONLY valid values):
+Tipos de adapter soportados por Paperclip (estos son los ÚNICOS valores válidos):
 - `claude_local` — Claude Code CLI
 - `codex_local` — Codex CLI
 - `opencode_local` — OpenCode CLI
@@ -202,19 +202,19 @@ Paperclip's supported adapter types (these are the ONLY valid values):
 - `gemini_local` — Gemini CLI
 - `openclaw_gateway` — OpenClaw gateway
 
-Only set an adapter when:
-- The repo or its skills clearly target a specific runtime (e.g. gstack is built for Claude Code, so `claude_local` is appropriate)
-- The user explicitly requests a specific adapter
-- The agent's role requires a specific runtime capability
+Solo configurar un adapter cuando:
+- El repo o sus skills apuntan claramente a un runtime específico (ej. gstack está construido para Claude Code, entonces `claude_local` es apropiado)
+- El usuario solicita explícitamente un adapter específico
+- El rol del agente requiere una capacidad específica de runtime
 
-### Env Inputs Rules
+### Reglas de Inputs de Entorno
 
-**Do not add boilerplate env variables.** Only add env inputs that the agent actually needs based on its skills or role:
-- `GH_TOKEN` for agents that push code, create PRs, or interact with GitHub
-- API keys only when a skill explicitly requires them
-- Never set `ANTHROPIC_API_KEY` as a default empty env variable — the runtime handles this
+**No agregues variables de entorno genéricas.** Solo agrega inputs de entorno que el agente realmente necesite según sus skills o rol:
+- `GH_TOKEN` para agentes que hacen push de código, crean PRs o interactúan con GitHub
+- Claves de API solo cuando un skill lo requiere explícitamente
+- Nunca configurar `ANTHROPIC_API_KEY` como variable de entorno vacía por defecto — el runtime maneja esto
 
-Example with adapter (only when warranted):
+Ejemplo con adapter (solo cuando está justificado):
 ```yaml
 schema: paperclip/v1
 agents:
@@ -230,7 +230,7 @@ agents:
           requirement: optional
 ```
 
-Example — only agents with actual overrides appear:
+Ejemplo — solo los agentes con sobrecargas reales aparecen:
 ```yaml
 schema: paperclip/v1
 agents:
@@ -242,11 +242,11 @@ agents:
           requirement: optional
 ```
 
-In this example, only `release-engineer` appears because it needs `GH_TOKEN`. The other agents (ceo, cto, etc.) have no overrides, so they are omitted entirely from `.paperclip.yaml`.
+En este ejemplo, solo `release-engineer` aparece porque necesita `GH_TOKEN`. Los otros agentes (ceo, cto, etc.) no tienen sobrecargas, así que se omiten completamente de `.paperclip.yaml`.
 
-## External Skill References
+## Referencias de Skills Externos
 
-When referencing skills from a GitHub repo, always use the references pattern:
+Al referenciar skills desde un repositorio de GitHub, siempre usar el patrón de referencias:
 
 ```yaml
 metadata:
@@ -254,16 +254,16 @@ metadata:
     - kind: github-file
       repo: owner/repo
       path: path/to/SKILL.md
-      commit: <full SHA from git ls-remote or the repo>
+      commit: <SHA completo de git ls-remote o el repo>
       attribution: Owner or Org Name
-      license: <from the repo's LICENSE>
+      license: <de la LICENSE del repo>
       usage: referenced
 ```
 
-Get the commit SHA with:
+Obtener el SHA del commit con:
 
 ```bash
 git ls-remote https://github.com/owner/repo HEAD
 ```
 
-Do NOT copy external skill content into the package unless the user explicitly asks.
+NO copiar contenido de skills externos al paquete a menos que el usuario lo pida explícitamente.

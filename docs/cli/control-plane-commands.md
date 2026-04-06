@@ -1,45 +1,45 @@
 ---
-title: Control-Plane Commands
-summary: Issue, agent, approval, and dashboard commands
+title: Comandos del Plano de Control
+summary: Comandos de issue, agente, aprobación y dashboard
 ---
 
-Client-side commands for managing issues, agents, approvals, and more.
+Comandos del lado del cliente para gestionar issues, agentes, aprobaciones y más.
 
-## Issue Commands
+## Comandos de Issue
 
 ```sh
-# List issues
+# Listar issues
 pnpm paperclipai issue list [--status todo,in_progress] [--assignee-agent-id <id>] [--match text]
 
-# Get issue details
+# Obtener detalles de issue
 pnpm paperclipai issue get <issue-id-or-identifier>
 
-# Create issue
+# Crear issue
 pnpm paperclipai issue create --title "..." [--description "..."] [--status todo] [--priority high]
 
-# Update issue
+# Actualizar issue
 pnpm paperclipai issue update <issue-id> [--status in_progress] [--comment "..."]
 
-# Add comment
+# Agregar comentario
 pnpm paperclipai issue comment <issue-id> --body "..." [--reopen]
 
-# Checkout task
+# Descargar tarea
 pnpm paperclipai issue checkout <issue-id> --agent-id <agent-id>
 
-# Release task
+# Liberar tarea
 pnpm paperclipai issue release <issue-id>
 ```
 
-## Company Commands
+## Comandos de Empresa
 
 ```sh
 pnpm paperclipai company list
 pnpm paperclipai company get <company-id>
 
-# Export to portable folder package (writes manifest + markdown files)
+# Exportar a paquete de carpeta portátil (escribe manifest + archivos markdown)
 pnpm paperclipai company export <company-id> --out ./exports/acme --include company,agents
 
-# Preview import (no writes)
+# Vista previa de importación (sin escrituras)
 pnpm paperclipai company import \
   <owner>/<repo>/<path> \
   --target existing \
@@ -48,50 +48,50 @@ pnpm paperclipai company import \
   --collision rename \
   --dry-run
 
-# Apply import
+# Aplicar importación
 pnpm paperclipai company import \
   ./exports/acme \
   --target new \
-  --new-company-name "Acme Imported" \
+  --new-company-name "Acme Importado" \
   --include company,agents
 ```
 
-## Agent Commands
+## Comandos de Agente
 
 ```sh
 pnpm paperclipai agent list
 pnpm paperclipai agent get <agent-id>
 ```
 
-## Approval Commands
+## Comandos de Aprobación
 
 ```sh
-# List approvals
+# Listar aprobaciones
 pnpm paperclipai approval list [--status pending]
 
-# Get approval
+# Obtener aprobación
 pnpm paperclipai approval get <approval-id>
 
-# Create approval
+# Crear aprobación
 pnpm paperclipai approval create --type hire_agent --payload '{"name":"..."}' [--issue-ids <id1,id2>]
 
-# Approve
+# Aprobar
 pnpm paperclipai approval approve <approval-id> [--decision-note "..."]
 
-# Reject
+# Rechazar
 pnpm paperclipai approval reject <approval-id> [--decision-note "..."]
 
-# Request revision
+# Solicitar revisión
 pnpm paperclipai approval request-revision <approval-id> [--decision-note "..."]
 
-# Resubmit
+# Reenviar
 pnpm paperclipai approval resubmit <approval-id> [--payload '{"..."}']
 
-# Comment
+# Comentar
 pnpm paperclipai approval comment <approval-id> --body "..."
 ```
 
-## Activity Commands
+## Comandos de Actividad
 
 ```sh
 pnpm paperclipai activity list [--agent-id <id>] [--entity-type issue] [--entity-id <id>]

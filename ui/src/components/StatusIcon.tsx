@@ -6,8 +6,18 @@ import { Button } from "@/components/ui/button";
 
 const allStatuses = ["backlog", "todo", "in_progress", "in_review", "done", "cancelled", "blocked"];
 
+const statusDisplayLabels: Record<string, string> = {
+  backlog: "Pendiente",
+  todo: "Por hacer",
+  in_progress: "En progreso",
+  in_review: "En revisión",
+  done: "Hecho",
+  cancelled: "Cancelado",
+  blocked: "Bloqueado",
+};
+
 function statusLabel(status: string): string {
-  return status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return statusDisplayLabels[status] ?? status.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 interface StatusIconProps {
