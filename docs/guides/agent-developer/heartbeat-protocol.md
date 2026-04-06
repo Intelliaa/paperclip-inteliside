@@ -1,51 +1,51 @@
 ---
-title: Heartbeat Protocol
-summary: Step-by-step heartbeat procedure for agents
+title: Protocolo de Heartbeat
+summary: Procedimiento de heartbeat paso a paso para agentes
 ---
 
-Every agent follows the same heartbeat procedure on each wake. This is the core contract between agents and Paperclip.
+Cada agente sigue el mismo procedimiento de heartbeat en cada despertar. Este es el contrato central entre agentes y Paperclip.
 
-## The Steps
+## Los Pasos
 
-### Step 1: Identity
+### Paso 1: Identidad
 
-Get your agent record:
+Obtén tu registro de agente:
 
 ```
 GET /api/agents/me
 ```
 
-This returns your ID, company, role, chain of command, and budget.
+Esto devuelve tu ID, compañía, rol, cadena de mando y presupuesto.
 
-### Step 2: Approval Follow-up
+### Paso 2: Seguimiento de Aprobación
 
-If `PAPERCLIP_APPROVAL_ID` is set, handle the approval first:
+Si `PAPERCLIP_APPROVAL_ID` está establecido, maneja la aprobación primero:
 
 ```
 GET /api/approvals/{approvalId}
 GET /api/approvals/{approvalId}/issues
 ```
 
-Close linked issues if the approval resolves them, or comment on why they remain open.
+Cierra problemas vinculados si la aprobación los resuelve, o comenta por qué permanecen abiertos.
 
-### Step 3: Get Assignments
+### Paso 3: Obtén Asignaciones
 
 ```
 GET /api/companies/{companyId}/issues?assigneeAgentId={yourId}&status=todo,in_progress,blocked
 ```
 
-Results are sorted by priority. This is your inbox.
+Los resultados se ordenan por prioridad. Esta es tu bandeja de entrada.
 
-### Step 4: Pick Work
+### Paso 4: Elige Trabajo
 
-- Work on `in_progress` tasks first, then `todo`
-- Skip `blocked` unless you can unblock it
-- If `PAPERCLIP_TASK_ID` is set and assigned to you, prioritize it
-- If woken by a comment mention, read that comment thread first
+- Trabaja en tareas `in_progress` primero, luego `todo`
+- Salta `blocked` a menos que puedas desbloquearla
+- Si `PAPERCLIP_TASK_ID` está establecido y asignado a ti, priorízalo
+- Si fuiste despertado por mención de comentario, lee ese hilo de comentarios primero
 
-### Step 5: Checkout
+### Paso 5: Checkout
 
-Before doing any work, you must checkout the task:
+Antes de hacer cualquier trabajo, debes hacer checkout de la tarea:
 
 ```
 POST /api/issues/{issueId}/checkout
@@ -53,55 +53,55 @@ Headers: X-Paperclip-Run-Id: {runId}
 { "agentId": "{yourId}", "expectedStatuses": ["todo", "backlog", "blocked"] }
 ```
 
-If already checked out by you, this succeeds. If another agent owns it: `409 Conflict` — stop and pick a different task. **Never retry a 409.**
+Si ya fue checkeado out por ti, esto tiene éxito. Si otro agente lo posee: `409 Conflict` — detente y elige una tarea diferente. **Nunca reintentes un 409.**
 
-### Step 6: Understand Context
+### Paso 6: Entiende Contexto
 
 ```
 GET /api/issues/{issueId}
 GET /api/issues/{issueId}/comments
 ```
 
-Read ancestors to understand why this task exists. If woken by a specific comment, find it and treat it as the immediate trigger.
+Lee ancestros para entender por qué existe esta tarea. Si fuiste despertado por un comentario específico, encuéntralo y trátalo como el disparador inmediato.
 
-### Step 7: Do the Work
+### Paso 7: Haz el Trabajo
 
-Use your tools and capabilities to complete the task.
+Usa tus herramientas y capacidades para completar la tarea.
 
-### Step 8: Update Status
+### Paso 8: Actualiza Estado
 
-Always include the run ID header on state changes:
-
-```
-PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
-{ "status": "done", "comment": "What was done and why." }
-```
-
-If blocked:
+Siempre incluye el header de run ID en cambios de estado:
 
 ```
 PATCH /api/issues/{issueId}
 Headers: X-Paperclip-Run-Id: {runId}
-{ "status": "blocked", "comment": "What is blocked, why, and who needs to unblock it." }
+{ "status": "done", "comment": "Qué se hizo y por qué." }
 ```
 
-### Step 9: Delegate if Needed
+Si está bloqueado:
 
-Create subtasks for your reports:
+```
+PATCH /api/issues/{issueId}
+Headers: X-Paperclip-Run-Id: {runId}
+{ "status": "blocked", "comment": "Qué está bloqueado, por qué, y quién necesita desbloquearlo." }
+```
+
+### Paso 9: Delega si es Necesario
+
+Crea subtareas para tus reportes:
 
 ```
 POST /api/companies/{companyId}/issues
 { "title": "...", "assigneeAgentId": "...", "parentId": "...", "goalId": "..." }
 ```
 
-Always set `parentId` and `goalId` on subtasks.
+Siempre establece `parentId` y `goalId` en subtareas.
 
-## Critical Rules
+## Reglas Críticas
 
-- **Always checkout** before working — never PATCH to `in_progress` manually
-- **Never retry a 409** — the task belongs to someone else
-- **Always comment** on in-progress work before exiting a heartbeat
-- **Always set parentId** on subtasks
-- **Never cancel cross-team tasks** — reassign to your manager
-- **Escalate when stuck** — use your chain of command
+- **Siempre haz checkout** antes de trabajar — nunca hagas PATCH a `in_progress` manualmente
+- **Nunca reintentes un 409** — la tarea pertenece a otra persona
+- **Siempre comenta** en trabajo en progreso antes de salir de un heartbeat
+- **Siempre establece parentId** en subtareas
+- **Nunca canceles tareas entre equipos** — reasigna a tu gerente
+- **Escala cuando estés atascado** — usa tu cadena de mando
