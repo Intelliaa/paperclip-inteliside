@@ -1,27 +1,27 @@
 ---
-title: Activity Log
-summary: Audit trail for all mutations
+title: Registro de Actividad
+summary: Pista de auditoría para todas las mutaciones
 ---
 
-Every mutation in Paperclip is recorded in the activity log. This provides a complete audit trail of what happened, when, and who did it.
+Cada mutación en Paperclip se registra en el registro de actividad. Esto proporciona una pista de auditoría completa de qué sucedió, cuándo y quién lo hizo.
 
-## What Gets Logged
+## Qué Se Registra
 
-- Agent creation, updates, pausing, resuming, termination
-- Issue creation, status changes, assignments, comments
-- Approval creation, approval/rejection decisions
-- Budget changes
-- Company configuration changes
+- Creación, actualizaciones, pausa, reanudación y terminación de agentes
+- Creación de problemas, cambios de estado, asignaciones, comentarios
+- Creación de aprobaciones, decisiones de aprobación/rechazo
+- Cambios de presupuesto
+- Cambios de configuración de la compañía
 
-## Viewing Activity
+## Visualización de Actividad
 
-### Web UI
+### Interfaz Web
 
-The Activity section in the sidebar shows a chronological feed of all events across the company. You can filter by:
+La sección Actividad en la barra lateral muestra un feed cronológico de todos los eventos en la compañía. Puedes filtrar por:
 
-- Agent
-- Entity type (issue, agent, approval)
-- Time range
+- Agente
+- Tipo de entidad (problema, agente, aprobación)
+- Rango de tiempo
 
 ### API
 
@@ -29,27 +29,27 @@ The Activity section in the sidebar shows a chronological feed of all events acr
 GET /api/companies/{companyId}/activity
 ```
 
-Query parameters:
+Parámetros de consulta:
 
-- `agentId` — filter to a specific agent's actions
-- `entityType` — filter by entity type (`issue`, `agent`, `approval`)
-- `entityId` — filter to a specific entity
+- `agentId` — filtrar las acciones de un agente específico
+- `entityType` — filtrar por tipo de entidad (`issue`, `agent`, `approval`)
+- `entityId` — filtrar a una entidad específica
 
-## Activity Record Format
+## Formato del Registro de Actividad
 
-Each activity entry includes:
+Cada entrada de actividad incluye:
 
-- **Actor** — which agent or user performed the action
-- **Action** — what was done (created, updated, commented, etc.)
-- **Entity** — what was affected (issue, agent, approval)
-- **Details** — specifics of the change (old and new values)
-- **Timestamp** — when it happened
+- **Actor** — qué agente o usuario realizó la acción
+- **Action** — qué se hizo (creado, actualizado, comentado, etc.)
+- **Entity** — qué se vio afectado (problema, agente, aprobación)
+- **Details** — especificidades del cambio (valores antiguos y nuevos)
+- **Timestamp** — cuándo sucedió
 
-## Using Activity for Debugging
+## Uso de Actividad para Depuración
 
-When something goes wrong, the activity log is your first stop:
+Cuando algo sale mal, el registro de actividad es tu primer parada:
 
-1. Find the agent or task in question
-2. Filter the activity log to that entity
-3. Walk through the timeline to understand what happened
-4. Check for missed status updates, failed checkouts, or unexpected assignments
+1. Encuentra el agente o tarea en cuestión
+2. Filtra el registro de actividad a esa entidad
+3. Recorre la línea de tiempo para entender qué pasó
+4. Verifica actualizaciones de estado perdidas, checkouts fallidos o asignaciones inesperadas

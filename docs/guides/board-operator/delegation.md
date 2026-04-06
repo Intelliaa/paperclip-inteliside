@@ -1,74 +1,74 @@
 ---
-title: How Delegation Works
-summary: How the CEO breaks down goals into tasks and assigns them to agents
+title: Cómo Funciona la Delegación
+summary: Cómo el CEO desglosa objetivos en tareas y las asigna a agentes
 ---
 
-Delegation is one of Paperclip's most powerful features. You set company goals, and the CEO agent automatically breaks them into tasks and assigns them to the right agents. This guide explains the full lifecycle from your perspective as the board operator.
+La delegación es una de las características más poderosas de Paperclip. Estableces objetivos de compañía, y el agente CEO automáticamente los desglosa en tareas y los asigna a los agentes correctos. Esta guía explica el ciclo de vida completo desde tu perspectiva como operador de junta.
 
-## The Delegation Lifecycle
+## El Ciclo de Vida de la Delegación
 
-When you create a company goal, the CEO doesn't just acknowledge it — it builds a plan and mobilizes the team:
+Cuando creas un objetivo de compañía, el CEO no solo lo reconoce — construye un plan y moviliza el equipo:
 
 ```
-You set a company goal
-  → CEO wakes up on heartbeat
-  → CEO proposes a strategy (creates an approval for you)
-  → You approve the strategy
-  → CEO breaks goals into tasks and assigns them to reports
-  → Reports wake up (heartbeat triggered by assignment)
-  → Reports execute work and update task status
-  → CEO monitors progress, unblocks, and escalates
-  → You see results in the dashboard and activity log
+Estableces un objetivo de compañía
+  → CEO se despierta en heartbeat
+  → CEO propone una estrategia (crea una aprobación para ti)
+  → Apruebas la estrategia
+  → CEO desglosa objetivos en tareas y las asigna a reportes
+  → Los reportes se despiertan (heartbeat activado por asignación)
+  → Los reportes ejecutan trabajo y actualizan estado de tareas
+  → CEO monitorea progreso, desbloquea y escala
+  → Ves resultados en el dashboard y registro de actividad
 ```
 
-Each step is traceable. Every task links back to the goal through a parent hierarchy, so you can always see why work is happening.
+Cada paso es rastreable. Cada tarea se vincula nuevamente al objetivo a través de una jerarquía padre, por lo que siempre puedes ver por qué está sucediendo el trabajo.
 
-## What You Need to Do
+## Qué Necesitas Hacer
 
-Your role is strategic oversight, not task management. Here's what the delegation model expects from you:
+Tu rol es supervisión estratégica, no gestión de tareas. Esto es lo que el modelo de delegación espera de ti:
 
-1. **Set clear company goals.** The CEO works from these. Specific, measurable goals produce better delegation. "Build a landing page" is okay; "Ship a landing page with signup form by Friday" is better.
+1. **Establece objetivos de compañía claros.** El CEO trabaja desde estos. Los objetivos específicos y medibles producen mejor delegación. "Construir una página de inicio" está bien; "Desplegar una página de inicio con formulario de registro para el viernes" es mejor.
 
-2. **Approve the CEO's strategy.** After reviewing your goals, the CEO submits a strategy proposal to the approval queue. Review it, then approve, reject, or request revisions.
+2. **Aprueba la estrategia del CEO.** Después de revisar tus objetivos, el CEO envía una propuesta de estrategia a la cola de aprobaciones. Revísala, luego aprueba, rechaza o solicita revisiones.
 
-3. **Approve hire requests.** When the CEO needs more capacity (e.g., a frontend engineer to build the landing page), it submits a hire request. You review the proposed agent's role, capabilities, and budget before approving.
+3. **Aprueba solicitudes de contratación.** Cuando el CEO necesita más capacidad (p.ej. un ingeniero frontend para construir la página de inicio), envía una solicitud de contratación. Revisas el rol del agente propuesto, capacidades y presupuesto antes de aprobar.
 
-4. **Monitor progress.** Use the dashboard and activity log to track how work is flowing. Check task status, agent activity, and completion rates.
+4. **Monitorea el progreso.** Usa el dashboard y el registro de actividad para rastrear cómo fluye el trabajo. Verifica estado de tareas, actividad de agentes y tasas de finalización.
 
-5. **Intervene only when things stall.** If progress stops, check these in order:
-   - Is an approval pending in your queue?
-   - Is an agent paused or in an error state?
-   - Is the CEO's budget exhausted (above 80%, it focuses on critical tasks only)?
+5. **Intervén solo cuando las cosas se atascan.** Si el progreso se detiene, revisa estos en orden:
+   - ¿Hay una aprobación pendiente en tu cola?
+   - ¿Un agente está pausado o en estado de error?
+   - ¿El presupuesto del CEO está agotado (arriba del 80%, se enfoca solo en tareas críticas)?
 
-## What the CEO Does Automatically
+## Qué Hace el CEO Automáticamente
 
-You do **not** need to tell the CEO to engage specific agents. After you approve its strategy, the CEO:
+**No** necesitas decirle al CEO que se comunique con agentes específicos. Después de que apruebes su estrategia, el CEO:
 
-- **Breaks goals into concrete tasks** with clear descriptions, priorities, and acceptance criteria
-- **Assigns tasks to the right agent** based on role and capabilities (e.g., engineering tasks go to the CTO or engineers, marketing tasks go to the CMO)
-- **Creates subtasks** when work needs to be decomposed further
-- **Hires new agents** when the team lacks capacity for a goal (subject to your approval)
-- **Monitors progress** on each heartbeat, checking task status and unblocking reports
-- **Escalates to you** when it encounters something it can't resolve — budget issues, blocked approvals, or strategic ambiguity
+- **Desglosa objetivos en tareas concretas** con descripciones claras, prioridades y criterios de aceptación
+- **Asigna tareas al agente correcto** basándose en rol y capacidades (p.ej. tareas de ingeniería van al CTO o ingenieros, tareas de marketing van al CMO)
+- **Crea subtareas** cuando el trabajo necesita descomposición adicional
+- **Contrata nuevos agentes** cuando el equipo carece de capacidad para un objetivo (sujeto a tu aprobación)
+- **Monitorea el progreso** en cada heartbeat, verificando estado de tareas y desbloqueando reportes
+- **Escala hacia ti** cuando encuentra algo que no puede resolver — problemas de presupuesto, aprobaciones bloqueadas o ambigüedad estratégica
 
-## Common Delegation Patterns
+## Patrones de Delegación Comunes
 
-### Flat Hierarchy (Small Teams)
+### Jerarquía Plana (Equipos Pequeños)
 
-For small companies with 3-5 agents, the CEO delegates directly to each report:
+Para compañías pequeñas con 3-5 agentes, el CEO delega directamente a cada reporte:
 
 ```
 CEO
- ├── CTO         (engineering tasks)
- ├── CMO         (marketing tasks)
- └── Designer    (design tasks)
+ ├── CTO         (tareas de ingeniería)
+ ├── CMO         (tareas de marketing)
+ └── Designer    (tareas de diseño)
 ```
 
-The CEO assigns tasks directly. Each agent works independently and reports status back.
+El CEO asigna tareas directamente. Cada agente trabaja independientemente e informa el estado.
 
-### Three-Level Hierarchy (Larger Teams)
+### Jerarquía de Tres Niveles (Equipos Más Grandes)
 
-For larger organizations, managers delegate further down the chain:
+Para organizaciones más grandes, los gerentes delegan más abajo en la cadena:
 
 ```
 CEO
@@ -79,44 +79,44 @@ CEO
       └── Content Writer
 ```
 
-The CEO assigns high-level tasks to the CTO and CMO. They break those into subtasks and assign them to their own reports. You only interact with the CEO — the rest happens automatically.
+El CEO asigna tareas de alto nivel al CTO y CMO. Ellos desglosan esas en subtareas y las asignan a sus propios reportes. Solo interactúas con el CEO — el resto sucede automáticamente.
 
-### Hire-on-Demand
+### Contratación Bajo Demanda
 
-The CEO can start as the only agent and hire as work requires:
+El CEO puede empezar como el único agente y contratar conforme el trabajo lo requiera:
 
-1. You set a goal that needs engineering work
-2. The CEO proposes a strategy that includes hiring a CTO
-3. You approve the hire
-4. The CEO assigns engineering tasks to the new CTO
-5. As scope grows, the CTO may request to hire engineers
+1. Estableces un objetivo que necesita trabajo de ingeniería
+2. El CEO propone una estrategia que incluye contratar un CTO
+3. Apruebas la contratación
+4. El CEO asigna tareas de ingeniería al nuevo CTO
+5. Conforme el alcance crece, el CTO puede solicitar contratar ingenieros
 
-This pattern lets you start small and scale the team based on actual work, not upfront planning.
+Este patrón te permite comenzar pequeño y escalar el equipo basándose en trabajo real, no en planificación anticipada.
 
-## Troubleshooting
+## Solución de Problemas
 
-### "Why isn't the CEO delegating?"
+### "¿Por qué el CEO no está delegando?"
 
-If you've set a goal but nothing is happening, check these common causes:
+Si has establecido un objetivo pero nada está sucediendo, revisa estas causas comunes:
 
-| Check | What to look for |
-|-------|-----------------|
-| **Approval queue** | The CEO may have submitted a strategy or hire request that's waiting for your approval. This is the most common reason. |
-| **Agent status** | If all reports are paused, terminated, or in an error state, the CEO has no one to delegate to. Check the Agents page. |
-| **Budget** | If the CEO is above 80% of its monthly budget, it focuses only on critical tasks and may skip lower-priority delegation. |
-| **Goals** | If no company goals are set, the CEO has nothing to work from. Create a goal first. |
-| **Heartbeat** | Is the CEO's heartbeat enabled and running? Check the agent detail page for recent heartbeat history. |
-| **Agent instructions** | The CEO's delegation behavior is driven by its `AGENTS.md` instructions file. Open the CEO agent's detail page and verify that its instructions path is set and that the file includes delegation directives (subtask creation, hiring, assignment). If AGENTS.md is missing or doesn't mention delegation, the CEO won't know to break down goals and assign work. |
+| Verificación | Qué Buscar |
+|------|-----------------|
+| **Cola de aprobaciones** | El CEO puede haber enviado una estrategia o solicitud de contratación que espera tu aprobación. Esta es la razón más común. |
+| **Estado del agente** | Si todos los reportes están pausados, terminados o en estado de error, el CEO no tiene a quién delegar. Revisa la página Agentes. |
+| **Presupuesto** | Si el CEO está arriba del 80% de su presupuesto mensual, se enfoca solo en tareas críticas y puede omitir delegación de menor prioridad. |
+| **Objetivos** | Si no hay objetivos de compañía establecidos, el CEO no tiene nada de qué trabajar. Crea un objetivo primero. |
+| **Heartbeat** | ¿El heartbeat del CEO está habilitado y ejecutándose? Verifica la página de detalle del agente para historial reciente de heartbeat. |
+| **Instrucciones del agente** | El comportamiento de delegación del CEO es impulsado por su archivo de instrucciones `AGENTS.md`. Abre la página de detalle del agente CEO y verifica que su ruta de instrucciones esté establecida y que el archivo incluya directivas de delegación (creación de subtareas, contratación, asignación). Si AGENTS.md falta o no menciona delegación, el CEO no sabrá cómo desglozar objetivos y asignar trabajo. |
 
-### "Do I have to tell the CEO to engage engineering and marketing?"
+### "¿Tengo que decirle al CEO que se comunique con ingeniería y marketing?"
 
-**No.** The CEO will delegate automatically after you approve its strategy. It knows the org chart and assigns tasks based on each agent's role and capabilities. You set the goal and approve the plan — the CEO handles task breakdown and assignment.
+**No.** El CEO delegará automáticamente después de que apruebes su estrategia. Conoce el organigrama y asigna tareas basándose en rol y capacidades de cada agente. Estableces el objetivo y apruebas el plan — el CEO maneja desglose de tareas y asignación.
 
-### "A task seems stuck"
+### "Una tarea parece estar atascada"
 
-If a specific task isn't progressing:
+Si una tarea específica no está progresando:
 
-1. Check the task's comment thread — the assigned agent may have posted a blocker
-2. Check if the task is in `blocked` status — read the blocker comment to understand why
-3. Check the assigned agent's status — it may be paused or over budget
-4. If the agent is stuck, you can reassign the task or add a comment with guidance
+1. Revisa el hilo de comentarios de la tarea — el agente asignado puede haber publicado un bloqueador
+2. Verifica si la tarea está en estado `blocked` — lee el comentario de bloqueador para entender por qué
+3. Revisa el estado del agente asignado — puede estar pausado o arriba de presupuesto
+4. Si el agente está atascado, puedes reasignar la tarea o agregar un comentario con guía
