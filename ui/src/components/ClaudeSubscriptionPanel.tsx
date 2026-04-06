@@ -63,7 +63,7 @@ export function ClaudeSubscriptionPanel({
       <div className="flex items-start justify-between gap-3 border-b border-border pb-3">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Anthropic subscription
+            Anthropic Subscription
           </div>
           <div className="mt-1 text-sm text-muted-foreground">
             Live Claude quota windows.

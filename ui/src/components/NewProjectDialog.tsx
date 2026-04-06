@@ -40,7 +40,7 @@ import { ChoosePathButton } from "./PathInstructionsModal";
 const projectStatuses = [
   { value: "backlog", label: "Backlog" },
   { value: "planned", label: "Planned" },
-  { value: "in_progress", label: "In Progress" },
+  { value: "in_progress", label: "In progress" },
   { value: "completed", label: "Completed" },
   { value: "cancelled", label: "Cancelled" },
 ];
@@ -156,7 +156,7 @@ export function NewProjectDialog() {
       return;
     }
     if (repoUrl && !looksLikeRepoUrl(repoUrl)) {
-      setWorkspaceError("Repo must use a valid GitHub or GitHub Enterprise repo URL.");
+      setWorkspaceError("Repository must use a valid GitHub or GitHub Enterprise URL.");
       return;
     }
 
@@ -409,7 +409,7 @@ export function NewProjectDialog() {
               ))}
               {selectedGoals.length > 0 && availableGoals.length === 0 && (
                 <div className="px-2 py-1.5 text-xs text-muted-foreground">
-                  All goals already selected.
+                  All goals are already selected.
                 </div>
               )}
             </PopoverContent>
@@ -431,7 +431,7 @@ export function NewProjectDialog() {
         {/* Footer */}
         <div className="flex items-center justify-between px-4 py-2.5 border-t border-border">
           {createProject.isError ? (
-            <p className="text-xs text-destructive">Failed to create project.</p>
+            <p className="text-xs text-destructive">Error creating project.</p>
           ) : (
             <span />
           )}

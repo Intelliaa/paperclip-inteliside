@@ -25,3 +25,5 @@ export function EmptyState({ icon: Icon, message, action, onAction }: EmptyState
     </div>
   );
 }
+
+// No strings to translate - all user-visible text comes from props
