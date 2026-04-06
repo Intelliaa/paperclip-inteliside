@@ -178,10 +178,10 @@ export function DesignGuide() {
   const [selectValue, setSelectValue] = useState("in_progress");
   const [menuChecked, setMenuChecked] = useState(true);
   const [collapsibleOpen, setCollapsibleOpen] = useState(false);
-  const [inlineText, setInlineText] = useState("Click to edit this text");
-  const [inlineTitle, setInlineTitle] = useState("Editable Title");
+  const [inlineText, setInlineText] = useState("Haz clic para editar este texto");
+  const [inlineTitle, setInlineTitle] = useState("Título editable");
   const [inlineDesc, setInlineDesc] = useState(
-    "This is an editable description. Click to edit it — the textarea auto-sizes to fit the content without layout shift."
+    "Esta es una descripción editable. Haz clic para editarla — el área de texto se ajusta automáticamente al contenido sin desplazamiento de diseño."
   );
   const [filters, setFilters] = useState<FilterValue[]>([
     { key: "status", label: "Status", value: "Active" },
@@ -192,21 +192,21 @@ export function DesignGuide() {
     <div className="space-y-10 max-w-4xl">
       {/* Page header */}
       <div>
-        <h2 className="text-xl font-bold">Design Guide</h2>
+        <h2 className="text-xl font-bold">Guía de diseño</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Every component, style, and pattern used across Paperclip.
+          Cada componente, estilo y patrón utilizado en Paperclip.
         </p>
       </div>
 
       {/* ============================================================ */}
       {/*  COVERAGE                                                     */}
       {/* ============================================================ */}
-      <Section title="Component Coverage">
+      <Section title="Cobertura de componentes">
         <p className="text-sm text-muted-foreground">
-          This page should be updated when new UI primitives or app-level patterns ship.
+          Esta página debe actualizarse cuando se publiquen nuevos primitivos de UI o patrones a nivel de aplicación.
         </p>
         <div className="grid gap-6 md:grid-cols-2">
-          <SubSection title="UI primitives">
+          <SubSection title="Primitivos de UI">
             <div className="flex flex-wrap gap-2">
               {[
                 "avatar", "badge", "breadcrumb", "button", "card", "checkbox", "collapsible",
@@ -219,7 +219,7 @@ export function DesignGuide() {
               ))}
             </div>
           </SubSection>
-          <SubSection title="App components">
+          <SubSection title="Componentes de aplicación">
             <div className="flex flex-wrap gap-2">
               {[
                 "StatusBadge", "StatusIcon", "PriorityIcon", "EntityRow", "EmptyState", "MetricCard",
@@ -238,38 +238,38 @@ export function DesignGuide() {
       {/* ============================================================ */}
       {/*  COLORS                                                       */}
       {/* ============================================================ */}
-      <Section title="Colors">
-        <SubSection title="Core">
+      <Section title="Colores">
+        <SubSection title="Principal">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Swatch name="Background" cssVar="--background" />
-            <Swatch name="Foreground" cssVar="--foreground" />
-            <Swatch name="Card" cssVar="--card" />
-            <Swatch name="Primary" cssVar="--primary" />
-            <Swatch name="Primary foreground" cssVar="--primary-foreground" />
-            <Swatch name="Secondary" cssVar="--secondary" />
-            <Swatch name="Muted" cssVar="--muted" />
-            <Swatch name="Muted foreground" cssVar="--muted-foreground" />
-            <Swatch name="Accent" cssVar="--accent" />
-            <Swatch name="Destructive" cssVar="--destructive" />
-            <Swatch name="Border" cssVar="--border" />
-            <Swatch name="Ring" cssVar="--ring" />
+            <Swatch name="Fondo" cssVar="--background" />
+            <Swatch name="Primer plano" cssVar="--foreground" />
+            <Swatch name="Tarjeta" cssVar="--card" />
+            <Swatch name="Primario" cssVar="--primary" />
+            <Swatch name="Primario primer plano" cssVar="--primary-foreground" />
+            <Swatch name="Secundario" cssVar="--secondary" />
+            <Swatch name="Atenuado" cssVar="--muted" />
+            <Swatch name="Atenuado primer plano" cssVar="--muted-foreground" />
+            <Swatch name="Acento" cssVar="--accent" />
+            <Swatch name="Destructivo" cssVar="--destructive" />
+            <Swatch name="Borde" cssVar="--border" />
+            <Swatch name="Anillo" cssVar="--ring" />
           </div>
         </SubSection>
 
-        <SubSection title="Sidebar">
+        <SubSection title="Barra lateral">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Swatch name="Sidebar" cssVar="--sidebar" />
-            <Swatch name="Sidebar border" cssVar="--sidebar-border" />
+            <Swatch name="Barra lateral" cssVar="--sidebar" />
+            <Swatch name="Borde de barra lateral" cssVar="--sidebar-border" />
           </div>
         </SubSection>
 
-        <SubSection title="Chart">
+        <SubSection title="Gráfico">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Swatch name="Chart 1" cssVar="--chart-1" />
-            <Swatch name="Chart 2" cssVar="--chart-2" />
-            <Swatch name="Chart 3" cssVar="--chart-3" />
-            <Swatch name="Chart 4" cssVar="--chart-4" />
-            <Swatch name="Chart 5" cssVar="--chart-5" />
+            <Swatch name="Gráfico 1" cssVar="--chart-1" />
+            <Swatch name="Gráfico 2" cssVar="--chart-2" />
+            <Swatch name="Gráfico 3" cssVar="--chart-3" />
+            <Swatch name="Gráfico 4" cssVar="--chart-4" />
+            <Swatch name="Gráfico 5" cssVar="--chart-5" />
           </div>
         </SubSection>
       </Section>
@@ -277,34 +277,34 @@ export function DesignGuide() {
       {/* ============================================================ */}
       {/*  TYPOGRAPHY                                                   */}
       {/* ============================================================ */}
-      <Section title="Typography">
+      <Section title="Tipografía">
         <div className="space-y-3">
-          <h2 className="text-xl font-bold">Page Title — text-xl font-bold</h2>
-          <h2 className="text-lg font-semibold">Section Title — text-lg font-semibold</h2>
+          <h2 className="text-xl font-bold">Título de página — text-xl font-bold</h2>
+          <h2 className="text-lg font-semibold">Título de sección — text-lg font-semibold</h2>
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-            Section Heading — text-sm font-semibold uppercase tracking-wide
+            Encabezado de sección — text-sm font-semibold uppercase tracking-wide
           </h3>
-          <p className="text-sm font-medium">Card Title — text-sm font-medium</p>
-          <p className="text-sm font-semibold">Card Title Alt — text-sm font-semibold</p>
-          <p className="text-sm">Body text — text-sm</p>
+          <p className="text-sm font-medium">Título de tarjeta — text-sm font-medium</p>
+          <p className="text-sm font-semibold">Título de tarjeta alt — text-sm font-semibold</p>
+          <p className="text-sm">Texto del cuerpo — text-sm</p>
           <p className="text-sm text-muted-foreground">
-            Muted description — text-sm text-muted-foreground
+            Descripción atenuada — text-sm text-muted-foreground
           </p>
           <p className="text-xs text-muted-foreground">
-            Tiny label — text-xs text-muted-foreground
+            Etiqueta pequeña — text-xs text-muted-foreground
           </p>
           <p className="text-sm font-mono text-muted-foreground">
-            Mono identifier — text-sm font-mono text-muted-foreground
+            Identificador mono — text-sm font-mono text-muted-foreground
           </p>
-          <p className="text-2xl font-bold">Large stat — text-2xl font-bold</p>
-          <p className="font-mono text-xs">Log/code text — font-mono text-xs</p>
+          <p className="text-2xl font-bold">Estadística grande — text-2xl font-bold</p>
+          <p className="font-mono text-xs">Texto de log/código — font-mono text-xs</p>
         </div>
       </Section>
 
       {/* ============================================================ */}
       {/*  SPACING & RADIUS                                             */}
       {/* ============================================================ */}
-      <Section title="Radius">
+      <Section title="Radio de borde">
         <div className="flex items-end gap-4 flex-wrap">
           {[
             ["sm", "var(--radius-sm)"],
@@ -327,8 +327,8 @@ export function DesignGuide() {
       {/* ============================================================ */}
       {/*  BUTTONS                                                      */}
       {/* ============================================================ */}
-      <Section title="Buttons">
-        <SubSection title="Variants">
+      <Section title="Botones">
+        <SubSection title="Variantes">
           <div className="flex items-center gap-2 flex-wrap">
             <Button variant="default">Default</Button>
             <Button variant="secondary">Secondary</Button>
@@ -339,16 +339,16 @@ export function DesignGuide() {
           </div>
         </SubSection>
 
-        <SubSection title="Sizes">
+        <SubSection title="Tamaños">
           <div className="flex items-center gap-2 flex-wrap">
-            <Button size="xs">Extra Small</Button>
-            <Button size="sm">Small</Button>
-            <Button size="default">Default</Button>
-            <Button size="lg">Large</Button>
+            <Button size="xs">Extra pequeño</Button>
+            <Button size="sm">Pequeño</Button>
+            <Button size="default">Predeterminado</Button>
+            <Button size="lg">Grande</Button>
           </div>
         </SubSection>
 
-        <SubSection title="Icon buttons">
+        <SubSection title="Botones de ícono">
           <div className="flex items-center gap-2 flex-wrap">
             <Button variant="ghost" size="icon-xs"><Search /></Button>
             <Button variant="ghost" size="icon-sm"><Search /></Button>
@@ -357,12 +357,12 @@ export function DesignGuide() {
           </div>
         </SubSection>
 
-        <SubSection title="With icons">
+        <SubSection title="Con íconos">
           <div className="flex items-center gap-2 flex-wrap">
-            <Button><Plus /> New Issue</Button>
-            <Button variant="outline"><Upload /> Upload</Button>
-            <Button variant="destructive"><Trash2 /> Delete</Button>
-            <Button size="sm"><Plus /> Add</Button>
+            <Button><Plus /> Nueva tarea</Button>
+            <Button variant="outline"><Upload /> Subir</Button>
+            <Button variant="destructive"><Trash2 /> Eliminar</Button>
+            <Button size="sm"><Plus /> Agregar</Button>
           </div>
         </SubSection>
 

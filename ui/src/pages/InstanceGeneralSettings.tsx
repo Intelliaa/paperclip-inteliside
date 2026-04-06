@@ -23,13 +23,13 @@ export function InstanceGeneralSettings() {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
     },
     onError: (error) => {
-      setActionError(error instanceof Error ? error.message : "Failed to sign out.");
+      setActionError(error instanceof Error ? error.message : "Error al cerrar sesión.");
     },
   });
 
   useEffect(() => {
     setBreadcrumbs([
-      { label: "Instance Settings" },
+      { label: "Configuración de instancia" },
       { label: "General" },
     ]);
   }, [setBreadcrumbs]);
@@ -46,12 +46,12 @@ export function InstanceGeneralSettings() {
       await queryClient.invalidateQueries({ queryKey: queryKeys.instance.generalSettings });
     },
     onError: (error) => {
-      setActionError(error instanceof Error ? error.message : "Failed to update general settings.");
+      setActionError(error instanceof Error ? error.message : "Error al actualizar la configuración general.");
     },
   });
 
   if (generalQuery.isLoading) {
-    return <div className="text-sm text-muted-foreground">Loading general settings...</div>;
+    return <div className="text-sm text-muted-foreground">Cargando configuración general...</div>;
   }
 
   if (generalQuery.error) {
@@ -59,7 +59,7 @@ export function InstanceGeneralSettings() {
       <div className="text-sm text-destructive">
         {generalQuery.error instanceof Error
           ? generalQuery.error.message
-          : "Failed to load general settings."}
+          : "Error al cargar la configuración general."}
       </div>
     );
   }
@@ -76,7 +76,7 @@ export function InstanceGeneralSettings() {
           <h1 className="text-lg font-semibold">General</h1>
         </div>
         <p className="text-sm text-muted-foreground">
-          Configure instance-wide defaults that affect how operator-visible logs are displayed.
+          Configura valores predeterminados a nivel de instancia que afectan cómo se muestran los registros visibles para el operador.
         </p>
       </div>
 
@@ -89,18 +89,16 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Censor username in logs</h2>
+            <h2 className="text-sm font-semibold">Censurar nombre de usuario en registros</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Hide the username segment in home-directory paths and similar operator-visible log output. Standalone
-              username mentions outside of paths are not yet masked in the live transcript view. This is off by
-              default.
+              Ocultar el segmento de nombre de usuario en rutas del directorio home y salida de registros similar visible para el operador. Las menciones de nombre de usuario independientes fuera de rutas aún no se ocultan en la vista de transcripción en vivo. Esto está desactivado por defecto.
             </p>
           </div>
           <ToggleSwitch
             checked={censorUsernameInLogs}
             onCheckedChange={() => updateGeneralMutation.mutate({ censorUsernameInLogs: !censorUsernameInLogs })}
             disabled={updateGeneralMutation.isPending}
-            aria-label="Toggle username log censoring"
+            aria-label="Alternar censura de nombre de usuario en registros"
           />
         </div>
       </section>
@@ -108,17 +106,16 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Keyboard shortcuts</h2>
+            <h2 className="text-sm font-semibold">Atajos de teclado</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Enable app keyboard shortcuts, including inbox navigation and global shortcuts like creating issues or
-              toggling panels. This is off by default.
+              Habilitar atajos de teclado de la aplicación, incluyendo navegación en la bandeja de entrada y atajos globales como crear tareas o alternar paneles. Esto está desactivado por defecto.
             </p>
           </div>
           <ToggleSwitch
             checked={keyboardShortcuts}
             onCheckedChange={() => updateGeneralMutation.mutate({ keyboardShortcuts: !keyboardShortcuts })}
             disabled={updateGeneralMutation.isPending}
-            aria-label="Toggle keyboard shortcuts"
+            aria-label="Alternar atajos de teclado"
           />
         </div>
       </section>
@@ -126,10 +123,10 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">AI feedback sharing</h2>
+            <h2 className="text-sm font-semibold">Compartir retroalimentación de IA</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Control whether thumbs up and thumbs down votes can send the voted AI output to
-              Paperclip Labs. Votes are always saved locally.
+              Controla si los votos de pulgar arriba y pulgar abajo pueden enviar la salida de IA votada a
+              Paperclip Labs. Los votos siempre se guardan localmente.
             </p>
             {FEEDBACK_TERMS_URL ? (
               <a
@@ -138,27 +135,27 @@ export function InstanceGeneralSettings() {
                 rel="noreferrer"
                 className="inline-flex text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
               >
-                Read our terms of service
+                Leer nuestros términos de servicio
               </a>
             ) : null}
           </div>
           {feedbackDataSharingPreference === "prompt" ? (
             <div className="rounded-lg border border-border/70 bg-accent/20 px-3 py-2 text-sm text-muted-foreground">
-              No default is saved yet. The next thumbs up or thumbs down choice will ask once and
-              then save the answer here.
+              Aún no se ha guardado un valor predeterminado. La próxima elección de pulgar arriba o pulgar abajo preguntará una vez y
+              luego guardará la respuesta aquí.
             </div>
           ) : null}
           <div className="flex flex-wrap gap-2">
             {[
               {
                 value: "allowed",
-                label: "Always allow",
-                description: "Share voted AI outputs automatically.",
+                label: "Siempre permitir",
+                description: "Compartir salidas de IA votadas automáticamente.",
               },
               {
                 value: "not_allowed",
-                label: "Don't allow",
-                description: "Keep voted AI outputs local only.",
+                label: "No permitir",
+                description: "Mantener las salidas de IA votadas solo de forma local.",
               },
             ].map((option) => {
               const active = feedbackDataSharingPreference === option.value;
@@ -190,11 +187,11 @@ export function InstanceGeneralSettings() {
             })}
           </div>
           <p className="text-xs text-muted-foreground">
-            To retest the first-use prompt in local dev, remove the{" "}
-            <code>feedbackDataSharingPreference</code> key from the{" "}
-            <code>instance_settings.general</code> JSON row for this instance, or set it back to{" "}
-            <code>"prompt"</code>. Unset and <code>"prompt"</code> both mean no default has been
-            chosen yet.
+            Para volver a probar el prompt de primer uso en desarrollo local, elimina la clave{" "}
+            <code>feedbackDataSharingPreference</code> de la fila JSON de{" "}
+            <code>instance_settings.general</code> para esta instancia, o restablécela a{" "}
+            <code>"prompt"</code>. Sin valor y <code>"prompt"</code> ambos significan que aún no se ha
+            elegido un valor predeterminado.
           </p>
         </div>
       </section>
@@ -202,9 +199,9 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Sign out</h2>
+            <h2 className="text-sm font-semibold">Cerrar sesión</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Sign out of this Paperclip instance. You will be redirected to the login page.
+              Cerrar sesión de esta instancia de Paperclip. Serás redirigido a la página de inicio de sesión.
             </p>
           </div>
           <Button
@@ -214,7 +211,7 @@ export function InstanceGeneralSettings() {
             onClick={() => signOutMutation.mutate()}
           >
             <LogOut className="size-4" />
-            {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+            {signOutMutation.isPending ? "Cerrando sesión..." : "Cerrar sesión"}
           </Button>
         </div>
       </section>
