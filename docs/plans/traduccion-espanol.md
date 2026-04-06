@@ -1,8 +1,8 @@
 # Plan de Traducción al Español
 
 **Rama:** `feat/traduccion-espanol`  
-**Fecha:** 2026-04-05  
-**Estado:** En progreso — Fases 1-4 completadas, Fase 5 en progreso (19/62 docs)
+**Fecha:** 2026-04-06  
+**Estado:** En progreso — Fases 1-4 completadas, Fase 5 en progreso (30/62 docs = 48%)
 
 ---
 
@@ -265,18 +265,18 @@ Prioridad media-baja. Documentación del proyecto para desarrolladores y operado
 - [x] `docs/adapters/http.md`
 - [x] `docs/adapters/process.md`
 
-#### `docs/guides/board-operator/` (12 archivos)
-- [ ] `docs/guides/board-operator/activity-log.md`
-- [ ] `docs/guides/board-operator/approvals.md`
-- [ ] `docs/guides/board-operator/costs-and-budgets.md`
-- [ ] `docs/guides/board-operator/creating-a-company.md`
-- [ ] `docs/guides/board-operator/dashboard.md`
-- [ ] `docs/guides/board-operator/delegation.md`
-- [ ] `docs/guides/board-operator/execution-workspaces-and-runtime-services.md`
-- [ ] `docs/guides/board-operator/importing-and-exporting.md`
-- [ ] `docs/guides/board-operator/managing-agents.md`
-- [ ] `docs/guides/board-operator/managing-tasks.md`
-- [ ] `docs/guides/board-operator/org-structure.md`
+#### `docs/guides/board-operator/` (11 archivos) ✅
+- [x] `docs/guides/board-operator/activity-log.md`
+- [x] `docs/guides/board-operator/approvals.md`
+- [x] `docs/guides/board-operator/costs-and-budgets.md`
+- [x] `docs/guides/board-operator/creating-a-company.md`
+- [x] `docs/guides/board-operator/dashboard.md`
+- [x] `docs/guides/board-operator/delegation.md`
+- [x] `docs/guides/board-operator/execution-workspaces-and-runtime-services.md`
+- [x] `docs/guides/board-operator/importing-and-exporting.md`
+- [x] `docs/guides/board-operator/managing-agents.md`
+- [x] `docs/guides/board-operator/managing-tasks.md`
+- [x] `docs/guides/board-operator/org-structure.md`
 
 #### `docs/guides/agent-developer/` (7 archivos)
 - [ ] `docs/guides/agent-developer/comments-and-communication.md`
