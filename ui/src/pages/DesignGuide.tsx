@@ -194,7 +194,7 @@ export function DesignGuide() {
       <div>
         <h2 className="text-xl font-bold">Guía de diseño</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Cada componente, estilo y patrón utilizado en Paperclip.
+          Cada componente, estilo y patrón utilizado en TaskOrg.
         </p>
       </div>
 
@@ -736,7 +736,7 @@ export function DesignGuide() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="#">Paperclip App</BreadcrumbLink>
+              <BreadcrumbLink href="#">TaskOrg App</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

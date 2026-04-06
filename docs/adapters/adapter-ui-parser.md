@@ -1,9 +1,9 @@
 ---
 title: Contrato de Adapter UI Parser
-summary: Envía un parser personalizado de log de ejecución para que la UI de Paperclip renderice la salida de tu adapter correctamente
+summary: Envía un parser personalizado de log de ejecución para que la UI de TaskOrg renderice la salida de tu adapter correctamente
 ---
 
-Cuando Paperclip ejecuta un agente, stdout se transmite a la UI en tiempo real. La UI necesita un **parser** para convertir líneas de stdout crudo en entradas de transcripción estructuradas (llamadas de herramienta, resultados de herramientas, mensajes del asistente, eventos del sistema). Sin un parser personalizado, la UI recurre a un parser shell genérico que trata cada línea no sistema como salida `assistant` — los comandos de herramienta se filtran como texto plano, las duraciones se pierden, y los errores son invisibles.
+Cuando TaskOrg ejecuta un agente, stdout se transmite a la UI en tiempo real. La UI necesita un **parser** para convertir líneas de stdout crudo en entradas de transcripción estructuradas (llamadas de herramienta, resultados de herramientas, mensajes del asistente, eventos del sistema). Sin un parser personalizado, la UI recurre a un parser shell genérico que trata cada línea no sistema como salida `assistant` — los comandos de herramienta se filtran como texto plano, las duraciones se pierden, y los errores son invisibles.
 
 ## The Problem
 
@@ -41,13 +41,13 @@ With a parser, the UI renders:
                                                        │ plugin-loader reads at startup
                                                        ▼
 ┌──────────────────┐   GET /api/:type/ui-parser.js   ┌──────────────────┐
-│  Paperclip Server  │◄────────────────────────────────│  uiParserCache    │
+│  TaskOrg Server  │◄────────────────────────────────│  uiParserCache    │
 │  (in-memory)      │                                 └──────────────────┘
 └────────┬─────────┘
          │ serves JS to browser
          ▼
 ┌──────────────────┐   fetch() + eval   ┌──────────────────┐
-│  Paperclip UI     │─────────────────────→│  parseStdoutLine │
+│  TaskOrg UI     │─────────────────────→│  parseStdoutLine │
 │  (dynamic loader) │   registers parser  │  (per-adapter)   │
 └──────────────────┘                     └──────────────────┘
 ```
@@ -59,17 +59,17 @@ With a parser, the UI renders:
 
 ## Contract: package.json
 
-### 1. `paperclip.adapterUiParser` — contract version
+### 1. `taskorg.adapterUiParser` — contract version
 
 ```json
 {
-  "paperclip": {
+  "taskorg": {
     "adapterUiParser": "1.0.0"
   }
 }
 ```
 
-The Paperclip host checks this field. If the major version is unsupported, the host logs a warning and falls back to the generic parser instead of executing potentially incompatible code.
+The TaskOrg host checks this field. If the major version is unsupported, the host logs a warning and falls back to the generic parser instead of executing potentially incompatible code.
 
 | Host expects | Adapter declares | Result |
 |---|---|---|

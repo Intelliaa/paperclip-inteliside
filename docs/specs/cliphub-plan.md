@@ -1,18 +1,18 @@
-# ClipHub: Marketplace para Configuraciones de Equipos Paperclip
+# ClipHub: Marketplace para Configuraciones de Equipos TaskOrg
 
 > Nota de supersesión: este plan de marketplace predata la dirección de paquete markdown-first. Para el plan actual de formato de paquete e import/export rollout, ver `doc/plans/2026-03-13-company-import-export-v2.md` y `docs/companies/companies-spec.md`.
 
-> La "tienda de aplicaciones" para equipos de IA de compañía completa — configuraciones Paperclip pre-construidas, blueprints de agentes, skills, y plantillas de gobernanza que envían trabajo real desde el primer día.
+> La "tienda de aplicaciones" para equipos de IA de compañía completa — configuraciones TaskOrg pre-construidas, blueprints de agentes, skills, y plantillas de gobernanza que envían trabajo real desde el primer día.
 
 ## 1. Visión y Posicionamiento
 
-**ClipHub** vende **configuraciones de equipos completas** — organigramas, roles de agentes, workflows inter-agentes, reglas de gobernanza, y plantillas de proyectos — para compañías gestionadas por Paperclip.
+**ClipHub** vende **configuraciones de equipos completas** — organigramas, roles de agentes, workflows inter-agentes, reglas de gobernanza, y plantillas de proyectos — para compañías gestionadas por TaskOrg.
 
 | Dimensión | ClipHub |
 |---|---|
 | Unidad de venta | Blueprint de equipo (org multi-agente) |
 | Comprador | Fundador / líder de equipo girando una compañía IA |
-| Destino de instalación | Compañía Paperclip (agentes, proyectos, gobernanza) |
+| Destino de instalación | Compañía TaskOrg (agentes, proyectos, gobernanza) |
 | Propuesta de valor | "Salta diseño de org — obtén un equipo enviando en minutos" |
 | Rango de precio | $0–$499 por blueprint (+ add-ons individuales) |
 
@@ -22,7 +22,7 @@
 
 ### 2.1 Team Blueprints (producto primario)
 
-Una configuración completa de compañía Paperclip:
+Una configuración completa de compañía TaskOrg:
 
 - **Organigrama**: Agentes con roles, títulos, cadenas de reporteo, capacidades
 - **Configuraciones de agentes**: Tipo de adapter, modelo, plantillas de prompt, rutas de instrucciones
@@ -38,7 +38,7 @@ Una configuración completa de compañía Paperclip:
 
 ### 2.2 Agent Blueprints (agentes individuales dentro de contexto de equipo)
 
-Configuraciones de agente único diseñadas para enchufar en una org Paperclip:
+Configuraciones de agente único diseñadas para enchufar en una org TaskOrg:
 
 - Definición de rol, plantilla de prompt, configuración de adapter
 - Expectativas de cadena de reporteo (a quién reportan)
@@ -52,11 +52,11 @@ Configuraciones de agente único diseñadas para enchufar en una org Paperclip:
 
 ### 2.3 Skills (capacidades modulares)
 
-Archivos de skill portables que cualquier agente Paperclip puede usar:
+Archivos de skill portables que cualquier agente TaskOrg puede usar:
 
 - Archivos de skill markdown con instrucciones
 - Configuraciones de herramientas y scripts shell
-- Compatible con el sistema de carga de skill de Paperclip
+- Compatible con el sistema de carga de skill de TaskOrg
 
 **Ejemplos:**
 - "Git PR Workflow" — creación y revisión de PR estandarizada (Gratis)
@@ -113,7 +113,7 @@ interface Listing {
   // Compatibilidad
   compatibleAdapters: string[];    // ['claude_local', 'codex_local', ...]
   requiredModels: string[];        // ['claude-opus-4-6', 'claude-sonnet-4-6']
-  paperclipVersionMin: string;     // Versión mínima de Paperclip
+  taskorgVersionMin: string;     // Versión mínima de TaskOrg
 
   // Prueba social
   installCount: number;
@@ -218,7 +218,7 @@ interface Purchase {
   id: string;
   listingId: string;
   buyerUserId: string;
-  buyerCompanyId: string | null;    // Compañía Paperclip de destino
+  buyerCompanyId: string | null;    // Compañía TaskOrg de destino
   pricePaidCents: number;
   paymentIntentId: string | null;   // Stripe
   installedAt: string | null;       // Cuando fue desplegado a compañía
@@ -286,7 +286,7 @@ interface Review {
 | `PATCH` | `/api/listings/:id` | Actualizar listing |
 | `DELETE` | `/api/listings/:id` | Archivar listing |
 | `POST` | `/api/listings/:id/purchase` | Comprar listing (checkout de Stripe) |
-| `POST` | `/api/listings/:id/install` | Instalar en compañía Paperclip |
+| `POST` | `/api/listings/:id/install` | Instalar en compañía TaskOrg |
 | `GET` | `/api/listings/:id/reviews` | Obtener reseñas |
 | `POST` | `/api/listings/:id/reviews` | Enviar reseña |
 | `GET` | `/api/creators/:slug` | Perfil de creator |
@@ -306,14 +306,14 @@ Homepage → Explorar marketplace → Filtrar por tipo/categoría
   → Hacer clic en listing → Leer detalles, reseñas, vista previa de organigrama
   → Hacer clic en "Comprar" → Checkout de Stripe (o instalar gratis)
   → Post-compra: botón "Instalar en Compañía"
-  → Seleccionar compañía Paperclip de destino (o crear nueva)
-  → API de ClipHub llama API de Paperclip para:
+  → Seleccionar compañía TaskOrg de destino (o crear nueva)
+  → API de ClipHub llama API de TaskOrg para:
       1. Crear agentes con configuraciones del blueprint
       2. Configurar cadenas de reporteo
       3. Crear proyectos con configuraciones de workspace
       4. Aplicar reglas de gobernanza
       5. Desplegar archivos de skill a rutas de instrucción de agente
-  → Redirigir a dashboard de Paperclip con nuevo equipo corriendo
+  → Redirigir a dashboard de TaskOrg con nuevo equipo corriendo
 ```
 
 ### 5.2 Creator: Construir → Publicar → Ganar
@@ -331,11 +331,11 @@ Registrarse como creator → Conectar Stripe
   → Rastrear instalaciones, ingresos, reseñas en dashboard de creator
 ```
 
-### 5.3 Creator: Exportar desde Paperclip → Publicar
+### 5.3 Creator: Exportar desde TaskOrg → Publicar
 
 ```
-Compañía Paperclip corriendo → "Exportar como Blueprint" (CLI o UI)
-  → Paperclip exporta:
+Compañía TaskOrg corriendo → "Exportar como Blueprint" (CLI o UI)
+  → TaskOrg exporta:
       - Configuraciones de agentes (sanitizadas — sin secretos)
       - Organigrama / cadenas de reporteo
       - Reglas de gobernanza
@@ -351,7 +351,7 @@ Compañía Paperclip corriendo → "Exportar como Blueprint" (CLI o UI)
 
 ### 6.1 Lenguaje Visual
 
-- **Paleta de colores**: Tinta oscura primaria, fondos de arena cálida, color de acento para CTAs (azul/púrpura de marca Paperclip)
+- **Paleta de colores**: Tinta oscura primaria, fondos de arena cálida, color de acento para CTAs (azul/púrpura de marca TaskOrg)
 - **Tipografía**: Sans-serif limpio, jerarquía fuerte, monoespaciado para detalles técnicos
 - **Tarjetas**: Esquinas redondeadas, sombras sutiles, badges de precio claros
 - **Visuals de organigrama**: Árbol/gráfico interactivo mostrando relaciones de agentes en team blueprints
@@ -362,7 +362,7 @@ Compañía Paperclip corriendo → "Exportar como Blueprint" (CLI o UI)
 |---|---|
 | Tarjeta de producto | Mini-vista previa de organigrama + badge de conteo de agentes |
 | Página de detalle | Organigrama interactivo + desglose por agente |
-| Flujo de instalación | Deploy de un clic a compañía Paperclip |
+| Flujo de instalación | Deploy de un clic a compañía TaskOrg |
 | Prueba social | "X compañías ejecutando este blueprint" |
 | Vista previa | Sandbox de demo en vivo (objetivo stretch) |
 
@@ -409,7 +409,7 @@ Cuando un comprador hace clic en "Instalar en Compañía":
 ```
 POST /api/listings/:id/install
 {
-  "targetCompanyId": "uuid",         // Compañía Paperclip existente
+  "targetCompanyId": "uuid",         // Compañía TaskOrg existente
   "overrides": {                      // Personalización opcional
     "agentModel": "claude-sonnet-4-6", // Anular modelo predeterminado
     "budgetScale": 0.5,               // Escalar presupuestos
@@ -423,7 +423,7 @@ El manejador de instalación:
 1. Valida que el comprador posea la compra
 2. Valida acceso a compañía de destino
 3. Para cada agente en blueprint:
-   - `POST /api/companies/:id/agents` (si `paperclip-create-agent` lo soporta, o vía flujo de aprobación)
+   - `POST /api/companies/:id/agents` (si `taskorg-create-agent` lo soporta, o vía flujo de aprobación)
    - Establece configuración de adapter, plantilla de prompt, ruta de instrucciones
 4. Establece cadenas de reporteo
 5. Crea proyectos y workspaces
@@ -455,20 +455,20 @@ El manejador de instalación:
 
 ### 9.1 Stack
 
-- **Frontend**: Next.js (React), Tailwind CSS, mismo framework UI que Paperclip
-- **Backend**: API Node.js (o extender servidor Paperclip)
-- **Database**: Postgres (puede compartir DB de Paperclip o separada)
+- **Frontend**: Next.js (React), Tailwind CSS, mismo framework UI que TaskOrg
+- **Backend**: API Node.js (o extender servidor TaskOrg)
+- **Database**: Postgres (puede compartir DB de TaskOrg o separada)
 - **Payments**: Stripe Connect (modo marketplace)
 - **Storage**: S3/R2 para bundles de listing e imágenes
-- **Auth**: Compartido con autenticación Paperclip (u OAuth2)
+- **Auth**: Compartido con autenticación TaskOrg (u OAuth2)
 
-### 9.2 Integración con Paperclip
+### 9.2 Integración con TaskOrg
 
 ClipHub puede ser:
-- **Opción A**: Una app separada que llama API de Paperclip para instalar blueprints
-- **Opción B**: Una sección integrada de la UI de Paperclip (ruta `/marketplace`)
+- **Opción A**: Una app separada que llama API de TaskOrg para instalar blueprints
+- **Opción B**: Una sección integrada de la UI de TaskOrg (ruta `/marketplace`)
 
-La Opción B es más simple para MVP — agrega rutas a la UI y API existentes de Paperclip.
+La Opción B es más simple para MVP — agrega rutas a la UI y API existentes de TaskOrg.
 
 ### 9.3 Formato de Bundle
 
@@ -508,14 +508,14 @@ blueprint/
 - [ ] Página de detalle de listing con visualización de organigrama
 - [ ] Registro de creator y asistente de creación de listing
 - [ ] Solo instalaciones libres (sin pagos todavía)
-- [ ] Flujo de instalación: blueprint → compañía Paperclip
+- [ ] Flujo de instalación: blueprint → compañía TaskOrg
 
 ### Fase 2: Pagos y Social
 - [ ] Integración de Stripe Connect
 - [ ] Flujo de compra
 - [ ] Sistema de reseñas
 - [ ] Dashboard de análisis de creator
-- [ ] Comando CLI "Exportar desde Paperclip"
+- [ ] Comando CLI "Exportar desde TaskOrg"
 
 ### Fase 3: Crecimiento
 - [ ] Búsqueda con ranking de relevancia

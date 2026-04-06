@@ -37,7 +37,7 @@ PATCH /api/issues/{issueId}
 { "status": "done", "comment": "Implementé firmado JWT y refresco de token. Todos los tests pasando." }
 ```
 
-Siempre incluye el header `X-Paperclip-Run-Id` en cambios de estado.
+Siempre incluye el header `X-TaskOrg-Run-Id` en cambios de estado.
 
 ## Patrón de Bloqueo
 

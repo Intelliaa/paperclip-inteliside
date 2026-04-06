@@ -4,8 +4,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   describeLocalInstancePaths,
   expandHomePrefix,
-  resolvePaperclipHomeDir,
-  resolvePaperclipInstanceId,
+  resolveTaskOrgHomeDir,
+  resolveTaskOrgInstanceId,
 } from "../config/home.js";
 
 const ORIGINAL_ENV = { ...process.env };
@@ -15,26 +15,26 @@ describe("home path resolution", () => {
     process.env = { ...ORIGINAL_ENV };
   });
 
-  it("defaults to ~/.paperclip and default instance", () => {
-    delete process.env.PAPERCLIP_HOME;
-    delete process.env.PAPERCLIP_INSTANCE_ID;
+  it("defaults to ~/.taskorg and default instance", () => {
+    delete process.env.TASKORG_HOME;
+    delete process.env.TASKORG_INSTANCE_ID;
 
     const paths = describeLocalInstancePaths();
-    expect(paths.homeDir).toBe(path.resolve(os.homedir(), ".paperclip"));
+    expect(paths.homeDir).toBe(path.resolve(os.homedir(), ".taskorg"));
     expect(paths.instanceId).toBe("default");
-    expect(paths.configPath).toBe(path.resolve(os.homedir(), ".paperclip", "instances", "default", "config.json"));
+    expect(paths.configPath).toBe(path.resolve(os.homedir(), ".taskorg", "instances", "default", "config.json"));
   });
 
-  it("supports PAPERCLIP_HOME and explicit instance ids", () => {
-    process.env.PAPERCLIP_HOME = "~/paperclip-home";
+  it("supports TASKORG_HOME and explicit instance ids", () => {
+    process.env.TASKORG_HOME = "~/taskorg-home";
 
-    const home = resolvePaperclipHomeDir();
-    expect(home).toBe(path.resolve(os.homedir(), "paperclip-home"));
-    expect(resolvePaperclipInstanceId("dev_1")).toBe("dev_1");
+    const home = resolveTaskOrgHomeDir();
+    expect(home).toBe(path.resolve(os.homedir(), "taskorg-home"));
+    expect(resolveTaskOrgInstanceId("dev_1")).toBe("dev_1");
   });
 
   it("rejects invalid instance ids", () => {
-    expect(() => resolvePaperclipInstanceId("bad/id")).toThrow(/Invalid instance id/);
+    expect(() => resolveTaskOrgInstanceId("bad/id")).toThrow(/Invalid instance id/);
   });
 
   it("expands ~ prefixes", () => {

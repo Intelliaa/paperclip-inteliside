@@ -5,7 +5,7 @@ import type {
   AdapterEnvironmentTestResult,
   CompanySecret,
   EnvBinding,
-} from "@paperclipai/shared";
+} from "@taskorg/shared";
 import type { AdapterModel } from "../api/agents";
 import { agentsApi } from "../api/agents";
 import { secretsApi } from "../api/secrets";
@@ -13,9 +13,9 @@ import { assetsApi } from "../api/assets";
 import {
   DEFAULT_CODEX_LOCAL_BYPASS_APPROVALS_AND_SANDBOX,
   DEFAULT_CODEX_LOCAL_MODEL,
-} from "@paperclipai/adapter-codex-local";
-import { DEFAULT_CURSOR_LOCAL_MODEL } from "@paperclipai/adapter-cursor-local";
-import { DEFAULT_GEMINI_LOCAL_MODEL } from "@paperclipai/adapter-gemini-local";
+} from "@taskorg/adapter-codex-local";
+import { DEFAULT_CURSOR_LOCAL_MODEL } from "@taskorg/adapter-cursor-local";
+import { DEFAULT_GEMINI_LOCAL_MODEL } from "@taskorg/adapter-gemini-local";
 import {
   Popover,
   PopoverContent,
@@ -51,10 +51,10 @@ import { useDisabledAdaptersSync } from "../adapters/use-disabled-adapters";
 
 /* ---- Create mode values ---- */
 
-// Canonical type lives in @paperclipai/adapter-utils; re-exported here
+// Canonical type lives in @taskorg/adapter-utils; re-exported here
 // so existing imports from this file keep working.
-export type { CreateConfigValues } from "@paperclipai/adapter-utils";
-import type { CreateConfigValues } from "@paperclipai/adapter-utils";
+export type { CreateConfigValues } from "@taskorg/adapter-utils";
+import type { CreateConfigValues } from "@taskorg/adapter-utils";
 
 /* ---- Props ---- */
 
@@ -1339,7 +1339,7 @@ function EnvVarEditor({
       })}
       {sealError && <p className="text-[11px] text-destructive">{sealError}</p>}
       <p className="text-[11px] text-muted-foreground/60">
-        Las variables PAPERCLIP_* se inyectan automáticamente en tiempo de ejecución.
+        Las variables TASKORG_* se inyectan automáticamente en tiempo de ejecución.
       </p>
     </div>
   );

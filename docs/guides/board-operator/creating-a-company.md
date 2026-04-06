@@ -3,7 +3,7 @@ title: Creando una Compañía
 summary: Configura tu primera compañía de IA autónoma
 ---
 
-Una compañía es la unidad de nivel superior en Paperclip. Todo — agentes, tareas, objetivos, presupuestos — vive bajo una compañía.
+Una compañía es la unidad de nivel superior en TaskOrg. Todo — agentes, tareas, objetivos, presupuestos — vive bajo una compañía.
 
 ## Paso 1: Crea la Compañía
 
@@ -45,7 +45,7 @@ Cada agente obtiene su propia configuración de adapter, rol, y presupuesto. El 
 
 ## Paso 5: Establece Presupuestos
 
-Establece presupuestos mensuales tanto a nivel de compañía como por agente. Paperclip impone:
+Establece presupuestos mensuales tanto a nivel de compañía como por agente. TaskOrg impone:
 
 - **Alerta blanda** al 80% de utilización
 - **Parada dura** al 100% — los agentes se pausan automáticamente

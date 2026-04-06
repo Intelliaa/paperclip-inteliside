@@ -3,7 +3,7 @@ title: Creando un Adapter
 summary: Guía para construir un adapter personalizado
 ---
 
-Construye un adapter personalizado para conectar Paperclip a cualquier runtime de agente.
+Construye un adapter personalizado para conectar TaskOrg a cualquier runtime de agente.
 
 <Tip>
 Si estás usando Claude Code, el skill `.agents/skills/create-agent-adapter` puede guiarte a través del proceso completo de creación de adapter interactivamente. Solo pídele a Claude que cree un nuevo adapter y te guiará a través de cada paso.
@@ -13,13 +13,13 @@ Si estás usando Claude Code, el skill `.agents/skills/create-agent-adapter` pue
 
 | | Incorporado | Plugin Externo |
 |---|---|---|
-| Fuente | Dentro de `paperclip-fork` | Paquete npm separado |
-| Distribución | Se envía con Paperclip | Publicación npm independiente |
+| Fuente | Dentro de `taskorg-fork` | Paquete npm separado |
+| Distribución | Se envía con TaskOrg | Publicación npm independiente |
 | UI parser | Importación estática | Carga dinámica desde API |
 | Registro | Edita 3 registros | Auto-cargado al inicio |
 | Mejor para | Adapters centrales, colaboradores | Adapters de terceros, herramientas internas |
 
-Para la mayoría de casos, **construye un plugin adapter externo**. Es más limpio, versionado independientemente, y no requiere modificar el código fuente de Paperclip. Ver [Adapters Externos](/adapters/external-adapters) para la guía completa.
+Para la mayoría de casos, **construye un plugin adapter externo**. Es más limpio, versionado independientemente, y no requiere modificar el código fuente de TaskOrg. Ver [Adapters Externos](/adapters/external-adapters) para la guía completa.
 
 The rest of this page covers the shared internals that both paths use.
 
@@ -74,8 +74,8 @@ export { createServerAdapter } from "./server/index.js";
 
 Key responsibilities:
 
-1. Read config using safe helpers (`asString`, `asNumber`, etc.) from `@paperclipai/adapter-utils/server-utils`
-2. Build environment with `buildPaperclipEnv(agent)` plus context vars
+1. Read config using safe helpers (`asString`, `asNumber`, etc.) from `@taskorg/adapter-utils/server-utils`
+2. Build environment with `buildTaskOrgEnv(agent)` plus context vars
 3. Resolve session state from `runtime.sessionParams`
 4. Render prompt with `renderTemplate(template, data)`
 5. Spawn the process with `runChildProcess()` or call via `fetch()`
@@ -86,11 +86,11 @@ Key responsibilities:
 
 | Helper | Source | Purpose |
 |--------|--------|---------|
-| `runChildProcess(cmd, opts)` | `@paperclipai/adapter-utils/server-utils` | Spawn with timeout, grace, streaming |
-| `buildPaperclipEnv(agent)` | `@paperclipai/adapter-utils/server-utils` | Inject `PAPERCLIP_*` env vars |
-| `renderTemplate(tpl, data)` | `@paperclipai/adapter-utils/server-utils` | `{{variable}}` substitution |
-| `asString(v)` | `@paperclipai/adapter-utils` | Safe config value extraction |
-| `asNumber(v)` | `@paperclipai/adapter-utils` | Safe number extraction |
+| `runChildProcess(cmd, opts)` | `@taskorg/adapter-utils/server-utils` | Spawn with timeout, grace, streaming |
+| `buildTaskOrgEnv(agent)` | `@taskorg/adapter-utils/server-utils` | Inject `TASKORG_*` env vars |
+| `renderTemplate(tpl, data)` | `@taskorg/adapter-utils/server-utils` | `{{variable}}` substitution |
+| `asString(v)` | `@taskorg/adapter-utils` | Safe config value extraction |
+| `asNumber(v)` | `@taskorg/adapter-utils` | Safe number extraction |
 
 ### AdapterExecutionContext
 
@@ -155,7 +155,7 @@ export async function testEnvironment(
 
 ## Step 4: UI Module (Built-in Only)
 
-For built-in adapters registered in Paperclip's source:
+For built-in adapters registered in TaskOrg's source:
 
 - `parse-stdout.ts` — converts stdout lines to `TranscriptEntry[]` for the run viewer
 - `build-config.ts` — converts form values to `adapterConfig` JSON
@@ -165,7 +165,7 @@ For external adapters, use a self-contained `ui-parser.ts` instead. See the [UI 
 
 ## Step 5: CLI Module
 
-`format-event.ts` — pretty-prints stdout for `paperclipai run --watch` using `picocolors`.
+`format-event.ts` — pretty-prints stdout for `taskorg run --watch` using `picocolors`.
 
 ```ts
 export function formatStdoutEvent(line: string, debug: boolean): void {
@@ -205,7 +205,7 @@ export const sessionCodec: AdapterSessionCodec = {
 
 ## Skills Injection
 
-Make Paperclip skills discoverable to your agent runtime without writing to the agent's working directory:
+Make TaskOrg skills discoverable to your agent runtime without writing to the agent's working directory:
 
 1. **Best: tmpdir + flag** — create tmpdir, symlink skills, pass via CLI flag, clean up after
 2. **Acceptable: global config dir** — symlink to the runtime's global plugins directory

@@ -3,7 +3,7 @@ title: Descripción General de Despliegue
 summary: Modos de despliegue de un vistazo
 ---
 
-Paperclip soporta tres configuraciones de despliegue, desde local sin fricción hasta producción en internet.
+TaskOrg soporta tres configuraciones de despliegue, desde local sin fricción hasta producción en internet.
 
 ## Modos de Despliegue
 
@@ -38,18 +38,18 @@ Paperclip soporta tres configuraciones de despliegue, desde local sin fricción 
 
 ## Elegir un Modo
 
-- **¿Solo probando Paperclip?** Usa `local_trusted` (predeterminado)
+- **¿Solo probando TaskOrg?** Usa `local_trusted` (predeterminado)
 - **¿Compartiendo con un equipo en red privada?** Usa `authenticated` + `private`
 - **¿Desplegando a la nube?** Usa `authenticated` + `public`
 
 Establece el modo durante la incorporación:
 
 ```sh
-pnpm paperclipai onboard
+pnpm taskorg onboard
 ```
 
 O actualízalo después:
 
 ```sh
-pnpm paperclipai configure --section server
+pnpm taskorg configure --section server
 ```

@@ -1,12 +1,12 @@
 import { Router, type Request } from "express";
-import type { Db } from "@paperclipai/db";
+import type { Db } from "@taskorg/db";
 import {
   companySkillCreateSchema,
   companySkillFileUpdateSchema,
   companySkillImportSchema,
   companySkillProjectScanRequestSchema,
-} from "@paperclipai/shared";
-import { trackSkillImported } from "@paperclipai/shared/telemetry";
+} from "@taskorg/shared";
+import { trackSkillImported } from "@taskorg/shared/telemetry";
 import { validate } from "../middleware/validate.js";
 import { accessService, agentService, companySkillService, logActivity } from "../services/index.js";
 import { forbidden } from "../errors.js";

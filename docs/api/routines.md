@@ -167,7 +167,7 @@ Dispara una ejecución inmediatamente, omitiendo el horario. La política de con
 POST /api/routine-triggers/public/{publicId}/fire
 ```
 
-Dispara un trigger webhook desde un sistema externo. Requiere un par de headers `Authorization` o `X-Paperclip-Signature` + `X-Paperclip-Timestamp` válido que coincida con el modo de firma del disparador.
+Dispara un trigger webhook desde un sistema externo. Requiere un par de headers `Authorization` o `X-TaskOrg-Signature` + `X-TaskOrg-Timestamp` válido que coincida con el modo de firma del disparador.
 
 ## Listar Ejecuciones
 

@@ -3,14 +3,14 @@ title: Almacenamiento
 summary: Disco local vs almacenamiento compatible con S3
 ---
 
-Paperclip almacena archivos subidos (adjuntos de issues, imágenes) usando un proveedor de almacenamiento configurable.
+TaskOrg almacena archivos subidos (adjuntos de issues, imágenes) usando un proveedor de almacenamiento configurable.
 
 ## Disco Local (Predeterminado)
 
 Los archivos se almacenan en:
 
 ```
-~/.paperclip/instances/default/data/storage
+~/.taskorg/instances/default/data/storage
 ```
 
 No se requiere configuración. Adecuado para desarrollo local y despliegues en máquina única.
@@ -22,7 +22,7 @@ Para producción o despliegues multi-nodo, usa almacenamiento de objetos compati
 Configura vía CLI:
 
 ```sh
-pnpm paperclipai configure --section storage
+pnpm taskorg configure --section storage
 ```
 
 ## Configuración
@@ -35,5 +35,5 @@ pnpm paperclipai configure --section storage
 La configuración de almacenamiento se almacena en el archivo de configuración de instancia:
 
 ```
-~/.paperclip/instances/default/config.json
+~/.taskorg/instances/default/config.json
 ```

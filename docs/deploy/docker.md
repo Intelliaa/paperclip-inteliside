@@ -3,7 +3,7 @@ title: Docker
 summary: Inicio rápido con Docker Compose
 ---
 
-Ejecuta Paperclip en Docker sin instalar Node o pnpm localmente.
+Ejecuta TaskOrg en Docker sin instalar Node o pnpm localmente.
 
 ## Compose Inicio Rápido (Recomendado)
 
@@ -16,32 +16,32 @@ Abre [http://localhost:3100](http://localhost:3100).
 Predeterminados:
 
 - Puerto del host: `3100`
-- Directorio de datos: `./data/docker-paperclip`
+- Directorio de datos: `./data/docker-taskorg`
 
 Anula con variables de entorno:
 
 ```sh
-PAPERCLIP_PORT=3200 PAPERCLIP_DATA_DIR=../data/pc \
+TASKORG_PORT=3200 TASKORG_DATA_DIR=../data/pc \
   docker compose -f docker/docker-compose.quickstart.yml up --build
 ```
 
-**Nota:** `PAPERCLIP_DATA_DIR` se resuelve relativo al archivo compose (`docker/`), así que `../data/pc` se asigna a `data/pc` en la raíz del proyecto.
+**Nota:** `TASKORG_DATA_DIR` se resuelve relativo al archivo compose (`docker/`), así que `../data/pc` se asigna a `data/pc` en la raíz del proyecto.
 
 ## Build Manual de Docker
 
 ```sh
-docker build -t paperclip-local .
-docker run --name paperclip \
+docker build -t taskorg-local .
+docker run --name taskorg \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
-  -v "$(pwd)/data/docker-paperclip:/paperclip" \
-  paperclip-local
+  -e TASKORG_HOME=/taskorg \
+  -v "$(pwd)/data/docker-taskorg:/taskorg" \
+  taskorg-local
 ```
 
 ## Persistencia de Datos
 
-Todos los datos se persisten bajo el bind mount (`./data/docker-paperclip`):
+Todos los datos se persisten bajo el bind mount (`./data/docker-taskorg`):
 
 - Datos de PostgreSQL embebido
 - Assets subidos
@@ -58,14 +58,14 @@ La imagen Docker preinstala:
 Pasa las claves API para habilitar ejecuciones del adapter local dentro del contenedor:
 
 ```sh
-docker run --name paperclip \
+docker run --name taskorg \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
+  -e TASKORG_HOME=/taskorg \
   -e OPENAI_API_KEY=sk-... \
   -e ANTHROPIC_API_KEY=sk-... \
-  -v "$(pwd)/data/docker-paperclip:/paperclip" \
-  paperclip-local
+  -v "$(pwd)/data/docker-taskorg:/taskorg" \
+  taskorg-local
 ```
 
 Sin claves API, la app se ejecuta normalmente — las verificaciones del entorno del adapter surfacearán los requisitos previos faltantes.

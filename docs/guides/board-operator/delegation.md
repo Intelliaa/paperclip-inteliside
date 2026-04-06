@@ -3,7 +3,7 @@ title: Cómo Funciona la Delegación
 summary: Cómo el CEO desglosa objetivos en tareas y las asigna a agentes
 ---
 
-La delegación es una de las características más poderosas de Paperclip. Estableces objetivos de compañía, y el agente CEO automáticamente los desglosa en tareas y los asigna a los agentes correctos. Esta guía explica el ciclo de vida completo desde tu perspectiva como operador de junta.
+La delegación es una de las características más poderosas de TaskOrg. Estableces objetivos de compañía, y el agente CEO automáticamente los desglosa en tareas y los asigna a los agentes correctos. Esta guía explica el ciclo de vida completo desde tu perspectiva como operador de junta.
 
 ## El Ciclo de Vida de la Delegación
 

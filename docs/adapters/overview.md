@@ -1,13 +1,13 @@
 ---
 title: Descripción General de Adapters
-summary: Qué son los adapters y cómo conectan agentes a Paperclip
+summary: Qué son los adapters y cómo conectan agentes a TaskOrg
 ---
 
-Los adapters son el puente entre la capa de orquestación de Paperclip y los runtimes del agente. Cada adapter sabe cómo invocar un tipo específico de agente de IA y capturar sus resultados.
+Los adapters son el puente entre la capa de orquestación de TaskOrg y los runtimes del agente. Cada adapter sabe cómo invocar un tipo específico de agente de IA y capturar sus resultados.
 
 ## Cómo Funcionan los Adapters
 
-Cuando se dispara un heartbeat, Paperclip:
+Cuando se dispara un heartbeat, TaskOrg:
 
 1. Busca `adapterType` y `adapterConfig` del agente
 2. Llama a la función `execute()` del adapter con el contexto de ejecución
@@ -24,7 +24,7 @@ Cuando se dispara un heartbeat, Paperclip:
 | OpenCode Local | `opencode_local` | Ejecuta OpenCode CLI localmente (multi-proveedor `provider/model`) |
 | Cursor | `cursor` | Ejecuta Cursor en modo de fondo |
 | Pi Local | `pi_local` | Ejecuta un agente Pi embebido localmente |
-| Hermes Local | `hermes_local` | Ejecuta Hermes CLI localmente (`hermes-paperclip-adapter`) |
+| Hermes Local | `hermes_local` | Ejecuta Hermes CLI localmente (`hermes-taskorg-adapter`) |
 | OpenClaw Gateway | `openclaw_gateway` | Se conecta a un endpoint de puerta de enlace OpenClaw |
 | [Process](/adapters/process) | `process` | Ejecuta comandos shell arbitrarios |
 | [HTTP](/adapters/http) | `http` | Envía webhooks a agentes externos |
@@ -35,16 +35,16 @@ Estos adapters se distribuyen como paquetes npm independientes e se instalan a t
 
 | Adapter | Paquete | Clave de Tipo | Descripción |
 |---------|---------|----------|-------------|
-| Droid Local | `@henkey/droid-paperclip-adapter` | `droid_local` | Ejecuta Factory Droid localmente |
+| Droid Local | `@henkey/droid-taskorg-adapter` | `droid_local` | Ejecuta Factory Droid localmente |
 
 ## Adapters Externos
 
-Puedes construir y distribuir adapters como paquetes independientes — sin cambios requeridos en el código fuente de Paperclip. Los adapters externos se cargan al inicio a través del sistema de plugins.
+Puedes construir y distribuir adapters como paquetes independientes — sin cambios requeridos en el código fuente de TaskOrg. Los adapters externos se cargan al inicio a través del sistema de plugins.
 
 ```sh
 # Instala desde npm vía API
 curl -X POST http://localhost:3102/api/adapters \
-  -d '{"packageName": "my-paperclip-adapter"}'
+  -d '{"packageName": "my-taskorg-adapter"}'
 
 # O enlaza desde un directorio local
 curl -X POST http://localhost:3102/api/adapters \
@@ -67,7 +67,7 @@ mi-adapter/
       test.ts           # Diagnósticos del entorno
     ui-parser.ts        # Parser de transcripción UI autónomo (para adapters externos)
     cli/
-      format-event.ts   # Salida de terminal para `paperclipai run --watch`
+      format-event.ts   # Salida de terminal para `taskorg run --watch`
 ```
 
 | Registro | Qué hace | Fuente |
@@ -85,4 +85,4 @@ mi-adapter/
 
 ## Contrato UI Parser
 
-Los adapters externos pueden distribuir un parser UI autónomo que le dice a la UI web de Paperclip cómo renderizar su stdout. Sin él, la UI usa un parser shell genérico. Ver el [Contrato UI Parser](/adapters/adapter-ui-parser) para detalles.
+Los adapters externos pueden distribuir un parser UI autónomo que le dice a la UI web de TaskOrg cómo renderizar su stdout. Sin él, la UI usa un parser shell genérico. Ver el [Contrato UI Parser](/adapters/adapter-ui-parser) para detalles.

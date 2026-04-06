@@ -8,7 +8,7 @@
 
 ## Objetivo
 
-Traducir al español toda la interfaz de usuario, documentación, prompts y skills del proyecto Paperclip, cuidando la ortografía y acentos.
+Traducir al español toda la interfaz de usuario, documentación, prompts y skills del proyecto TaskOrg, cuidando la ortografía y acentos.
 
 ---
 
@@ -35,13 +35,13 @@ Traducir al español toda la interfaz de usuario, documentación, prompts y skil
 Prioridad alta. Los agentes ejecutan estas instrucciones directamente.
 
 #### `skills/` (9 archivos) ✅
-- [x] `skills/paperclip/SKILL.md`
-- [x] `skills/paperclip/references/api-reference.md`
-- [x] `skills/paperclip/references/company-skills.md`
-- [x] `skills/paperclip/references/routines.md`
-- [x] `skills/paperclip-create-agent/SKILL.md`
-- [x] `skills/paperclip-create-agent/references/api-reference.md`
-- [x] `skills/paperclip-create-plugin/SKILL.md`
+- [x] `skills/taskorg/SKILL.md`
+- [x] `skills/taskorg/references/api-reference.md`
+- [x] `skills/taskorg/references/company-skills.md`
+- [x] `skills/taskorg/references/routines.md`
+- [x] `skills/taskorg-create-agent/SKILL.md`
+- [x] `skills/taskorg-create-agent/references/api-reference.md`
+- [x] `skills/taskorg-create-plugin/SKILL.md`
 - [x] `skills/para-memory-files/SKILL.md`
 - [x] `skills/para-memory-files/references/schemas.md`
 
@@ -219,7 +219,7 @@ Prioridad media. Texto compartido entre páginas. Se excluyen `.test.tsx`.
 Prioridad media-baja. Documentación del proyecto para desarrolladores y operadores.
 
 #### `docs/start/` (4 archivos) ✅
-- [x] `docs/start/what-is-paperclip.md`
+- [x] `docs/start/what-is-taskorg.md`
 - [x] `docs/start/quickstart.md`
 - [x] `docs/start/architecture.md`
 - [x] `docs/start/core-concepts.md`

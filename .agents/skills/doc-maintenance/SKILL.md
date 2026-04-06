@@ -131,7 +131,7 @@ git commit -m "docs: update documentation for accuracy
 
 - [listar cada corrección brevemente]
 
-Co-Authored-By: Paperclip <noreply@paperclip.ing>"
+Co-Authored-By: TaskOrg <noreply@taskorg.ing>"
 
 git push -u origin "$BRANCH"
 
