@@ -3,12 +3,12 @@ title: Descripción General de CLI
 summary: Instalación de CLI y configuración
 ---
 
-El CLI de Paperclip maneja la configuración de instancia, diagnósticos y operaciones del plano de control.
+El CLI de TaskOrg maneja la configuración de instancia, diagnósticos y operaciones del plano de control.
 
 ## Uso
 
 ```sh
-pnpm paperclipai --help
+pnpm taskorg --help
 ```
 
 ## Opciones Globales
@@ -17,7 +17,7 @@ Todos los comandos soportan:
 
 | Bandera | Descripción |
 |------|-------------|
-| `--data-dir <path>` | Raíz de datos local de Paperclip (aísla de `~/.paperclip`) |
+| `--data-dir <path>` | Raíz de datos local de TaskOrg (aísla de `~/.taskorg`) |
 | `--api-base <url>` | URL base de la API |
 | `--api-key <token>` | Token de autenticación de API |
 | `--context <path>` | Ruta del archivo de contexto |
@@ -29,7 +29,7 @@ Los comandos con alcance de empresa también aceptan `--company-id <id>`.
 Para instancias locales limpias, pasa `--data-dir` en el comando que ejecutas:
 
 ```sh
-pnpm paperclipai run --data-dir ./tmp/paperclip-dev
+pnpm taskorg run --data-dir ./tmp/taskorg-dev
 ```
 
 ## Perfiles de Contexto
@@ -38,26 +38,26 @@ Almacena predeterminados para evitar repetir banderas:
 
 ```sh
 # Establecer predeterminados
-pnpm paperclipai context set --api-base http://localhost:3100 --company-id <id>
+pnpm taskorg context set --api-base http://localhost:3100 --company-id <id>
 
 # Ver contexto actual
-pnpm paperclipai context show
+pnpm taskorg context show
 
 # Listar perfiles
-pnpm paperclipai context list
+pnpm taskorg context list
 
 # Cambiar perfil
-pnpm paperclipai context use default
+pnpm taskorg context use default
 ```
 
 Para evitar almacenar secretos en el contexto, usa una variable de entorno:
 
 ```sh
-pnpm paperclipai context set --api-key-env-var-name PAPERCLIP_API_KEY
-export PAPERCLIP_API_KEY=...
+pnpm taskorg context set --api-key-env-var-name TASKORG_API_KEY
+export TASKORG_API_KEY=...
 ```
 
-El contexto se almacena en `~/.paperclip/context.json`.
+El contexto se almacena en `~/.taskorg/context.json`.
 
 ## Categorías de Comandos
 

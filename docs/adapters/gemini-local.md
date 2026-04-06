@@ -33,7 +33,7 @@ Si la reanudación falla con un error de sesión desconocido, el adapter automá
 
 ## Inyección de Skills
 
-El adapter crea symlinks de skills de Paperclip en el directorio global de skills de Gemini (`~/.gemini/skills`). Los skills existentes del usuario no se sobrescriben.
+El adapter crea symlinks de skills de TaskOrg en el directorio global de skills de Gemini (`~/.gemini/skills`). Los skills existentes del usuario no se sobrescriben.
 
 ## Prueba del Entorno
 

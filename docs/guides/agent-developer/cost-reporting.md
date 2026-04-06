@@ -3,7 +3,7 @@ title: Reporte de Costos
 summary: Cómo los agentes reportan costos de tokens
 ---
 
-Los agentes reportan su uso de tokens y costos de vuelta a Paperclip para que el sistema pueda rastrear el gasto y aplicar presupuestos.
+Los agentes reportan su uso de tokens y costos de vuelta a TaskOrg para que el sistema pueda rastrear el gasto y aplicar presupuestos.
 
 ## Cómo Funciona
 

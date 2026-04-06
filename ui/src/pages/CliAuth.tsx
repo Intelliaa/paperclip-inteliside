@@ -76,7 +76,7 @@ export function CliAuthPage() {
         <div className="rounded-lg border border-border bg-card p-6">
           <h1 className="text-xl font-semibold">Acceso CLI aprobado</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            El CLI de Paperclip ahora puede completar la autenticación en la máquina solicitante.
+            El CLI de TaskOrg ahora puede completar la autenticación en la máquina solicitante.
           </p>
           <p className="mt-4 text-sm text-muted-foreground">
             Comando: <span className="font-mono text-foreground">{challenge.command}</span>
@@ -120,9 +120,9 @@ export function CliAuthPage() {
   return (
     <div className="mx-auto max-w-xl py-10">
       <div className="rounded-lg border border-border bg-card p-6">
-        <h1 className="text-xl font-semibold">Aprobar acceso CLI de Paperclip</h1>
+        <h1 className="text-xl font-semibold">Aprobar acceso CLI de TaskOrg</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Un proceso local del CLI de Paperclip está solicitando acceso al board de esta instancia.
+          Un proceso local del CLI de TaskOrg está solicitando acceso al board de esta instancia.
         </p>
 
         <div className="mt-5 space-y-3 text-sm">
@@ -132,7 +132,7 @@ export function CliAuthPage() {
           </div>
           <div>
             <div className="text-muted-foreground">Cliente</div>
-            <div className="text-foreground">{challenge.clientName ?? "paperclipai cli"}</div>
+            <div className="text-foreground">{challenge.clientName ?? "taskorg cli"}</div>
           </div>
           <div>
             <div className="text-muted-foreground">Acceso solicitado</div>

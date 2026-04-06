@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ExecutionWorkspace, Project, ProjectWorkspace } from "@paperclipai/shared";
+import type { ExecutionWorkspace, Project, ProjectWorkspace } from "@taskorg/shared";
 import { ArrowLeft, Check, Copy, ExternalLink, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -403,7 +403,7 @@ export function ExecutionWorkspaceDetail() {
                   </div>
                   <h1 className="text-2xl font-semibold">{workspace.name}</h1>
                   <p className="max-w-2xl text-sm text-muted-foreground">
-                    Configura el espacio de trabajo runtime concreto que Paperclip reutiliza para este flujo de incidencias. Esta configuración permanece
+                    Configura el espacio de trabajo runtime concreto que TaskOrg reutiliza para este flujo de incidencias. Esta configuración permanece
                     adjunta al espacio de trabajo de ejecución para que las futuras ejecuciones mantengan las rutas locales, referencias de repositorio, aprovisionamiento, eliminación,
                     y el comportamiento del servicio runtime en sincronización con el espacio de trabajo real siendo reutilizado.
                   </p>
@@ -480,7 +480,7 @@ export function ExecutionWorkspaceDetail() {
               </div>
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <Field label="Comando de aprovisionamiento" hint="Se ejecuta cuando Paperclip prepara este espacio de trabajo de ejecución">
+                <Field label="Comando de aprovisionamiento" hint="Se ejecuta cuando TaskOrg prepara este espacio de trabajo de ejecución">
                   <textarea
                     className="min-h-28 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.provisionCommand}

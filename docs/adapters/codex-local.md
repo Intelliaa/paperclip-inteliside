@@ -28,23 +28,23 @@ Codex usa `previous_response_id` para continuidad de sesión. El adapter seriali
 
 ## Inyección de Skills
 
-El adapter crea symlinks de skills de Paperclip en el directorio global de skills de Codex (`~/.codex/skills`). Los skills existentes del usuario no se sobrescriben.
+El adapter crea symlinks de skills de TaskOrg en el directorio global de skills de Codex (`~/.codex/skills`). Los skills existentes del usuario no se sobrescriben.
 
-Cuando Paperclip se ejecuta dentro de una instancia de worktree gestionada (`PAPERCLIP_IN_WORKTREE=true`), el adapter en su lugar usa un `CODEX_HOME` aislado de worktree bajo la instancia de Paperclip para que los skills, sesiones, logs, y otros estados de runtime de Codex no se filtren entre checkouts. Siembra ese home aislado desde el home principal de Codex del usuario para continuidad compartida de auth/config.
+Cuando TaskOrg se ejecuta dentro de una instancia de worktree gestionada (`TASKORG_IN_WORKTREE=true`), el adapter en su lugar usa un `CODEX_HOME` aislado de worktree bajo la instancia de TaskOrg para que los skills, sesiones, logs, y otros estados de runtime de Codex no se filtren entre checkouts. Siembra ese home aislado desde el home principal de Codex del usuario para continuidad compartida de auth/config.
 
 Para uso manual del CLI local fuera de ejecuciones de heartbeat (por ejemplo ejecutando como `codexcoder` directamente), usa:
 
 ```sh
-pnpm paperclipai agent local-cli codexcoder --company-id <company-id>
+pnpm taskorg agent local-cli codexcoder --company-id <company-id>
 ```
 
 Esto instala cualquier skill faltante, crea una clave API del agente, e imprime exports de shell para ejecutar como ese agente.
 
 ## Resolución de Instrucciones
 
-Si `instructionsFilePath` está configurado, Paperclip lee ese archivo y lo antepone al prompt stdin enviado a `codex exec` en cada ejecución.
+Si `instructionsFilePath` está configurado, TaskOrg lee ese archivo y lo antepone al prompt stdin enviado a `codex exec` en cada ejecución.
 
-Esto es separado de cualquier descubrimiento de instrucciones a nivel de workspace que Codex mismo realiza en el `cwd` de ejecución. Paperclip no deshabilita archivos de instrucciones nativos del repo de Codex, así que un `AGENTS.md` local del repo puede aún ser cargado por Codex además de las instrucciones del agente gestionado por Paperclip.
+Esto es separado de cualquier descubrimiento de instrucciones a nivel de workspace que Codex mismo realiza en el `cwd` de ejecución. TaskOrg no deshabilita archivos de instrucciones nativos del repo de Codex, así que un `AGENTS.md` local del repo puede aún ser cargado por Codex además de las instrucciones del agente gestionado por TaskOrg.
 
 ## Prueba del Entorno
 

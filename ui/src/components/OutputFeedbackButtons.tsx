@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { FeedbackDataSharingPreference, FeedbackVoteValue } from "@paperclipai/shared";
+import type { FeedbackDataSharingPreference, FeedbackVoteValue } from "@taskorg/shared";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -188,7 +188,7 @@ export function OutputFeedbackButtons({
           <DialogHeader>
             <DialogTitle>Save your feedback sharing preference</DialogTitle>
             <DialogDescription>
-              Choose whether AI outputs you vote on can be shared with Paperclip Labs. This
+              Choose whether AI outputs you vote on can be shared with TaskOrg Labs. This
               becomes your default for future upvotes and downvotes.
             </DialogDescription>
           </DialogHeader>

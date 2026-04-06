@@ -16,12 +16,12 @@ contra el resumen de cambios del historial de git.
 - [ ] Los elementos reflejan las prioridades actuales (verificar cruzando con PRs recientes)
 
 ### Inicio rápido
-- [ ] El comando `npx paperclipai onboard` es correcto
+- [ ] El comando `npx taskorg onboard` es correcto
 - [ ] Los pasos de instalación manual son precisos (URL de clonación, comandos)
 - [ ] Los prerequisitos (versión de Node, versión de pnpm) están actualizados
 - [ ] La URL y puerto del servidor son correctos
 
-### Sección "Qué es Paperclip"
+### Sección "Qué es TaskOrg"
 - [ ] La descripción de alto nivel es precisa
 - [ ] La tabla de pasos (Definir objetivo / Contratar equipo / Aprobar y ejecutar) es correcta
 
@@ -30,11 +30,11 @@ contra el resumen de cambios del historial de git.
 - [ ] No hay adapters eliminados aún listados
 - [ ] Los logos y etiquetas coinciden con los nombres actuales de adapter
 
-### "Paperclip es para ti si"
+### "TaskOrg es para ti si"
 - [ ] Los casos de uso siguen siendo precisos
 - [ ] No hay afirmaciones sobre capacidades que no existen
 
-### "Por qué Paperclip es especial"
+### "Por qué TaskOrg es especial"
 - [ ] Las afirmaciones técnicas son precisas (ejecución atómica, gobernanza, etc.)
 - [ ] No hay funcionalidades listadas que fueron eliminadas o cambiaron significativamente
 

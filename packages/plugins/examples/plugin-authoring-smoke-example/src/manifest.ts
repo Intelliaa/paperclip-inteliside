@@ -1,11 +1,11 @@
-import type { PaperclipPluginManifestV1 } from "@paperclipai/plugin-sdk";
+import type { TaskOrgPluginManifestV1 } from "@taskorg/plugin-sdk";
 
-const manifest: PaperclipPluginManifestV1 = {
-  id: "paperclipai.plugin-authoring-smoke-example",
+const manifest: TaskOrgPluginManifestV1 = {
+  id: "taskorg.plugin-authoring-smoke-example",
   apiVersion: 1,
   version: "0.1.0",
   displayName: "Plugin Authoring Smoke Example",
-  description: "A Paperclip plugin",
+  description: "A TaskOrg plugin",
   author: "Plugin Author",
   categories: ["connector"],
   capabilities: [

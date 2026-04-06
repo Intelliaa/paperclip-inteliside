@@ -1,4 +1,4 @@
-# Índice de Componentes de Paperclip
+# Índice de Componentes de TaskOrg
 
 Inventario completo de todos los componentes UI. Actualizar este archivo al agregar nuevos componentes reutilizables.
 

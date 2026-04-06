@@ -3,7 +3,7 @@ title: Aprobaciones
 summary: Flujos de gobernanza para contratación y estrategia
 ---
 
-Paperclip incluye puertas de aprobación que mantienen al operador de junta humano en control de decisiones clave.
+TaskOrg incluye puertas de aprobación que mantienen al operador de junta humano en control de decisiones clave.
 
 ## Tipos de Aprobaciones
 

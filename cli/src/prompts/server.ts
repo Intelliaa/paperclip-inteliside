@@ -118,7 +118,7 @@ export async function promptServer(opts?: {
     const urlInput = await p.text({
       message: "URL base pública",
       defaultValue: currentAuth?.publicBaseUrl ?? "",
-      placeholder: "https://paperclip.example.com",
+      placeholder: "https://taskorg.example.com",
       validate: (val) => {
         const candidate = val.trim();
         if (!candidate) return "La URL base pública es obligatoria para exposición pública";

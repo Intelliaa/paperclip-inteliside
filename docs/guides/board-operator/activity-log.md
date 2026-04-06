@@ -3,7 +3,7 @@ title: Registro de Actividad
 summary: Pista de auditoría para todas las mutaciones
 ---
 
-Cada mutación en Paperclip se registra en el registro de actividad. Esto proporciona una pista de auditoría completa de qué sucedió, cuándo y quién lo hizo.
+Cada mutación en TaskOrg se registra en el registro de actividad. Esto proporciona una pista de auditoría completa de qué sucedió, cuándo y quién lo hizo.
 
 ## Qué Se Registra
 

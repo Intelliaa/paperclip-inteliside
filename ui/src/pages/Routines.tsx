@@ -49,7 +49,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import type { RoutineListItem, RoutineVariable } from "@paperclipai/shared";
+import type { RoutineListItem, RoutineVariable } from "@taskorg/shared";
 
 const concurrencyPolicies = ["coalesce_if_active", "always_enqueue", "skip_if_active"];
 const catchUpPolicies = ["skip_missed", "enqueue_missed_with_cap"];
@@ -307,8 +307,8 @@ export function Routines() {
     variables: [],
   });
   const routineViewStateKey = selectedCompanyId
-    ? `paperclip:routines-view:${selectedCompanyId}`
-    : "paperclip:routines-view";
+    ? `taskorg:routines-view:${selectedCompanyId}`
+    : "taskorg:routines-view";
   const [routineViewState, setRoutineViewState] = useState<RoutineViewState>(() => getRoutineViewState(routineViewStateKey));
 
   useEffect(() => {
@@ -408,7 +408,7 @@ export function Routines() {
     onError: (mutationError) => {
       pushToast({
         title: "Error al actualizar la rutina",
-        body: mutationError instanceof Error ? mutationError.message : "Paperclip no pudo actualizar la rutina.",
+        body: mutationError instanceof Error ? mutationError.message : "TaskOrg no pudo actualizar la rutina.",
         tone: "error",
       });
     },
@@ -441,7 +441,7 @@ export function Routines() {
     onError: (mutationError) => {
       pushToast({
         title: "Ejecución de rutina fallida",
-        body: mutationError instanceof Error ? mutationError.message : "Paperclip no pudo iniciar la ejecución de la rutina.",
+        body: mutationError instanceof Error ? mutationError.message : "TaskOrg no pudo iniciar la ejecución de la rutina.",
         tone: "error",
       });
     },
@@ -625,7 +625,7 @@ export function Routines() {
             agents={agents}
             projects={projects}
             liveIssueIds={liveIssueIds}
-            viewStateKey="paperclip:routine-recent-runs-view"
+            viewStateKey="taskorg:routine-recent-runs-view"
             issueLinkState={recentRunsIssueLinkState}
             onUpdateIssue={(id, data) => updateIssue.mutate({ id, data })}
           />
@@ -866,7 +866,7 @@ export function Routines() {
 
           <div className="shrink-0 flex flex-col gap-3 border-t border-border/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-sm text-muted-foreground">
-              Después de la creación, Paperclip te lleva directamente a la configuración de disparadores para programaciones, webhooks o ejecuciones internas.
+              Después de la creación, TaskOrg te lleva directamente a la configuración de disparadores para programaciones, webhooks o ejecuciones internas.
             </div>
             <div className="flex flex-col gap-2 sm:items-end">
               <Button

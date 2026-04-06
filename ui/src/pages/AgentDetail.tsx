@@ -89,8 +89,8 @@ import {
   type AgentRuntimeState,
   type LiveEvent,
   type WorkspaceOperation,
-} from "@paperclipai/shared";
-import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@paperclipai/adapter-utils";
+} from "@taskorg/shared";
+import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@taskorg/adapter-utils";
 import { agentRouteRef } from "../lib/utils";
 import {
   applyAgentSkillSnapshot,
@@ -2014,7 +2014,7 @@ function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      Managed: Paperclip stores and serves the instructions bundle. External: you provide a path on disk where the instructions live.
+                      Managed: TaskOrg stores and serves the instructions bundle. External: you provide a path on disk where the instructions live.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2069,7 +2069,7 @@ function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      The absolute directory on disk where the instructions bundle lives. In managed mode this is set by Paperclip automatically.
+                      The absolute directory on disk where the instructions bundle lives. In managed mode this is set by TaskOrg automatically.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2600,9 +2600,9 @@ function AgentSkillsTab({
   const unsupportedSkillMessage = useMemo(() => {
     if (skillSnapshot?.mode !== "unsupported") return null;
     if (agent.adapterType === "openclaw_gateway") {
-      return "Paperclip no puede gestionar skills de OpenClaw aquí. Visita tu instancia de OpenClaw para gestionar las skills de este agente.";
+      return "TaskOrg no puede gestionar skills de OpenClaw aquí. Visita tu instancia de OpenClaw para gestionar las skills de este agente.";
     }
-    return "Paperclip aún no puede gestionar skills para este adapter. Gestiónalas directamente en el adapter.";
+    return "TaskOrg aún no puede gestionar skills para este adapter. Gestiónalas directamente en el adapter.";
   }, [agent.adapterType, skillSnapshot?.mode]);
   const hasUnsavedChanges = !arraysEqual(skillDraft, lastSavedSkills);
   const saveStatusLabel = syncSkills.isPending
@@ -2760,7 +2760,7 @@ function AgentSkillsTab({
                   <section className="border-y border-border">
                     <div className="border-b border-border bg-muted/40 px-3 py-2">
                       <span className="text-xs font-medium text-muted-foreground">
-                        Requerido por Paperclip
+                        Requerido por TaskOrg
                       </span>
                     </div>
                     {requiredSkillRows.map(renderSkillRow)}
@@ -2777,7 +2777,7 @@ function AgentSkillsTab({
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setUnmanagedOpen((v) => !v); } }}
                     >
                       <span className="text-xs font-medium text-muted-foreground">
-                        ({unmanagedSkillRows.length}) Skills instaladas por el usuario, no gestionadas por Paperclip
+                        ({unmanagedSkillRows.length}) Skills instaladas por el usuario, no gestionadas por TaskOrg
                       </span>
                       {unmanagedOpen ? <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" /> : <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
                     </div>
@@ -4036,7 +4036,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
           Crear API Key
         </h3>
         <p className="text-xs text-muted-foreground">
-          Las API keys permiten que este agente autentique llamadas al servidor de Paperclip.
+          Las API keys permiten que este agente autentique llamadas al servidor de TaskOrg.
         </p>
         <div className="flex items-center gap-2">
           <Input

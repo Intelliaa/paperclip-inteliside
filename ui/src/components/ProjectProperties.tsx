@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Project } from "@paperclipai/shared";
+import type { Project } from "@taskorg/shared";
 import { StatusBadge } from "./StatusBadge";
 import { cn, formatDate } from "../lib/utils";
 import { goalsApi } from "../api/goals";
@@ -688,7 +688,7 @@ export function ProjectProperties({ project, onUpdate, onFieldUpdate, getFieldSa
                     {codebase.effectiveLocalFolder}
                   </div>
                   {codebase.origin === "managed_checkout" && (
-                    <div className="text-[11px] text-muted-foreground">Carpeta administrada por Paperclip.</div>
+                    <div className="text-[11px] text-muted-foreground">Carpeta administrada por TaskOrg.</div>
                   )}
                 </div>
                 <div className="flex items-center gap-1">
@@ -720,7 +720,7 @@ export function ProjectProperties({ project, onUpdate, onFieldUpdate, getFieldSa
 
             {hasAdditionalLegacyWorkspaces && (
               <div className="text-[11px] text-muted-foreground">
-                Existen registros de workspaces heredados adicionales en este proyecto. Paperclip está usando el workspace principal como vista del código fuente.
+                Existen registros de workspaces heredados adicionales en este proyecto. TaskOrg está usando el workspace principal como vista del código fuente.
               </div>
             )}
 
@@ -1015,7 +1015,7 @@ export function ProjectProperties({ project, onUpdate, onFieldUpdate, getFieldSa
                               })}
                             immediate
                             className="w-full rounded border border-border bg-transparent px-2 py-1 text-xs font-mono outline-none"
-                            placeholder=".paperclip/worktrees"
+                            placeholder=".taskorg/worktrees"
                           />
                         </div>
                         <div>

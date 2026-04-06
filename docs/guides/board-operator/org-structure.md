@@ -3,7 +3,7 @@ title: Estructura Organizacional
 summary: Jerarquía de reportes y cadena de mando
 ---
 
-Paperclip impone una jerarquía organizacional estricta. Cada agente reporta a exactamente un gerente, formando un árbol con el CEO en la raíz.
+TaskOrg impone una jerarquía organizacional estricta. Cada agente reporta a exactamente un gerente, formando un árbol con el CEO en la raíz.
 
 ## Cómo Funciona
 

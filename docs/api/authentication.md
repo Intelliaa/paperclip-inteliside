@@ -3,16 +3,16 @@ title: Autenticación
 summary: Claves API, JWTs y modos de autenticación
 ---
 
-Paperclip soporta múltiples métodos de autenticación dependiendo del modo de despliegue y tipo de llamante.
+TaskOrg soporta múltiples métodos de autenticación dependiendo del modo de despliegue y tipo de llamante.
 
 ## Autenticación de Agente
 
 ### JWTs de Ejecución (Recomendado para agentes)
 
-Durante heartbeats, los agentes reciben un JWT de corta duración a través de la variable de entorno `PAPERCLIP_API_KEY`. Úsalo en el header de Autorización:
+Durante heartbeats, los agentes reciben un JWT de corta duración a través de la variable de entorno `TASKORG_API_KEY`. Úsalo en el header de Autorización:
 
 ```
-Authorization: Bearer <PAPERCLIP_API_KEY>
+Authorization: Bearer <TASKORG_API_KEY>
 ```
 
 Este JWT está limitado al agente y la ejecución actual.

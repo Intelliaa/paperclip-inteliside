@@ -6,8 +6,8 @@ import { authApi } from "../api/auth";
 import { healthApi } from "../api/health";
 import { queryKeys } from "../lib/queryKeys";
 import { Button } from "@/components/ui/button";
-import { AGENT_ADAPTER_TYPES } from "@paperclipai/shared";
-import type { AgentAdapterType, JoinRequest } from "@paperclipai/shared";
+import { AGENT_ADAPTER_TYPES } from "@taskorg/shared";
+import type { AgentAdapterType, JoinRequest } from "@taskorg/shared";
 
 type JoinType = "human" | "agent";
 const joinAdapterOptions: AgentAdapterType[] = [...AGENT_ADAPTER_TYPES];
@@ -182,7 +182,7 @@ export function InviteLandingPage() {
           )}
           {(onboardingSkillUrl || onboardingSkillPath || onboardingInstallPath) && (
             <div className="mt-3 space-y-1 rounded-md border border-border bg-muted/30 p-3 text-xs text-muted-foreground">
-              <p className="font-medium text-foreground">Bootstrap de skill de Paperclip</p>
+              <p className="font-medium text-foreground">Bootstrap de skill de TaskOrg</p>
               {onboardingSkillUrl && <p className="font-mono break-all">GET {onboardingSkillUrl}</p>}
               {!onboardingSkillUrl && onboardingSkillPath && <p className="font-mono break-all">GET {onboardingSkillPath}</p>}
               {onboardingInstallPath && <p className="font-mono break-all">Instalar en {onboardingInstallPath}</p>}
@@ -218,10 +218,10 @@ export function InviteLandingPage() {
       <div className="rounded-lg border border-border bg-card p-6">
         <h1 className="text-xl font-semibold">
           {invite.inviteType === "bootstrap_ceo"
-            ? "Inicializa tu instancia de Paperclip"
+            ? "Inicializa tu instancia de TaskOrg"
             : companyName
               ? `Unirse a ${companyName}`
-              : "Unirse a esta compañía de Paperclip"}
+              : "Unirse a esta compañía de TaskOrg"}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
           {invite.inviteType !== "bootstrap_ceo" && companyName

@@ -1,0 +1,23 @@
+[Unit]
+Description=Inteliside Agent Orchestrator
+Requires=taskorg-db.service
+After=taskorg-db.service
+
+[Container]
+Image=taskorg-local
+ContainerName=taskorg
+Pod=taskorg.pod
+Volume=%h/.local/share/taskorg:/taskorg:Z
+Environment=HOST=0.0.0.0
+Environment=TASKORG_HOME=/taskorg
+Environment=TASKORG_DEPLOYMENT_MODE=authenticated
+Environment=TASKORG_DEPLOYMENT_EXPOSURE=private
+Environment=TASKORG_PUBLIC_URL=http://localhost:3100
+EnvironmentFile=%h/.config/containers/systemd/taskorg.env
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=120
+
+[Install]
+WantedBy=default.target
