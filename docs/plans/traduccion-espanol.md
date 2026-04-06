@@ -2,7 +2,7 @@
 
 **Rama:** `feat/traduccion-espanol`  
 **Fecha:** 2026-04-05  
-**Estado:** En progreso — Fases 1-3 completadas
+**Estado:** En progreso — Fases 1-4 completadas
 
 ---
 
@@ -126,89 +126,91 @@ Prioridad alta. Texto visible directamente al usuario en el navegador. Se excluy
 
 ---
 
-### Fase 4 — UI: Componentes (~80 archivos)
+### Fase 4 — UI: Componentes (56 archivos) ✅
 
 Prioridad media. Texto compartido entre páginas. Se excluyen `.test.tsx`.
 
-- [ ] `ui/src/components/AccountingModelCard.tsx`
-- [ ] `ui/src/components/ActiveAgentsPanel.tsx`
-- [ ] `ui/src/components/ActivityCharts.tsx`
-- [ ] `ui/src/components/ActivityRow.tsx`
-- [ ] `ui/src/components/AgentActionButtons.tsx`
-- [ ] `ui/src/components/AgentConfigForm.tsx`
-- [ ] `ui/src/components/AgentIconPicker.tsx`
-- [ ] `ui/src/components/AgentProperties.tsx`
-- [ ] `ui/src/components/ApprovalCard.tsx`
-- [ ] `ui/src/components/ApprovalPayload.tsx`
-- [ ] `ui/src/components/BillerSpendCard.tsx`
-- [ ] `ui/src/components/BreadcrumbBar.tsx`
-- [ ] `ui/src/components/BudgetIncidentCard.tsx`
-- [ ] `ui/src/components/BudgetPolicyCard.tsx`
-- [ ] `ui/src/components/BudgetSidebarMarker.tsx`
-- [ ] `ui/src/components/ClaudeSubscriptionPanel.tsx`
-- [ ] `ui/src/components/CodexSubscriptionPanel.tsx`
-- [ ] `ui/src/components/CommandPalette.tsx`
-- [ ] `ui/src/components/CommentThread.tsx`
-- [ ] `ui/src/components/CompanyRail.tsx`
-- [ ] `ui/src/components/CompanySwitcher.tsx`
-- [ ] `ui/src/components/CopyText.tsx`
-- [ ] `ui/src/components/DevRestartBanner.tsx`
-- [ ] `ui/src/components/EmptyState.tsx`
-- [ ] `ui/src/components/EntityRow.tsx`
-- [ ] `ui/src/components/ExecutionWorkspaceCloseDialog.tsx`
-- [ ] `ui/src/components/FilterBar.tsx`
-- [ ] `ui/src/components/FinanceBillerCard.tsx`
-- [ ] `ui/src/components/FinanceKindCard.tsx`
-- [ ] `ui/src/components/FinanceTimelineCard.tsx`
-- [ ] `ui/src/components/GoalProperties.tsx`
-- [ ] `ui/src/components/GoalTree.tsx`
-- [ ] `ui/src/components/Identity.tsx`
-- [ ] `ui/src/components/ImageGalleryModal.tsx`
-- [ ] `ui/src/components/InlineEditor.tsx`
-- [ ] `ui/src/components/InlineEntitySelector.tsx`
-- [ ] `ui/src/components/InstanceSidebar.tsx`
-- [ ] `ui/src/components/IssueDocumentsSection.tsx`
-- [ ] `ui/src/components/IssueProperties.tsx`
-- [ ] `ui/src/components/IssueRow.tsx`
-- [ ] `ui/src/components/IssueWorkspaceCard.tsx`
-- [ ] `ui/src/components/IssuesList.tsx`
-- [ ] `ui/src/components/IssuesQuicklook.tsx`
-- [ ] `ui/src/components/JsonSchemaForm.tsx`
-- [ ] `ui/src/components/KanbanBoard.tsx`
-- [ ] `ui/src/components/Layout.tsx`
-- [ ] `ui/src/components/LiveRunWidget.tsx`
-- [ ] `ui/src/components/MarkdownBody.tsx`
-- [ ] `ui/src/components/MarkdownEditor.tsx`
-- [ ] `ui/src/components/MetricCard.tsx`
-- [ ] `ui/src/components/MobileBottomNav.tsx`
-- [ ] `ui/src/components/NewAgentDialog.tsx`
-- [ ] `ui/src/components/NewGoalDialog.tsx`
-- [ ] `ui/src/components/NewIssueDialog.tsx`
-- [ ] `ui/src/components/NewProjectDialog.tsx`
-- [ ] `ui/src/components/OnboardingWizard.tsx`
-- [ ] `ui/src/components/OutputFeedbackButtons.tsx`
-- [ ] `ui/src/components/PackageFileTree.tsx`
-- [ ] `ui/src/components/PageTabBar.tsx`
-- [ ] `ui/src/components/PathInstructionsModal.tsx`
-- [ ] `ui/src/components/PriorityIcon.tsx`
-- [ ] `ui/src/components/ProjectProperties.tsx`
-- [ ] `ui/src/components/PropertiesPanel.tsx`
-- [ ] `ui/src/components/ProviderQuotaCard.tsx`
-- [ ] `ui/src/components/QuotaBar.tsx`
-- [ ] `ui/src/components/ReportsToPicker.tsx`
-- [ ] `ui/src/components/RoutineRunVariablesDialog.tsx`
-- [ ] `ui/src/components/RoutineVariablesEditor.tsx`
-- [ ] `ui/src/components/ScheduleEditor.tsx`
-- [ ] `ui/src/components/Sidebar.tsx`
-- [ ] `ui/src/components/SidebarAgents.tsx`
-- [ ] `ui/src/components/SidebarNavItem.tsx`
-- [ ] `ui/src/components/SidebarProjects.tsx`
-- [ ] `ui/src/components/SidebarSection.tsx`
-- [ ] `ui/src/components/StatusBadge.tsx`
-- [ ] `ui/src/components/StatusIcon.tsx`
-- [ ] `ui/src/components/SwipeToArchive.tsx`
-- [ ] `ui/src/components/WorktreeBanner.tsx`
-- [ ] `ui/src/components/agent-config-primitives.tsx`
+**Estado**: COMPLETADO — 56 componentes traducidos al español.
+
+- [x] `ui/src/components/AccountingModelCard.tsx`
+- [x] `ui/src/components/ActiveAgentsPanel.tsx`
+- [x] `ui/src/components/ActivityCharts.tsx`
+- [x] `ui/src/components/ActivityRow.tsx`
+- [x] `ui/src/components/AgentActionButtons.tsx`
+- [x] `ui/src/components/AgentConfigForm.tsx`
+- [x] `ui/src/components/AgentIconPicker.tsx`
+- [x] `ui/src/components/AgentProperties.tsx`
+- [x] `ui/src/components/ApprovalCard.tsx`
+- [x] `ui/src/components/ApprovalPayload.tsx`
+- [x] `ui/src/components/BillerSpendCard.tsx`
+- [x] `ui/src/components/BreadcrumbBar.tsx`
+- [x] `ui/src/components/BudgetIncidentCard.tsx`
+- [x] `ui/src/components/BudgetPolicyCard.tsx`
+- [x] `ui/src/components/BudgetSidebarMarker.tsx`
+- [x] `ui/src/components/ClaudeSubscriptionPanel.tsx`
+- [x] `ui/src/components/CodexSubscriptionPanel.tsx`
+- [x] `ui/src/components/CommandPalette.tsx`
+- [x] `ui/src/components/CommentThread.tsx`
+- [x] `ui/src/components/CompanyRail.tsx`
+- [x] `ui/src/components/CompanySwitcher.tsx`
+- [x] `ui/src/components/CopyText.tsx`
+- [x] `ui/src/components/DevRestartBanner.tsx`
+- [x] `ui/src/components/EmptyState.tsx`
+- [x] `ui/src/components/EntityRow.tsx`
+- [x] `ui/src/components/ExecutionWorkspaceCloseDialog.tsx`
+- [x] `ui/src/components/FilterBar.tsx`
+- [x] `ui/src/components/FinanceBillerCard.tsx`
+- [x] `ui/src/components/FinanceKindCard.tsx`
+- [x] `ui/src/components/FinanceTimelineCard.tsx`
+- [x] `ui/src/components/GoalProperties.tsx`
+- [x] `ui/src/components/GoalTree.tsx`
+- [x] `ui/src/components/Identity.tsx`
+- [x] `ui/src/components/ImageGalleryModal.tsx`
+- [x] `ui/src/components/InlineEditor.tsx`
+- [x] `ui/src/components/InlineEntitySelector.tsx`
+- [x] `ui/src/components/InstanceSidebar.tsx`
+- [x] `ui/src/components/IssueDocumentsSection.tsx`
+- [x] `ui/src/components/IssueProperties.tsx`
+- [x] `ui/src/components/IssueRow.tsx`
+- [x] `ui/src/components/IssueWorkspaceCard.tsx`
+- [x] `ui/src/components/IssuesList.tsx`
+- [x] `ui/src/components/IssuesQuicklook.tsx`
+- [x] `ui/src/components/JsonSchemaForm.tsx`
+- [x] `ui/src/components/KanbanBoard.tsx`
+- [x] `ui/src/components/Layout.tsx`
+- [x] `ui/src/components/LiveRunWidget.tsx`
+- [x] `ui/src/components/MarkdownBody.tsx`
+- [x] `ui/src/components/MarkdownEditor.tsx`
+- [x] `ui/src/components/MetricCard.tsx`
+- [x] `ui/src/components/MobileBottomNav.tsx`
+- [x] `ui/src/components/NewAgentDialog.tsx`
+- [x] `ui/src/components/NewGoalDialog.tsx`
+- [x] `ui/src/components/NewIssueDialog.tsx`
+- [x] `ui/src/components/NewProjectDialog.tsx`
+- [x] `ui/src/components/OnboardingWizard.tsx`
+- [x] `ui/src/components/OutputFeedbackButtons.tsx`
+- [x] `ui/src/components/PackageFileTree.tsx`
+- [x] `ui/src/components/PageTabBar.tsx`
+- [x] `ui/src/components/PathInstructionsModal.tsx`
+- [x] `ui/src/components/PriorityIcon.tsx`
+- [x] `ui/src/components/ProjectProperties.tsx`
+- [x] `ui/src/components/PropertiesPanel.tsx`
+- [x] `ui/src/components/ProviderQuotaCard.tsx`
+- [x] `ui/src/components/QuotaBar.tsx`
+- [x] `ui/src/components/ReportsToPicker.tsx`
+- [x] `ui/src/components/RoutineRunVariablesDialog.tsx`
+- [x] `ui/src/components/RoutineVariablesEditor.tsx`
+- [x] `ui/src/components/ScheduleEditor.tsx`
+- [x] `ui/src/components/Sidebar.tsx`
+- [x] `ui/src/components/SidebarAgents.tsx`
+- [x] `ui/src/components/SidebarNavItem.tsx`
+- [x] `ui/src/components/SidebarProjects.tsx`
+- [x] `ui/src/components/SidebarSection.tsx`
+- [x] `ui/src/components/StatusBadge.tsx`
+- [x] `ui/src/components/StatusIcon.tsx`
+- [x] `ui/src/components/SwipeToArchive.tsx`
+- [x] `ui/src/components/WorktreeBanner.tsx`
+- [x] `ui/src/components/agent-config-primitives.tsx`
 
 ---
 
