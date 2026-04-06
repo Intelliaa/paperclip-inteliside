@@ -2,7 +2,7 @@
 
 **Rama:** `feat/traduccion-espanol`  
 **Fecha:** 2026-04-05  
-**Estado:** En progreso — Fases 1-4 completadas
+**Estado:** En progreso — Fases 1-4 completadas, Fase 5 en progreso (19/62 docs)
 
 ---
 
@@ -218,30 +218,30 @@ Prioridad media. Texto compartido entre páginas. Se excluyen `.test.tsx`.
 
 Prioridad media-baja. Documentación del proyecto para desarrolladores y operadores.
 
-#### `docs/start/` (4 archivos)
-- [ ] `docs/start/what-is-paperclip.md`
-- [ ] `docs/start/quickstart.md`
-- [ ] `docs/start/architecture.md`
-- [ ] `docs/start/core-concepts.md`
+#### `docs/start/` (4 archivos) ✅
+- [x] `docs/start/what-is-paperclip.md`
+- [x] `docs/start/quickstart.md`
+- [x] `docs/start/architecture.md`
+- [x] `docs/start/core-concepts.md`
 
-#### `docs/api/` (12 archivos)
-- [ ] `docs/api/overview.md`
-- [ ] `docs/api/authentication.md`
-- [ ] `docs/api/agents.md`
-- [ ] `docs/api/issues.md`
-- [ ] `docs/api/approvals.md`
-- [ ] `docs/api/companies.md`
-- [ ] `docs/api/costs.md`
-- [ ] `docs/api/dashboard.md`
-- [ ] `docs/api/goals-and-projects.md`
-- [ ] `docs/api/activity.md`
-- [ ] `docs/api/routines.md`
-- [ ] `docs/api/secrets.md`
+#### `docs/api/` (12 archivos) ✅
+- [x] `docs/api/overview.md`
+- [x] `docs/api/authentication.md`
+- [x] `docs/api/agents.md`
+- [x] `docs/api/issues.md`
+- [x] `docs/api/approvals.md`
+- [x] `docs/api/companies.md`
+- [x] `docs/api/costs.md`
+- [x] `docs/api/dashboard.md`
+- [x] `docs/api/goals-and-projects.md`
+- [x] `docs/api/activity.md`
+- [x] `docs/api/routines.md`
+- [x] `docs/api/secrets.md`
 
-#### `docs/cli/` (3 archivos)
-- [ ] `docs/cli/overview.md`
-- [ ] `docs/cli/control-plane-commands.md`
-- [ ] `docs/cli/setup-commands.md`
+#### `docs/cli/` (3 archivos) ✅
+- [x] `docs/cli/overview.md`
+- [x] `docs/cli/control-plane-commands.md`
+- [x] `docs/cli/setup-commands.md`
 
 #### `docs/deploy/` (9 archivos)
 - [ ] `docs/deploy/overview.md`
