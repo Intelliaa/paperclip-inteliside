@@ -243,16 +243,16 @@ Prioridad media-baja. Documentación del proyecto para desarrolladores y operado
 - [x] `docs/cli/control-plane-commands.md`
 - [x] `docs/cli/setup-commands.md`
 
-#### `docs/deploy/` (9 archivos)
-- [ ] `docs/deploy/overview.md`
-- [ ] `docs/deploy/docker.md`
-- [ ] `docs/deploy/database.md`
-- [ ] `docs/deploy/deployment-modes.md`
-- [ ] `docs/deploy/environment-variables.md`
-- [ ] `docs/deploy/local-development.md`
-- [ ] `docs/deploy/secrets.md`
-- [ ] `docs/deploy/storage.md`
-- [ ] `docs/deploy/tailscale-private-access.md`
+#### `docs/deploy/` (9 archivos) ✅
+- [x] `docs/deploy/overview.md`
+- [x] `docs/deploy/docker.md`
+- [x] `docs/deploy/database.md`
+- [x] `docs/deploy/deployment-modes.md`
+- [x] `docs/deploy/environment-variables.md`
+- [x] `docs/deploy/local-development.md`
+- [x] `docs/deploy/secrets.md`
+- [x] `docs/deploy/storage.md`
+- [x] `docs/deploy/tailscale-private-access.md`
 
 #### `docs/adapters/` (9 archivos)
 - [ ] `docs/adapters/overview.md`
