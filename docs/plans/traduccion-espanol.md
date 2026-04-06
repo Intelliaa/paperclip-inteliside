@@ -254,16 +254,16 @@ Prioridad media-baja. Documentación del proyecto para desarrolladores y operado
 - [x] `docs/deploy/storage.md`
 - [x] `docs/deploy/tailscale-private-access.md`
 
-#### `docs/adapters/` (9 archivos)
-- [ ] `docs/adapters/overview.md`
-- [ ] `docs/adapters/adapter-ui-parser.md`
-- [ ] `docs/adapters/claude-local.md`
-- [ ] `docs/adapters/codex-local.md`
-- [ ] `docs/adapters/creating-an-adapter.md`
-- [ ] `docs/adapters/external-adapters.md`
-- [ ] `docs/adapters/gemini-local.md`
-- [ ] `docs/adapters/http.md`
-- [ ] `docs/adapters/process.md`
+#### `docs/adapters/` (9 archivos) ✅
+- [x] `docs/adapters/overview.md`
+- [x] `docs/adapters/adapter-ui-parser.md`
+- [x] `docs/adapters/claude-local.md`
+- [x] `docs/adapters/codex-local.md`
+- [x] `docs/adapters/creating-an-adapter.md`
+- [x] `docs/adapters/external-adapters.md`
+- [x] `docs/adapters/gemini-local.md`
+- [x] `docs/adapters/http.md`
+- [x] `docs/adapters/process.md`
 
 #### `docs/guides/board-operator/` (12 archivos)
 - [ ] `docs/guides/board-operator/activity-log.md`

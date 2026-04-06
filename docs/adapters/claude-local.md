@@ -1,65 +1,65 @@
 ---
 title: Claude Local
-summary: Claude Code local adapter setup and configuration
+summary: Configuración del adapter local de Claude Code
 ---
 
-The `claude_local` adapter runs Anthropic's Claude Code CLI locally. It supports session persistence, skills injection, and structured output parsing.
+El adapter `claude_local` ejecuta el CLI de Claude Code de Anthropic localmente. Soporta persistencia de sesión, inyección de skills, y análisis de salida estructurado.
 
-## Prerequisites
+## Requisitos Previos
 
-- Claude Code CLI installed (`claude` command available)
-- `ANTHROPIC_API_KEY` set in the environment or agent config
+- CLI de Claude Code instalado (comando `claude` disponible)
+- `ANTHROPIC_API_KEY` establecido en el entorno o configuración del agente
 
-## Configuration Fields
+## Campos de Configuración
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Requerido | Descripción |
 |-------|------|----------|-------------|
-| `cwd` | string | Yes | Working directory for the agent process (absolute path; created automatically if missing when permissions allow) |
-| `model` | string | No | Claude model to use (e.g. `claude-opus-4-6`) |
-| `promptTemplate` | string | No | Prompt used for all runs |
-| `env` | object | No | Environment variables (supports secret refs) |
-| `timeoutSec` | number | No | Process timeout (0 = no timeout) |
-| `graceSec` | number | No | Grace period before force-kill |
-| `maxTurnsPerRun` | number | No | Max agentic turns per heartbeat (defaults to `300`) |
-| `dangerouslySkipPermissions` | boolean | No | Skip permission prompts (default: `true`); required for headless runs where interactive approval is impossible |
+| `cwd` | string | Sí | Directorio de trabajo para el proceso del agente (ruta absoluta; se crea automáticamente si falta cuando los permisos lo permiten) |
+| `model` | string | No | Modelo Claude a usar (ej. `claude-opus-4-6`) |
+| `promptTemplate` | string | No | Prompt usado para todas las ejecuciones |
+| `env` | object | No | Variables de entorno (soporta referencias secretas) |
+| `timeoutSec` | number | No | Timeout del proceso (0 = sin timeout) |
+| `graceSec` | number | No | Período de gracia antes de force-kill |
+| `maxTurnsPerRun` | number | No | Máximo de turnos agenticos por heartbeat (predeterminado a `300`) |
+| `dangerouslySkipPermissions` | boolean | No | Omitir prompts de permiso (predeterminado: `true`); requerido para ejecuciones sin interfaz donde la aprobación interactiva es imposible |
 
-## Prompt Templates
+## Plantillas de Prompt
 
-Templates support `{{variable}}` substitution:
+Las plantillas soportan sustitución de `{{variable}}`:
 
-| Variable | Value |
+| Variable | Valor |
 |----------|-------|
-| `{{agentId}}` | Agent's ID |
-| `{{companyId}}` | Company ID |
-| `{{runId}}` | Current run ID |
-| `{{agent.name}}` | Agent's name |
-| `{{company.name}}` | Company name |
+| `{{agentId}}` | ID del agente |
+| `{{companyId}}` | ID de compañía |
+| `{{runId}}` | ID de ejecución actual |
+| `{{agent.name}}` | Nombre del agente |
+| `{{company.name}}` | Nombre de la compañía |
 
-## Session Persistence
+## Persistencia de Sesión
 
-The adapter persists Claude Code session IDs between heartbeats. On the next wake, it resumes the existing conversation so the agent retains full context.
+El adapter persiste los IDs de sesión de Claude Code entre heartbeats. En el próximo despertar, reanuda la conversación existente para que el agente reetenga el contexto completo.
 
-Session resume is cwd-aware: if the agent's working directory changed since the last run, a fresh session starts instead.
+La reanudación de sesión es sensible a cwd: si el directorio de trabajo del agente cambió desde la última ejecución, se inicia una sesión nueva en su lugar.
 
-If resume fails with an unknown session error, the adapter automatically retries with a fresh session.
+Si la reanudación falla con un error de sesión desconocido, el adapter automáticamente reintenta con una sesión nueva.
 
-## Skills Injection
+## Inyección de Skills
 
-The adapter creates a temporary directory with symlinks to Paperclip skills and passes it via `--add-dir`. This makes skills discoverable without polluting the agent's working directory.
+El adapter crea un directorio temporal con symlinks a skills de Paperclip y lo pasa a través de `--add-dir`. Esto hace que los skills sean descubribles sin contaminar el directorio de trabajo del agente.
 
-For manual local CLI usage outside heartbeat runs (for example running as `claudecoder` directly), use:
+Para uso manual del CLI local fuera de ejecuciones de heartbeat (por ejemplo ejecutando como `claudecoder` directamente), usa:
 
 ```sh
 pnpm paperclipai agent local-cli claudecoder --company-id <company-id>
 ```
 
-This installs Paperclip skills in `~/.claude/skills`, creates an agent API key, and prints shell exports to run as that agent.
+Esto instala skills de Paperclip en `~/.claude/skills`, crea una clave API del agente, e imprime exports de shell para ejecutar como ese agente.
 
-## Environment Test
+## Prueba del Entorno
 
-Use the "Test Environment" button in the UI to validate the adapter config. It checks:
+Usa el botón "Test Environment" en la UI para validar la configuración del adapter. Verifica:
 
-- Claude CLI is installed and accessible
-- Working directory is absolute and available (auto-created if missing and permitted)
-- API key/auth mode hints (`ANTHROPIC_API_KEY` vs subscription login)
-- A live hello probe (`claude --print - --output-format stream-json --verbose` with prompt `Respond with hello.`) to verify CLI readiness
+- CLI de Claude está instalado y accesible
+- El directorio de trabajo es absoluto y está disponible (se crea automáticamente si falta y está permitido)
+- Pistas de clave API/modo de autenticación (`ANTHROPIC_API_KEY` vs login de suscripción)
+- Una prueba viva de hello (`claude --print - --output-format stream-json --verbose` con prompt `Respond with hello.`) para verificar la disponibilidad del CLI

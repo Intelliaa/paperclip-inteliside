@@ -1,19 +1,19 @@
 ---
-title: External Adapters
-summary: Build, package, and distribute adapters as plugins without modifying Paperclip source
+title: Adapters Externos
+summary: Construye, empaqueta, y distribuye adapters como plugins sin modificar el código fuente de Paperclip
 ---
 
-Paperclip supports external adapter plugins that can be installed from npm packages or local directories. External adapters work exactly like built-in adapters — they execute agents, parse output, and render transcripts — but they live in their own package and don't require changes to Paperclip's source code.
+Paperclip soporta plugins de adapter externos que pueden ser instalados desde paquetes npm o directorios locales. Los adapters externos funcionan exactamente como adapters incorporados — ejecutan agentes, analizan salida, y renderizen transcripciones — pero viven en su propio paquete y no requieren cambios al código fuente de Paperclip.
 
-## Built-in vs External
+## Incorporado vs Externo
 
-| | Built-in | External |
+| | Incorporado | Externo |
 |---|---|---|
-| Source location | Inside `paperclip-fork/packages/adapters/` | Separate npm package or local directory |
-| Registration | Hardcoded in three registries | Loaded at startup via plugin system |
-| UI parser | Static import at build time | Dynamically loaded from API (see [UI Parser](/adapters/adapter-ui-parser)) |
-| Distribution | Ships with Paperclip | Published to npm or linked via `file:` |
-| Updates | Requires Paperclip release | Independent versioning |
+| Ubicación de fuente | Dentro de `paperclip-fork/packages/adapters/` | Paquete npm separado o directorio local |
+| Registro | Codificado en tres registros | Cargado al inicio a través del sistema de plugins |
+| UI parser | Importación estática en tiempo de compilación | Cargado dinámicamente desde API (ver [UI Parser](/adapters/adapter-ui-parser)) |
+| Distribución | Se envía con Paperclip | Publicado en npm o enlazado vía `file:` |
+| Actualizaciones | Requiere lanzamiento de Paperclip | Versionado independiente |
 
 ## Quick Start
 
