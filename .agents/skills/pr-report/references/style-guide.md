@@ -1,68 +1,68 @@
-# PR Report Style Guide
+# Guía de Estilo de Reporte de PR
 
-Use this guide when the user wants a report artifact, especially a webpage.
+Usar esta guía cuando el usuario quiera un artefacto de reporte, especialmente una página web.
 
-## Goal
+## Objetivo
 
-Make the report feel like an editorial review, not an internal admin dashboard.
-The page should make a long technical argument easy to scan without looking
-generic or overdesigned.
+Hacer que el reporte se sienta como una reseña editorial, no como un dashboard de administración
+interno. La página debe hacer que un argumento técnico extenso sea fácil de escanear sin verse
+genérico o sobre-diseñado.
 
-## Visual Direction
+## Dirección Visual
 
-Preferred tone:
+Tono preferido:
 
 - editorial
-- warm
-- serious
-- high-contrast
-- handcrafted, not corporate SaaS
+- cálido
+- serio
+- alto contraste
+- artesanal, no SaaS corporativo
 
-Avoid:
+Evitar:
 
-- default app-shell layouts
-- purple gradients on white
-- generic card dashboards
-- cramped pages with weak hierarchy
-- novelty fonts that hurt readability
+- layouts de shell de aplicación por defecto
+- gradientes púrpura sobre blanco
+- dashboards genéricos de tarjetas
+- páginas apretadas con jerarquía débil
+- fuentes novedosas que perjudican la legibilidad
 
-## Typography
+## Tipografía
 
-Recommended pattern:
+Patrón recomendado:
 
-- one expressive serif or display face for major headings
-- one sturdy sans-serif for body copy and UI labels
+- una fuente serif o display expresiva para encabezados principales
+- una sans-serif robusta para cuerpo de texto y etiquetas de UI
 
-Good combinations:
+Buenas combinaciones:
 
 - Newsreader + IBM Plex Sans
 - Source Serif 4 + Instrument Sans
 - Fraunces + Public Sans
 - Libre Baskerville + Work Sans
 
-Rules:
+Reglas:
 
-- headings should feel deliberate and large
-- body copy should stay comfortable for long reading
-- reference labels and badges should use smaller dense sans text
+- los encabezados deben sentirse deliberados y grandes
+- el cuerpo de texto debe mantenerse cómodo para lectura prolongada
+- las etiquetas de referencia e insignias deben usar texto sans denso más pequeño
 
 ## Layout
 
-Recommended structure:
+Estructura recomendada:
 
-- a sticky side or top navigation for long reports
-- one strong hero summary at the top
-- panel or paper-like sections for each major topic
-- multi-column card grids for comparisons and strengths
-- single-column body text for findings and recommendations
+- una navegación fija lateral o superior para reportes largos
+- un resumen hero fuerte en la parte superior
+- secciones tipo panel o papel para cada tema principal
+- grillas de tarjetas multi-columna para comparaciones y fortalezas
+- texto de cuerpo en una sola columna para hallazgos y recomendaciones
 
-Use generous spacing. Long-form technical reports need breathing room.
+Usar espaciado generoso. Los reportes técnicos extensos necesitan espacio para respirar.
 
 ## Color
 
-Prefer muted paper-like backgrounds with one warm accent and one cool counterweight.
+Preferir fondos tipo papel apagados con un acento cálido y un contrapeso frío.
 
-Suggested token categories:
+Categorías de tokens sugeridas:
 
 - `--bg`
 - `--paper`
@@ -74,76 +74,76 @@ Suggested token categories:
 - `--warn`
 - `--bad`
 
-The accent should highlight navigation, badges, and important labels. Do not
-let accent colors dominate body text.
+El acento debe resaltar navegación, insignias y etiquetas importantes. No dejar
+que los colores de acento dominen el texto del cuerpo.
 
-## Useful UI Elements
+## Elementos de UI Útiles
 
-Include small reusable styles for:
+Incluir estilos pequeños reutilizables para:
 
-- summary metrics
-- badges
-- quotes or callouts
-- finding cards
-- severity labels
-- reference labels
-- comparison cards
-- responsive two-column sections
+- métricas de resumen
+- insignias
+- citas o llamadas de atención
+- tarjetas de hallazgos
+- etiquetas de severidad
+- etiquetas de referencia
+- tarjetas de comparación
+- secciones responsivas de dos columnas
 
-## Motion
+## Movimiento
 
-Keep motion restrained.
+Mantener el movimiento contenido.
 
-Good:
+Bueno:
 
-- soft fade/slide-in on first load
-- hover response on nav items or cards
+- fundido/deslizamiento suave en la primera carga
+- respuesta hover en elementos de navegación o tarjetas
 
-Bad:
+Malo:
 
-- constant animation
-- floating blobs
-- decorative motion with no reading benefit
+- animación constante
+- formas flotantes
+- movimiento decorativo sin beneficio de lectura
 
-## Content Presentation
+## Presentación de Contenido
 
-Even when the user wants design polish, clarity stays primary.
+Incluso cuando el usuario quiere pulido de diseño, la claridad sigue siendo primaria.
 
-Good structure for long reports:
+Buena estructura para reportes largos:
 
-1. executive summary
-2. what changed
-3. tutorial explanation
-4. strengths
-5. findings
-6. comparisons
-7. recommendation
+1. resumen ejecutivo
+2. qué cambió
+3. explicación tutorial
+4. fortalezas
+5. hallazgos
+6. comparaciones
+7. recomendación
 
-The exact headings can change. The important thing is to separate explanation
-from judgment.
+Los encabezados exactos pueden cambiar. Lo importante es separar la explicación
+del juicio.
 
-## References
+## Referencias
 
-Reference labels should be visually quiet but easy to spot.
+Las etiquetas de referencia deben ser visualmente discretas pero fáciles de detectar.
 
-Good pattern:
+Buen patrón:
 
-- small muted text
-- monospace or compact sans
-- keep them close to the paragraph they support
+- texto pequeño apagado
+- monoespaciada o sans compacta
+- mantenerlas cerca del párrafo que apoyan
 
-## Starter Usage
+## Uso del Inicio
 
-If you need a fast polished base, start from:
+Si necesitas una base pulida rápida, comenzar desde:
 
 - `assets/html-report-starter.html`
 
-Customize:
+Personalizar:
 
-- fonts
-- color tokens
-- hero copy
-- section ordering
-- card density
+- fuentes
+- tokens de color
+- texto hero
+- orden de secciones
+- densidad de tarjetas
 
-Do not preserve the placeholder sections if they do not fit the actual report.
+No preservar las secciones de marcador de posición si no encajan con el reporte real.

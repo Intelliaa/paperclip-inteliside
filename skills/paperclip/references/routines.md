@@ -1,29 +1,29 @@
-# Paperclip Routines
+# Routines de Paperclip
 
-Routines are recurring tasks. Each time a routine fires it creates an execution issue assigned to the routine's agent — the agent picks it up in the normal heartbeat flow.
+Las routines son tareas recurrentes. Cada vez que una routine se dispara, crea un issue de ejecución asignado al agente de la routine — el agente lo toma en el flujo normal de heartbeat.
 
-A routine has:
-- One assigned agent and one project
-- One or more triggers (`schedule`, `webhook`, or `api`)
-- A concurrency policy (what to do when a previous run is still active)
-- A catch-up policy (what to do with missed scheduled runs)
+Una routine tiene:
+- Un agente asignado y un proyecto
+- Uno o más triggers (`schedule`, `webhook`, o `api`)
+- Una política de concurrencia (qué hacer cuando una ejecución anterior aún está activa)
+- Una política de recuperación (qué hacer con ejecuciones programadas perdidas)
 
-**Authorization:** Agents can read all routines in their company but can only create or manage routines assigned to themselves. Board operators have full access, including reassignment.
+**Autorización:** Los agentes pueden leer todas las routines de su empresa pero solo pueden crear o gestionar routines asignadas a ellos mismos. Los operadores del board tienen acceso completo, incluyendo reasignación.
 
 ---
 
-## Lifecycle
+## Ciclo de Vida
 
 ```
 active <-> paused
-active  -> archived  (terminal — cannot be reactivated)
+active  -> archived  (terminal — no se puede reactivar)
 ```
 
-Paused routines do not fire. Archived routines do not fire and cannot be unarchived.
+Las routines pausadas no se disparan. Las routines archivadas no se disparan y no se pueden desarchivar.
 
 ---
 
-## Creating a Routine
+## Crear una Routine
 
 ```
 POST /api/companies/{companyId}/routines
@@ -32,8 +32,8 @@ POST /api/companies/{companyId}/routines
   "description": "Compile status report and post to Slack",
   "assigneeAgentId": "{agentId}",
   "projectId": "{projectId}",
-  "goalId": "{goalId}",           // optional
-  "parentIssueId": "{issueId}",   // optional — parent for run issues
+  "goalId": "{goalId}",           // opcional
+  "parentIssueId": "{issueId}",   // opcional — padre para issues de ejecución
   "priority": "medium",
   "status": "active",
   "concurrencyPolicy": "coalesce_if_active",
@@ -41,49 +41,49 @@ POST /api/companies/{companyId}/routines
 }
 ```
 
-| Field | Required | Notes |
-|-------|----------|-------|
-| `title` | yes | Max 200 chars |
-| `description` | no | Human-readable description of the routine |
-| `assigneeAgentId` | yes | Agents: must be themselves |
-| `projectId` | yes | |
-| `goalId` | no | Inherited by run issues |
-| `parentIssueId` | no | Run issues become children of this issue |
-| `priority` | no | `critical` `high` `medium` (default) `low` |
-| `status` | no | `active` (default) `paused` `archived` |
-| `concurrencyPolicy` | no | See below |
-| `catchUpPolicy` | no | See below |
+| Campo | Requerido | Notas |
+|-------|-----------|-------|
+| `title` | sí | Máximo 200 caracteres |
+| `description` | no | Descripción legible de la routine |
+| `assigneeAgentId` | sí | Agentes: debe ser ellos mismos |
+| `projectId` | sí | |
+| `goalId` | no | Heredado por los issues de ejecución |
+| `parentIssueId` | no | Los issues de ejecución se convierten en hijos de este issue |
+| `priority` | no | `critical` `high` `medium` (por defecto) `low` |
+| `status` | no | `active` (por defecto) `paused` `archived` |
+| `concurrencyPolicy` | no | Ver abajo |
+| `catchUpPolicy` | no | Ver abajo |
 
 ---
 
-## Concurrency Policies
+## Políticas de Concurrencia
 
-Controls what happens when a trigger fires while the previous run issue is still open or active.
+Controla qué sucede cuando un trigger se dispara mientras el issue de ejecución anterior aún está abierto o activo.
 
-| Policy | Behaviour |
-|--------|-----------|
-| `coalesce_if_active` **(default)** | New run is marked `coalesced` and linked to the existing active run — no new issue created |
-| `skip_if_active` | New run is marked `skipped` and linked to the existing active run — no new issue created |
-| `always_enqueue` | Always create a new issue regardless of active runs |
-
----
-
-## Catch-Up Policies
-
-Controls what happens with scheduled runs that were missed, for example during server downtime.
-
-| Policy | Behaviour |
-|--------|-----------|
-| `skip_missed` **(default)** | Missed runs are dropped |
-| `enqueue_missed_with_cap` | Missed runs are enqueued, capped at 25 |
+| Política | Comportamiento |
+|----------|----------------|
+| `coalesce_if_active` **(por defecto)** | La nueva ejecución se marca como `coalesced` y se vincula a la ejecución activa existente — no se crea un nuevo issue |
+| `skip_if_active` | La nueva ejecución se marca como `skipped` y se vincula a la ejecución activa existente — no se crea un nuevo issue |
+| `always_enqueue` | Siempre crea un nuevo issue independientemente de las ejecuciones activas |
 
 ---
 
-## Adding Triggers
+## Políticas de Recuperación
 
-A routine can have multiple triggers of different kinds.
+Controla qué sucede con las ejecuciones programadas que se perdieron, por ejemplo durante tiempo de inactividad del servidor.
 
-All trigger kinds accept an optional `label` field (max 120 chars), which is useful for distinguishing multiple triggers of the same kind on one routine.
+| Política | Comportamiento |
+|----------|----------------|
+| `skip_missed` **(por defecto)** | Las ejecuciones perdidas se descartan |
+| `enqueue_missed_with_cap` | Las ejecuciones perdidas se encolan, con un tope de 25 |
+
+---
+
+## Agregar Triggers
+
+Una routine puede tener múltiples triggers de diferentes tipos.
+
+Todos los tipos de trigger aceptan un campo opcional `label` (máximo 120 caracteres), útil para distinguir múltiples triggers del mismo tipo en una routine.
 
 ```
 POST /api/routines/{routineId}/triggers
@@ -99,9 +99,9 @@ POST /api/routines/{routineId}/triggers
 }
 ```
 
-- `cronExpression`: standard 5-field cron syntax
-- `timezone`: IANA timezone string (for example `UTC` or `America/New_York`)
-- The server computes `nextRunAt` automatically
+- `cronExpression`: sintaxis cron estándar de 5 campos
+- `timezone`: cadena de zona horaria IANA (por ejemplo `UTC` o `America/New_York`)
+- El servidor calcula `nextRunAt` automáticamente
 
 ### Webhook
 
@@ -113,14 +113,14 @@ POST /api/routines/{routineId}/triggers
 }
 ```
 
-- `signingMode`: `bearer` (default) or `hmac_sha256`
-- `replayWindowSec`: 30-86400 (default 300)
-- Response includes the webhook URL (`publicId`-based) and the signing secret
-- Fire externally: `POST /api/routine-triggers/public/{publicId}/fire`
+- `signingMode`: `bearer` (por defecto) o `hmac_sha256`
+- `replayWindowSec`: 30-86400 (por defecto 300)
+- La respuesta incluye la URL del webhook (basada en `publicId`) y el secreto de firma
+- Disparar externamente: `POST /api/routine-triggers/public/{publicId}/fire`
   - Bearer: `Authorization: Bearer <secret>`
-  - HMAC: `X-Paperclip-Signature` + `X-Paperclip-Timestamp` headers
+  - HMAC: encabezados `X-Paperclip-Signature` + `X-Paperclip-Timestamp`
 
-### API (manual only)
+### API (solo manual)
 
 ```json
 {
@@ -128,11 +128,11 @@ POST /api/routines/{routineId}/triggers
 }
 ```
 
-No configuration. Fire via the manual run endpoint.
+Sin configuración. Dispara vía el endpoint de ejecución manual.
 
 ---
 
-## Updating and Deleting Triggers
+## Actualizar y Eliminar Triggers
 
 ```
 PATCH /api/routine-triggers/{triggerId}
@@ -141,7 +141,7 @@ PATCH /api/routine-triggers/{triggerId}
 DELETE /api/routine-triggers/{triggerId}
 ```
 
-To rotate a webhook secret (the old secret is immediately invalidated):
+Para rotar un secreto de webhook (el secreto anterior se invalida inmediatamente):
 
 ```
 POST /api/routine-triggers/{triggerId}/rotate-secret
@@ -149,25 +149,25 @@ POST /api/routine-triggers/{triggerId}/rotate-secret
 
 ---
 
-## Manual Run
+## Ejecución Manual
 
-Fires a run immediately, bypassing the schedule. Concurrency policy still applies.
+Dispara una ejecución inmediatamente, omitiendo el horario. La política de concurrencia sigue aplicando.
 
 ```
 POST /api/routines/{routineId}/run
 {
   "source": "manual",
-  "triggerId": "{triggerId}",       // optional — attributes run to a specific trigger
-  "payload": { "context": "..." }, // optional — passed to the run issue
-  "idempotencyKey": "unique-key"   // optional — prevents duplicate runs
+  "triggerId": "{triggerId}",       // opcional — atribuye la ejecución a un trigger específico
+  "payload": { "context": "..." }, // opcional — se pasa al issue de ejecución
+  "idempotencyKey": "unique-key"   // opcional — previene ejecuciones duplicadas
 }
 ```
 
 ---
 
-## Updating a Routine
+## Actualizar una Routine
 
-All create fields are updatable. Agents cannot reassign a routine to another agent.
+Todos los campos de creación son actualizables. Los agentes no pueden reasignar una routine a otro agente.
 
 ```
 PATCH /api/routines/{routineId}
@@ -176,7 +176,7 @@ PATCH /api/routines/{routineId}
 
 ---
 
-## Reading Routines and Runs
+## Leer Routines y Ejecuciones
 
 ```
 GET /api/companies/{companyId}/routines
@@ -184,4 +184,4 @@ GET /api/routines/{routineId}
 GET /api/routines/{routineId}/runs?limit=50
 ```
 
-Use the generic API endpoint tables in `skills/paperclip/references/api-reference.md` when you need a full cross-domain reference. Use this file when you need routine-specific behaviour, payload shape, or policy details.
+Usa las tablas genéricas de endpoints de API en `skills/paperclip/references/api-reference.md` cuando necesites una referencia completa entre dominios. Usa este archivo cuando necesites comportamiento específico de routines, forma del payload o detalles de políticas.

@@ -3815,7 +3815,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
 
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-muted-foreground">
-          Transcript ({transcript.length})
+          Transcripción ({transcript.length})
         </span>
         <div className="flex items-center gap-2">
           <div className="inline-flex rounded-lg border border-border/70 bg-background/70 p-0.5">
@@ -3847,7 +3847,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
                 lastMetricsRef.current = readScrollMetrics(container);
               }}
             >
-              Jump to live
+              Saltar a en vivo
             </Button>
           )}
           {isLive && (
@@ -3856,7 +3856,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
                 <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
               </span>
-              Live
+              En vivo
             </span>
           )}
         </div>
@@ -3866,7 +3866,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
           entries={transcript}
           mode={transcriptMode}
           streaming={isLive}
-          emptyMessage={run.logRef ? "Waiting for transcript..." : "No persisted transcript for this run."}
+          emptyMessage={run.logRef ? "Esperando transcripción..." : "Sin transcripción persistente para esta ejecución."}
         />
         {logError && (
           <div className="mt-3 rounded-xl border border-red-500/20 bg-red-500/[0.06] px-3 py-2 text-xs text-red-700 dark:text-red-300">
@@ -3878,7 +3878,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
 
       {(run.status === "failed" || run.status === "timed_out") && (
         <div className="rounded-lg border border-red-300 dark:border-red-500/30 bg-red-50 dark:bg-red-950/20 p-3 space-y-2">
-          <div className="text-xs font-medium text-red-700 dark:text-red-300">Failure details</div>
+          <div className="text-xs font-medium text-red-700 dark:text-red-300">Detalles del fallo</div>
           {run.error && (
             <div className="text-xs text-red-600 dark:text-red-200">
               <span className="text-red-700 dark:text-red-300">Error: </span>
@@ -3887,7 +3887,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
           )}
           {run.stderrExcerpt && run.stderrExcerpt.trim() && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">stderr excerpt</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">extracto de stderr</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {redactPathText(run.stderrExcerpt, censorUsernameInLogs)}
               </pre>
@@ -3895,7 +3895,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
           )}
           {run.resultJson && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">adapter result JSON</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">JSON del resultado del adapter</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {JSON.stringify(redactPathValue(run.resultJson, censorUsernameInLogs), null, 2)}
               </pre>

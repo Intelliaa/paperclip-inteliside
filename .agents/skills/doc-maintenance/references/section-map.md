@@ -1,22 +1,22 @@
-# Section Map
+# Mapa de Secciones
 
-Maps feature areas to specific document sections so the skill knows where to
-look when a feature ships or changes.
+Mapea áreas de funcionalidad a secciones específicas del documento para que el skill sepa
+dónde buscar cuando una funcionalidad se envía o cambia.
 
-| Feature Area | README Section | SPEC Section | PRODUCT Section |
-|-------------|---------------|-------------|----------------|
-| Plugins / Extensions | Features table, Roadmap | Extensions, Agent Model | Core Concepts |
-| Adapters (new runtimes) | "Works with" table, FAQ | Agent Model, Agent Configuration | Employees & Agents, Agent Execution |
-| Governance / Approvals | Features table, "Why special" | Board Governance, Board Approval Gates | Principles |
-| Budget / Cost Control | Features table, "Why special" | Budget Delegation | Company (revenue & expenses) |
-| Task Management | Features table | Task Model | Task Management |
-| Org Chart / Hierarchy | Features table | Agent Model (reporting) | Employees & Agents |
-| Multi-Company | Features table, FAQ | Company Model | Company |
-| Heartbeats | Features table, FAQ | Agent Execution | Agent Execution |
-| CLI Commands | Development section | — | — |
-| Onboarding / Quickstart | Quickstart, FAQ | — | User Flow |
-| Skills / Skill Injection | "Why special" | — | — |
-| Company Templates | "Why special", Roadmap (ClipMart) | — | — |
-| Mobile / UI | Features table | — | — |
-| Project Archiving | — | — | — |
-| OpenClaw Integration | "Works with" table, FAQ | Agent Model | Agent Execution |
+| Área de Funcionalidad | Sección README | Sección SPEC | Sección PRODUCT |
+|----------------------|----------------|--------------|-----------------|
+| Plugins / Extensiones | Tabla de funcionalidades, Hoja de ruta | Extensiones, Modelo de Agente | Conceptos Fundamentales |
+| Adapters (nuevos runtimes) | Tabla "Funciona con", FAQ | Modelo de Agente, Configuración de Agente | Empleados y Agentes, Ejecución de Agente |
+| Gobernanza / Aprobaciones | Tabla de funcionalidades, "Por qué es especial" | Gobernanza del Tablero, Puertas de Aprobación del Tablero | Principios |
+| Presupuesto / Control de Costos | Tabla de funcionalidades, "Por qué es especial" | Delegación de Presupuesto | Compañía (ingresos y gastos) |
+| Gestión de Tareas | Tabla de funcionalidades | Modelo de Tarea | Gestión de Tareas |
+| Organigrama / Jerarquía | Tabla de funcionalidades | Modelo de Agente (reportes) | Empleados y Agentes |
+| Multi-Compañía | Tabla de funcionalidades, FAQ | Modelo de Compañía | Compañía |
+| Heartbeats | Tabla de funcionalidades, FAQ | Ejecución de Agente | Ejecución de Agente |
+| Comandos CLI | Sección de desarrollo | — | — |
+| Incorporación / Inicio Rápido | Inicio rápido, FAQ | — | Flujo de Usuario |
+| Skills / Inyección de Skills | "Por qué es especial" | — | — |
+| Plantillas de Compañía | "Por qué es especial", Hoja de ruta (ClipMart) | — | — |
+| Móvil / UI | Tabla de funcionalidades | — | — |
+| Archivado de Proyectos | — | — | — |
+| Integración OpenClaw | Tabla "Funciona con", FAQ | Modelo de Agente | Ejecución de Agente |

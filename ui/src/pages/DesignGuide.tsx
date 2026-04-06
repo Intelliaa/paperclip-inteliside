@@ -184,8 +184,8 @@ export function DesignGuide() {
     "Esta es una descripción editable. Haz clic para editarla — el área de texto se ajusta automáticamente al contenido sin desplazamiento de diseño."
   );
   const [filters, setFilters] = useState<FilterValue[]>([
-    { key: "status", label: "Status", value: "Active" },
-    { key: "priority", label: "Priority", value: "High" },
+    { key: "status", label: "Estado", value: "Activo" },
+    { key: "priority", label: "Prioridad", value: "Alto" },
   ]);
 
   return (
@@ -897,8 +897,8 @@ export function DesignGuide() {
             size="sm"
             onClick={() =>
               setFilters([
-                { key: "status", label: "Status", value: "Active" },
-                { key: "priority", label: "Priority", value: "High" },
+                { key: "status", label: "Estado", value: "Activo" },
+                { key: "priority", label: "Prioridad", value: "Alto" },
               ])
             }
           >

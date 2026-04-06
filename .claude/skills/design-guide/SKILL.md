@@ -1,164 +1,165 @@
 ---
 name: design-guide
 description: >
-  Paperclip UI design system guide for building consistent, reusable frontend
-  components. Use when creating new UI components, modifying existing ones,
-  adding pages or features to the frontend, styling UI elements, or when you
-  need to understand the design language and conventions. Covers: component
-  creation, design tokens, typography, status/priority systems, composition
-  patterns, and the /design-guide showcase page. Always use this skill
-  alongside the frontend-design skill (for visual quality) and the
-  web-design-guidelines skill (for web best practices).
+  Guía del sistema de diseño UI de Paperclip para construir componentes frontend
+  consistentes y reutilizables. Usar al crear nuevos componentes UI, modificar
+  los existentes, agregar páginas o funcionalidades al frontend, estilizar
+  elementos UI, o cuando necesites entender el lenguaje y las convenciones de
+  diseño. Cubre: creación de componentes, tokens de diseño, tipografía, sistemas
+  de estado/prioridad, patrones de composición y la página de showcase
+  /design-guide. Usar siempre este skill junto con el skill frontend-design
+  (para calidad visual) y el skill web-design-guidelines (para mejores prácticas
+  web).
 ---
 
-# Paperclip Design Guide
+# Guía de Diseño de Paperclip
 
-Paperclip's UI is a professional-grade control plane — dense, keyboard-driven, dark-themed by default. Every pixel earns its place.
+La UI de Paperclip es un plano de control de grado profesional — denso, orientado al teclado, con tema oscuro por defecto. Cada píxel justifica su lugar.
 
-**Always use with:** `frontend-design` (visual polish) and `web-design-guidelines` (web best practices).
-
----
-
-## 1. Design Principles
-
-- **Dense but scannable.** Maximum information without clicks to reveal. Whitespace separates, not pads.
-- **Keyboard-first.** Global shortcuts (Cmd+K, C, [, ]). Power users rarely touch the mouse.
-- **Contextual, not modal.** Inline editing over dialog boxes. Dropdowns over page navigations.
-- **Dark theme default.** Neutral grays (OKLCH), not pure black. Accent colors for status/priority only. Text is the primary visual element.
-- **Component-driven.** Prefer reusable components that capture style conventions. Build at the right abstraction — not too granular, not too monolithic.
+**Usar siempre con:** `frontend-design` (pulido visual) y `web-design-guidelines` (mejores prácticas web).
 
 ---
 
-## 2. Tech Stack
+## 1. Principios de Diseño
+
+- **Denso pero escaneable.** Máxima información sin clics para revelar. El espacio en blanco separa, no rellena.
+- **Teclado primero.** Atajos globales (Cmd+K, C, [, ]). Los usuarios avanzados rara vez tocan el ratón.
+- **Contextual, no modal.** Edición en línea sobre cuadros de diálogo. Desplegables sobre navegaciones de página.
+- **Tema oscuro por defecto.** Grises neutros (OKLCH), no negro puro. Colores de acento solo para estado/prioridad. El texto es el elemento visual principal.
+- **Orientado a componentes.** Preferir componentes reutilizables que capturen convenciones de estilo. Construir en la abstracción correcta — ni demasiado granular, ni demasiado monolítico.
+
+---
+
+## 2. Stack Tecnológico
 
 - **React 19** + **TypeScript** + **Vite**
-- **Tailwind CSS v4** with CSS variables (OKLCH color space)
-- **shadcn/ui** (new-york style, neutral base, CSS variables enabled)
-- **Radix UI** primitives (accessibility, focus management)
-- **Lucide React** icons (16px nav, 14px inline)
-- **class-variance-authority** (CVA) for component variants
-- **clsx + tailwind-merge** via `cn()` utility
+- **Tailwind CSS v4** con variables CSS (espacio de color OKLCH)
+- **shadcn/ui** (estilo new-york, base neutra, variables CSS habilitadas)
+- **Radix UI** primitivos (accesibilidad, gestión de foco)
+- **Lucide React** íconos (16px nav, 14px en línea)
+- **class-variance-authority** (CVA) para variantes de componentes
+- **clsx + tailwind-merge** vía utilidad `cn()`
 
-Config: `ui/components.json` (aliases: `@/components`, `@/components/ui`, `@/lib`, `@/hooks`)
-
----
-
-## 3. Design Tokens
-
-All tokens defined as CSS variables in `ui/src/index.css`. Both light and dark themes use OKLCH.
-
-### Colors
-
-Use semantic token names, never raw color values:
-
-| Token | Usage |
-|-------|-------|
-| `--background` / `--foreground` | Page background and primary text |
-| `--card` / `--card-foreground` | Card surfaces |
-| `--primary` / `--primary-foreground` | Primary actions, emphasis |
-| `--secondary` / `--secondary-foreground` | Secondary surfaces |
-| `--muted` / `--muted-foreground` | Subdued text, labels |
-| `--accent` / `--accent-foreground` | Hover states, active nav items |
-| `--destructive` | Destructive actions |
-| `--border` | All borders |
-| `--ring` | Focus rings |
-| `--sidebar-*` | Sidebar-specific variants |
-| `--chart-1` through `--chart-5` | Data visualization |
-
-### Radius
-
-Single `--radius` variable (0.625rem) with derived sizes:
-
-- `rounded-sm` — small inputs, pills
-- `rounded-md` — buttons, inputs, small components
-- `rounded-lg` — cards, dialogs
-- `rounded-xl` — card containers, large components
-- `rounded-full` — badges, avatars, status dots
-
-### Shadows
-
-Minimal shadows: `shadow-xs` (outline buttons), `shadow-sm` (cards). No heavy shadows.
+Configuración: `ui/components.json` (alias: `@/components`, `@/components/ui`, `@/lib`, `@/hooks`)
 
 ---
 
-## 4. Typography Scale
+## 3. Tokens de Diseño
 
-Use these exact patterns — do not invent new ones:
+Todos los tokens definidos como variables CSS en `ui/src/index.css`. Tanto el tema claro como el oscuro usan OKLCH.
 
-| Pattern | Classes | Usage |
-|---------|---------|-------|
-| Page title | `text-xl font-bold` | Top of pages |
-| Section title | `text-lg font-semibold` | Major sections |
-| Section heading | `text-sm font-semibold text-muted-foreground uppercase tracking-wide` | Section headers in design guide, sidebar |
-| Card title | `text-sm font-medium` or `text-sm font-semibold` | Card headers, list item titles |
-| Body | `text-sm` | Default body text |
-| Muted | `text-sm text-muted-foreground` | Descriptions, secondary text |
-| Tiny label | `text-xs text-muted-foreground` | Metadata, timestamps, property labels |
-| Mono identifier | `text-xs font-mono text-muted-foreground` | Issue keys (PAP-001), CSS vars |
-| Large stat | `text-2xl font-bold` | Dashboard metric values |
-| Code/log | `font-mono text-xs` | Log output, code snippets |
+### Colores
 
----
+Usar nombres de tokens semánticos, nunca valores de color crudos:
 
-## 5. Status & Priority Systems
+| Token | Uso |
+|-------|-----|
+| `--background` / `--foreground` | Fondo de página y texto principal |
+| `--card` / `--card-foreground` | Superficies de tarjetas |
+| `--primary` / `--primary-foreground` | Acciones primarias, énfasis |
+| `--secondary` / `--secondary-foreground` | Superficies secundarias |
+| `--muted` / `--muted-foreground` | Texto atenuado, etiquetas |
+| `--accent` / `--accent-foreground` | Estados hover, elementos de nav activos |
+| `--destructive` | Acciones destructivas |
+| `--border` | Todos los bordes |
+| `--ring` | Anillos de foco |
+| `--sidebar-*` | Variantes específicas del sidebar |
+| `--chart-1` hasta `--chart-5` | Visualización de datos |
 
-### Status Colors (consistent across all entities)
+### Radio de Borde
 
-Defined in `StatusBadge.tsx` and `StatusIcon.tsx`:
+Variable única `--radius` (0.625rem) con tamaños derivados:
 
-| Status | Color | Entity types |
-|--------|-------|-------------|
-| active, achieved, completed, succeeded, approved, done | Green shades | Agents, goals, issues, approvals |
-| running | Cyan | Agents |
-| paused | Orange | Agents |
-| idle, pending | Yellow | Agents, approvals |
-| failed, error, rejected, blocked | Red shades | Runs, agents, approvals, issues |
-| archived, planned, backlog, cancelled | Neutral gray | Various |
-| todo | Blue | Issues |
-| in_progress | Indigo | Issues |
-| in_review | Violet | Issues |
+- `rounded-sm` — inputs pequeños, pastillas
+- `rounded-md` — botones, inputs, componentes pequeños
+- `rounded-lg` — tarjetas, diálogos
+- `rounded-xl` — contenedores de tarjetas, componentes grandes
+- `rounded-full` — badges, avatares, puntos de estado
 
-### Priority Icons
+### Sombras
 
-Defined in `PriorityIcon.tsx`: critical (red/AlertTriangle), high (orange/ArrowUp), medium (yellow/Minus), low (blue/ArrowDown).
-
-### Agent Status Dots
-
-Inline colored dots: running (cyan, animate-pulse), active (green), paused (yellow), error (red), offline (neutral).
+Sombras mínimas: `shadow-xs` (botones outline), `shadow-sm` (tarjetas). Sin sombras pesadas.
 
 ---
 
-## 6. Component Hierarchy
+## 4. Escala Tipográfica
 
-Three tiers:
+Usar exactamente estos patrones — no inventar nuevos:
 
-1. **shadcn/ui primitives** (`ui/src/components/ui/`) — Button, Card, Input, Badge, Dialog, Tabs, etc. Do not modify these directly; extend via composition.
-2. **Custom composites** (`ui/src/components/`) — StatusBadge, EntityRow, MetricCard, etc. These capture Paperclip-specific design language.
-3. **Page components** (`ui/src/pages/`) — Compose primitives and composites into full views.
-
-**See [references/component-index.md](references/component-index.md) for the complete component inventory with usage guidance.**
-
-### When to Create a New Component
-
-Create a reusable component when:
-- The same visual pattern appears in 2+ places
-- The pattern has interactive behavior (status changing, inline editing)
-- The pattern encodes domain logic (status colors, priority icons)
-
-Do NOT create a component for:
-- One-off layouts specific to a single page
-- Simple className combinations (use Tailwind directly)
-- Thin wrappers that add no semantic value
+| Patrón | Clases | Uso |
+|--------|--------|-----|
+| Título de página | `text-xl font-bold` | Parte superior de páginas |
+| Título de sección | `text-lg font-semibold` | Secciones principales |
+| Encabezado de sección | `text-sm font-semibold text-muted-foreground uppercase tracking-wide` | Encabezados de sección en guía de diseño, sidebar |
+| Título de tarjeta | `text-sm font-medium` o `text-sm font-semibold` | Encabezados de tarjeta, títulos de elementos de lista |
+| Cuerpo | `text-sm` | Texto de cuerpo por defecto |
+| Atenuado | `text-sm text-muted-foreground` | Descripciones, texto secundario |
+| Etiqueta pequeña | `text-xs text-muted-foreground` | Metadatos, marcas de tiempo, etiquetas de propiedades |
+| Identificador mono | `text-xs font-mono text-muted-foreground` | Claves de issues (PAP-001), variables CSS |
+| Estadística grande | `text-2xl font-bold` | Valores de métricas del dashboard |
+| Código/log | `font-mono text-xs` | Salida de logs, fragmentos de código |
 
 ---
 
-## 7. Composition Patterns
+## 5. Sistemas de Estado y Prioridad
 
-These patterns describe how components work together. They may not be their own component, but they must be used consistently across the app.
+### Colores de Estado (consistentes en todas las entidades)
 
-### Entity Row with Status + Priority
+Definidos en `StatusBadge.tsx` y `StatusIcon.tsx`:
 
-The standard list item for issues and similar entities:
+| Estado | Color | Tipos de entidad |
+|--------|-------|-----------------|
+| active, achieved, completed, succeeded, approved, done | Tonos de verde | Agentes, objetivos, issues, aprobaciones |
+| running | Cian | Agentes |
+| paused | Naranja | Agentes |
+| idle, pending | Amarillo | Agentes, aprobaciones |
+| failed, error, rejected, blocked | Tonos de rojo | Ejecuciones, agentes, aprobaciones, issues |
+| archived, planned, backlog, cancelled | Gris neutro | Varios |
+| todo | Azul | Issues |
+| in_progress | Índigo | Issues |
+| in_review | Violeta | Issues |
+
+### Íconos de Prioridad
+
+Definidos en `PriorityIcon.tsx`: critical (rojo/AlertTriangle), high (naranja/ArrowUp), medium (amarillo/Minus), low (azul/ArrowDown).
+
+### Puntos de Estado de Agentes
+
+Puntos coloreados en línea: running (cian, animate-pulse), active (verde), paused (amarillo), error (rojo), offline (neutro).
+
+---
+
+## 6. Jerarquía de Componentes
+
+Tres niveles:
+
+1. **Primitivos shadcn/ui** (`ui/src/components/ui/`) — Button, Card, Input, Badge, Dialog, Tabs, etc. No modificar estos directamente; extender vía composición.
+2. **Compuestos personalizados** (`ui/src/components/`) — StatusBadge, EntityRow, MetricCard, etc. Estos capturan el lenguaje de diseño específico de Paperclip.
+3. **Componentes de página** (`ui/src/pages/`) — Componen primitivos y compuestos en vistas completas.
+
+**Ver [references/component-index.md](references/component-index.md) para el inventario completo de componentes con guía de uso.**
+
+### Cuándo Crear un Nuevo Componente
+
+Crear un componente reutilizable cuando:
+- El mismo patrón visual aparece en 2+ lugares
+- El patrón tiene comportamiento interactivo (cambio de estado, edición en línea)
+- El patrón codifica lógica de dominio (colores de estado, íconos de prioridad)
+
+NO crear un componente para:
+- Diseños únicos específicos de una sola página
+- Combinaciones simples de className (usar Tailwind directamente)
+- Envoltorios delgados que no añaden valor semántico
+
+---
+
+## 7. Patrones de Composición
+
+Estos patrones describen cómo los componentes trabajan juntos. Puede que no sean un componente propio, pero deben usarse de forma consistente en toda la aplicación.
+
+### Fila de Entidad con Estado + Prioridad
+
+El elemento de lista estándar para issues y entidades similares:
 
 ```tsx
 <EntityRow
@@ -171,11 +172,11 @@ The standard list item for issues and similar entities:
 />
 ```
 
-Leading slot always: StatusIcon first, then PriorityIcon. Trailing slot: StatusBadge or timestamp.
+El slot leading siempre: StatusIcon primero, luego PriorityIcon. Slot trailing: StatusBadge o marca de tiempo.
 
-### Grouped List
+### Lista Agrupada
 
-Issues grouped by status header + entity rows:
+Issues agrupados por encabezado de estado + filas de entidad:
 
 ```tsx
 <div className="flex items-center gap-2 px-4 py-2 bg-muted/50 rounded-t-md">
@@ -189,9 +190,9 @@ Issues grouped by status header + entity rows:
 </div>
 ```
 
-### Property Row
+### Fila de Propiedad
 
-Key-value pairs in properties panels:
+Pares clave-valor en paneles de propiedades:
 
 ```tsx
 <div className="flex items-center justify-between py-1.5">
@@ -200,11 +201,11 @@ Key-value pairs in properties panels:
 </div>
 ```
 
-Label is always `text-xs text-muted-foreground`, value on the right. Wrap in a container with `space-y-1`.
+La etiqueta siempre es `text-xs text-muted-foreground`, el valor a la derecha. Envolver en un contenedor con `space-y-1`.
 
-### Metric Card Grid
+### Cuadrícula de Tarjetas de Métricas
 
-Dashboard metrics in a responsive grid:
+Métricas del dashboard en una cuadrícula responsiva:
 
 ```tsx
 <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -213,9 +214,9 @@ Dashboard metrics in a responsive grid:
 </div>
 ```
 
-### Progress Bar (Budget)
+### Barra de Progreso (Presupuesto)
 
-Color by threshold: green (<60%), yellow (60-85%), red (>85%):
+Color por umbral: verde (<60%), amarillo (60-85%), rojo (>85%):
 
 ```tsx
 <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
@@ -223,80 +224,81 @@ Color by threshold: green (<60%), yellow (60-85%), red (>85%):
 </div>
 ```
 
-### Comment Thread
+### Hilo de Comentarios
 
-Author header (name + timestamp) then body, in bordered cards with `space-y-3`. Add comment textarea + button below.
+Encabezado del autor (nombre + marca de tiempo) luego cuerpo, en tarjetas con borde y `space-y-3`. Añadir textarea de comentario + botón debajo.
 
-### Cost Table
+### Tabla de Costos
 
-Standard `<table>` with `text-xs`, header row with `bg-accent/20`, `font-mono` for numeric values.
+`<table>` estándar con `text-xs`, fila de encabezado con `bg-accent/20`, `font-mono` para valores numéricos.
 
-### Log Viewer
+### Visor de Logs
 
-`bg-neutral-950 rounded-lg p-3 font-mono text-xs` container. Color lines by level: default (foreground), WARN (yellow-400), ERROR (red-400), SYS (blue-300). Include live indicator dot when streaming.
+Contenedor `bg-neutral-950 rounded-lg p-3 font-mono text-xs`. Colorear líneas por nivel: default (foreground), WARN (yellow-400), ERROR (red-400), SYS (blue-300). Incluir punto indicador en vivo cuando se transmite en streaming.
 
 ---
 
-## 8. Interactive Patterns
+## 8. Patrones Interactivos
 
-### Hover States
+### Estados Hover
 
-- Entity rows: `hover:bg-accent/50`
-- Nav items: `hover:bg-accent/50 hover:text-accent-foreground`
-- Active nav: `bg-accent text-accent-foreground`
+- Filas de entidad: `hover:bg-accent/50`
+- Elementos de nav: `hover:bg-accent/50 hover:text-accent-foreground`
+- Nav activo: `bg-accent text-accent-foreground`
 
-### Focus
+### Foco
 
-`focus-visible:ring-ring focus-visible:ring-[3px]` — standard Tailwind focus-visible ring.
+`focus-visible:ring-ring focus-visible:ring-[3px]` — anillo focus-visible estándar de Tailwind.
 
-### Disabled
+### Deshabilitado
 
 `disabled:opacity-50 disabled:pointer-events-none`
 
-### Inline Editing
+### Edición en Línea
 
-Use `InlineEditor` component — click text to edit, Enter saves, Escape cancels.
+Usar componente `InlineEditor` — clic en texto para editar, Enter guarda, Escape cancela.
 
-### Popover Selectors
+### Selectores Popover
 
-StatusIcon and PriorityIcon use Radix Popover for inline selection. Follow this pattern for any clickable property that opens a picker.
+StatusIcon y PriorityIcon usan Radix Popover para selección en línea. Seguir este patrón para cualquier propiedad clicable que abra un selector.
 
 ---
 
-## 9. Layout System
+## 9. Sistema de Layout
 
-Three-zone layout defined in `Layout.tsx`:
+Layout de tres zonas definido en `Layout.tsx`:
 
 ```
 ┌──────────┬──────────────────────────────┬──────────────────────┐
-│ Sidebar  │  Breadcrumb bar              │                      │
-│ (w-60)   ├──────────────────────────────┤  Properties panel    │
-│          │  Main content (flex-1)       │  (w-80, optional)    │
+│ Sidebar  │  Barra de breadcrumb         │                      │
+│ (w-60)   ├──────────────────────────────┤  Panel de            │
+│          │  Contenido principal (flex-1) │  propiedades         │
+│          │                              │  (w-80, opcional)    │
 └──────────┴──────────────────────────────┴──────────────────────┘
 ```
 
-- Sidebar: `w-60`, collapsible, contains CompanySwitcher + SidebarSections
-- Properties panel: `w-80`, shown on detail views, hidden on lists
-- Main content: scrollable, `flex-1`
+- Sidebar: `w-60`, colapsable, contiene CompanySwitcher + SidebarSections
+- Panel de propiedades: `w-80`, visible en vistas de detalle, oculto en listas
+- Contenido principal: desplazable, `flex-1`
 
 ---
 
-## 10. The /design-guide Page
+## 10. La Página /design-guide
 
-**Location:** `ui/src/pages/DesignGuide.tsx`
-**Route:** `/design-guide`
+**Ubicación:** `ui/src/pages/DesignGuide.tsx`
+**Ruta:** `/design-guide`
 
-This is the living showcase of every component and pattern in the app. It is the source of truth for how things look.
+Esta es la vitrina viviente de cada componente y patrón en la aplicación. Es la fuente de verdad de cómo se ven las cosas.
 
-### Rules
+### Reglas
 
-1. **When you add a new reusable component, you MUST add it to the design guide page.** Show all variants, sizes, and states.
-2. **When you modify an existing component's API, update its design guide section.**
-3. **When you add a new composition pattern, add a section demonstrating it.**
-4. Follow the existing structure: `<Section title="...">` wrapper with `<SubSection>` for grouping.
-5. Keep sections ordered logically: foundational (colors, typography) first, then primitives, then composites, then patterns.
+1. **Cuando agregues un nuevo componente reutilizable, DEBES añadirlo a la página de la guía de diseño.** Mostrar todas las variantes, tamaños y estados.
+2. **Cuando modifiques la API de un componente existente, actualizar su sección en la guía de diseño.**
+3. **Cuando agregues un nuevo patrón de composición, añadir una sección demostrándolo.**
+4. Seguir la estructura existente: envoltorio `<Section title="...">` con `<SubSection>` para agrupar.
+5. Mantener las secciones ordenadas lógicamente: fundacionales (colores, tipografía) primero, luego primitivos, luego compuestos, luego patrones.
 
-### Adding a New Section
+### Agregar una Nueva Sección
 
 ```tsx
 <Section title="My New Component">
@@ -314,38 +316,38 @@ This is the living showcase of every component and pattern in the app. It is the
 
 ---
 
-## 11. Component Index
+## 11. Índice de Componentes
 
-**See [references/component-index.md](references/component-index.md) for the full component inventory.**
+**Ver [references/component-index.md](references/component-index.md) para el inventario completo de componentes.**
 
-When you create a new reusable component:
-1. Add it to the component index reference file
-2. Add it to the /design-guide page
-3. Follow existing naming and file conventions
+Cuando crees un nuevo componente reutilizable:
+1. Añadirlo al archivo de referencia del índice de componentes
+2. Añadirlo a la página /design-guide
+3. Seguir las convenciones existentes de nombres y archivos
 
 ---
 
-## 12. File Conventions
+## 12. Convenciones de Archivos
 
-- **shadcn primitives:** `ui/src/components/ui/{component}.tsx` — lowercase, kebab-case
-- **Custom components:** `ui/src/components/{ComponentName}.tsx` — PascalCase
-- **Pages:** `ui/src/pages/{PageName}.tsx` — PascalCase
-- **Utilities:** `ui/src/lib/{name}.ts`
+- **Primitivos shadcn:** `ui/src/components/ui/{component}.tsx` — minúsculas, kebab-case
+- **Componentes personalizados:** `ui/src/components/{ComponentName}.tsx` — PascalCase
+- **Páginas:** `ui/src/pages/{PageName}.tsx` — PascalCase
+- **Utilidades:** `ui/src/lib/{name}.ts`
 - **Hooks:** `ui/src/hooks/{useName}.ts`
-- **API modules:** `ui/src/api/{entity}.ts`
-- **Context providers:** `ui/src/context/{Name}Context.tsx`
+- **Módulos API:** `ui/src/api/{entity}.ts`
+- **Proveedores de contexto:** `ui/src/context/{Name}Context.tsx`
 
-All components use `cn()` from `@/lib/utils` for className merging. All components use CVA for variant definitions when they have multiple visual variants.
+Todos los componentes usan `cn()` de `@/lib/utils` para la fusión de className. Todos los componentes usan CVA para definiciones de variantes cuando tienen múltiples variantes visuales.
 
 ---
 
-## 13. Common Mistakes to Avoid
+## 13. Errores Comunes a Evitar
 
-- Using raw hex/rgb colors instead of CSS variable tokens
-- Creating ad-hoc typography styles instead of using the established scale
-- Hardcoding status colors instead of using StatusBadge/StatusIcon
-- Building one-off styled elements when a reusable component exists
-- Adding components without updating the design guide page
-- Using `shadow-md` or heavier — keep shadows minimal (xs, sm only)
-- Using `rounded-2xl` or larger — max is `rounded-xl` (except `rounded-full` for pills)
-- Forgetting dark mode — always use semantic tokens, never hardcode light/dark values
+- Usar colores hex/rgb crudos en lugar de tokens de variables CSS
+- Crear estilos tipográficos ad-hoc en lugar de usar la escala establecida
+- Codificar colores de estado en duro en lugar de usar StatusBadge/StatusIcon
+- Construir elementos estilizados únicos cuando existe un componente reutilizable
+- Agregar componentes sin actualizar la página de la guía de diseño
+- Usar `shadow-md` o más pesado — mantener sombras mínimas (solo xs, sm)
+- Usar `rounded-2xl` o mayor — el máximo es `rounded-xl` (excepto `rounded-full` para pastillas)
+- Olvidar el modo oscuro — siempre usar tokens semánticos, nunca codificar valores claros/oscuros en duro
