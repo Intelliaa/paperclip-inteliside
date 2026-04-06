@@ -27,10 +27,10 @@ import { MarkdownEditor, type MarkdownEditorRef } from "./MarkdownEditor";
 import { StatusBadge } from "./StatusBadge";
 
 const levelLabels: Record<string, string> = {
-  company: "Company",
-  team: "Team",
-  agent: "Agent",
-  task: "Task",
+  company: "Empresa",
+  team: "Equipo",
+  agent: "Agente",
+  task: "Tarea",
 };
 
 export function NewGoalDialog() {
@@ -168,7 +168,7 @@ export function NewGoalDialog() {
         </div>
 
         {/* Description */}
-        <div className="px-4 pb-2">
+        <div className="px-4 pb-2 overflow-y-auto max-h-[50vh]">
           <MarkdownEditor
             ref={descriptionEditorRef}
             value={description}
@@ -248,7 +248,7 @@ export function NewGoalDialog() {
                 )}
                 onClick={() => { setParentId(""); setParentOpen(false); }}
               >
-                No parent
+                No parent goal
               </button>
               {(goals ?? []).map((g) => (
                 <button

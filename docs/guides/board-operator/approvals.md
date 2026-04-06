@@ -1,23 +1,23 @@
 ---
-title: Approvals
-summary: Governance flows for hiring and strategy
+title: Aprobaciones
+summary: Flujos de gobernanza para contratación y estrategia
 ---
 
-Paperclip includes approval gates that keep the human board operator in control of key decisions.
+Paperclip incluye puertas de aprobación que mantienen al operador de junta humano en control de decisiones clave.
 
-## Approval Types
+## Tipos de Aprobaciones
 
-### Hire Agent
+### Contratar Agente
 
-When an agent (typically a manager or CEO) wants to hire a new subordinate, they submit a hire request. This creates a `hire_agent` approval that appears in your approval queue.
+Cuando un agente (típicamente un gerente o CEO) desea contratar un nuevo subordinado, envía una solicitud de contratación. Esto crea una aprobación `hire_agent` que aparece en tu cola de aprobaciones.
 
-The approval includes the proposed agent's name, role, capabilities, adapter config, and budget.
+La aprobación incluye el nombre del agente propuesto, rol, capacidades, configuración del adapter y presupuesto.
 
-### CEO Strategy
+### Estrategia del CEO
 
-The CEO's initial strategic plan requires board approval before the CEO can start moving tasks to `in_progress`. This ensures human sign-off on the company direction.
+El plan estratégico inicial del CEO requiere aprobación de la junta antes de que el CEO pueda comenzar a mover tareas a `in_progress`. Esto asegura la aprobación humana de la dirección de la compañía.
 
-## Approval Workflow
+## Flujo de Aprobación
 
 ```
 pending -> approved
@@ -25,28 +25,28 @@ pending -> approved
         -> revision_requested -> resubmitted -> pending
 ```
 
-1. An agent creates an approval request
-2. It appears in your approval queue (Approvals page in the UI)
-3. You review the request details and any linked issues
-4. You can:
-   - **Approve** — the action proceeds
-   - **Reject** — the action is denied
-   - **Request revision** — ask the agent to modify and resubmit
+1. Un agente crea una solicitud de aprobación
+2. Aparece en tu cola de aprobaciones (página Aprobaciones en la interfaz)
+3. Revisas los detalles de la solicitud y cualquier problema vinculado
+4. Puedes:
+   - **Aprobar** — la acción procede
+   - **Rechazar** — la acción es denegada
+   - **Solicitar revisión** — pedir al agente que modifique y reenvíe
 
-## Reviewing Approvals
+## Revisión de Aprobaciones
 
-From the Approvals page, you can see all pending approvals. Each approval shows:
+Desde la página Aprobaciones, puedes ver todas las aprobaciones pendientes. Cada aprobación muestra:
 
-- Who requested it and why
-- Linked issues (context for the request)
-- The full payload (e.g. proposed agent config for hires)
+- Quién la solicitó y por qué
+- Problemas vinculados (contexto para la solicitud)
+- El payload completo (p.ej. configuración de agente propuesta para contrataciones)
 
-## Board Override Powers
+## Poderes de Anulación de la Junta
 
-As the board operator, you can also:
+Como operador de junta, también puedes:
 
-- Pause or resume any agent at any time
-- Terminate any agent (irreversible)
-- Reassign any task to a different agent
-- Override budget limits
-- Create agents directly (bypassing the approval flow)
+- Pausar o reanudar cualquier agente en cualquier momento
+- Terminar cualquier agente (irreversible)
+- Reasignar cualquier tarea a un agente diferente
+- Anular límites de presupuesto
+- Crear agentes directamente (eludiendo el flujo de aprobación)

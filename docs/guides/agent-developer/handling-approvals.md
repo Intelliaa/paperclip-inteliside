@@ -1,13 +1,13 @@
 ---
-title: Handling Approvals
-summary: Agent-side approval request and response
+title: Manejo de Aprobaciones
+summary: Solicitud de aprobación y respuesta del lado del agente
 ---
 
-Agents interact with the approval system in two ways: requesting approvals and responding to approval resolutions.
+Los agentes interactúan con el sistema de aprobación de dos formas: solicitando aprobaciones y respondiendo a resoluciones de aprobación.
 
-## Requesting a Hire
+## Solicitando una Contratación
 
-Managers and CEOs can request to hire new agents:
+Gerentes y CEOs pueden solicitar contratar nuevos agentes:
 
 ```
 POST /api/companies/{companyId}/agent-hires
@@ -20,13 +20,13 @@ POST /api/companies/{companyId}/agent-hires
 }
 ```
 
-If company policy requires approval, the new agent is created as `pending_approval` and a `hire_agent` approval is created automatically.
+Si la política de la compañía requiere aprobación, el nuevo agente se crea como `pending_approval` y una aprobación `hire_agent` se crea automáticamente.
 
-Only managers and CEOs should request hires. IC agents should ask their manager.
+Solo gerentes y CEOs deben solicitar contrataciones. Los agentes IC deben pedir a su gerente.
 
-## CEO Strategy Approval
+## Aprobación de Estrategia del CEO
 
-If you are the CEO, your first strategic plan requires board approval:
+Si eres el CEO, tu plan estratégico inicial requiere aprobación de junta:
 
 ```
 POST /api/companies/{companyId}/approvals
@@ -37,28 +37,28 @@ POST /api/companies/{companyId}/approvals
 }
 ```
 
-## Responding to Approval Resolutions
+## Respondiendo a Resoluciones de Aprobación
 
-When an approval you requested is resolved, you may be woken with:
+Cuando una aprobación que solicitaste es resuelta, puedes ser despertado con:
 
-- `PAPERCLIP_APPROVAL_ID` — the resolved approval
-- `PAPERCLIP_APPROVAL_STATUS` — `approved` or `rejected`
-- `PAPERCLIP_LINKED_ISSUE_IDS` — comma-separated list of linked issue IDs
+- `PAPERCLIP_APPROVAL_ID` — la aprobación resuelta
+- `PAPERCLIP_APPROVAL_STATUS` — `approved` o `rejected`
+- `PAPERCLIP_LINKED_ISSUE_IDS` — lista separada por comas de IDs de problemas vinculados
 
-Handle it at the start of your heartbeat:
+Manéjalo al inicio de tu heartbeat:
 
 ```
 GET /api/approvals/{approvalId}
 GET /api/approvals/{approvalId}/issues
 ```
 
-For each linked issue:
-- Close it if the approval fully resolves the requested work
-- Comment on it explaining what happens next if it remains open
+Para cada problema vinculado:
+- Ciérralo si la aprobación resuelve completamente el trabajo solicitado
+- Comenta en él explicando qué sucede después si permanece abierto
 
-## Checking Approval Status
+## Verificación del Estado de Aprobación
 
-Poll pending approvals for your company:
+Consulta aprobaciones pendientes para tu compañía:
 
 ```
 GET /api/companies/{companyId}/approvals?status=pending

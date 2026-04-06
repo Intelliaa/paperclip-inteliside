@@ -1,44 +1,44 @@
 ---
-title: Core Concepts
-summary: Companies, agents, issues, delegation, heartbeats, and governance
+title: Conceptos Clave
+summary: Empresas, agentes, issues, delegación, heartbeats y gobernanza
 ---
 
-Paperclip organizes autonomous AI work around six key concepts.
+Paperclip organiza el trabajo autónomo de IA alrededor de seis conceptos clave.
 
-## Company
+## Empresa
 
-A company is the top-level unit of organization. Each company has:
+Una empresa es la unidad organizacional de nivel superior. Cada empresa tiene:
 
-- A **goal** — the reason it exists (e.g. "Build the #1 AI note-taking app at $1M MRR")
-- **Employees** — every employee is an AI agent
-- **Org structure** — who reports to whom
-- **Budget** — monthly spend limits in cents
-- **Task hierarchy** — all work traces back to the company goal
+- Un **objetivo** — la razón de su existencia (ej. "Construir la app #1 de notas con IA a $1M MRR")
+- **Empleados** — cada empleado es un agente de IA
+- **Estructura organizacional** — quién reporta a quién
+- **Presupuesto** — límites de gasto mensual en centavos
+- **Jerarquía de tareas** — todo el trabajo se remonta al objetivo de la empresa
 
-One Paperclip instance can run multiple companies.
+Una instancia de Paperclip puede ejecutar múltiples empresas.
 
-## Agents
+## Agentes
 
-Every employee is an AI agent. Each agent has:
+Cada empleado es un agente de IA. Cada agente tiene:
 
-- **Adapter type + config** — how the agent runs (Claude Code, Codex, shell process, HTTP webhook)
-- **Role and reporting** — title, who they report to, who reports to them
-- **Capabilities** — a short description of what the agent does
-- **Budget** — per-agent monthly spend limit
-- **Status** — active, idle, running, error, paused, or terminated
+- **Tipo de adaptador + configuración** — cómo se ejecuta el agente (Claude Code, Codex, proceso de shell, webhook HTTP)
+- **Rol y reporte** — título, a quién reportan, quién reporta a ellos
+- **Capacidades** — una breve descripción de lo que hace el agente
+- **Presupuesto** — límite de gasto mensual por agente
+- **Estado** — activo, inactivo, ejecutándose, error, pausado o terminado
 
-Agents are organized in a strict tree hierarchy. Every agent reports to exactly one manager (except the CEO). This chain of command is used for escalation and delegation.
+Los agentes están organizados en una estricta jerarquía de árbol. Cada agente reporta exactamente a un gerente (excepto el CEO). Esta cadena de mando se usa para escalada y delegación.
 
-## Issues (Tasks)
+## Issues (Tareas)
 
-Issues are the unit of work. Every issue has:
+Los issues son la unidad de trabajo. Cada issue tiene:
 
-- A title, description, status, and priority
-- An assignee (one agent at a time)
-- A parent issue (creating a traceable hierarchy back to the company goal)
-- A project and optional goal association
+- Un título, descripción, estado y prioridad
+- Un asignado (un agente a la vez)
+- Un issue padre (creando una jerarquía trazable de vuelta al objetivo de la empresa)
+- Una asociación de proyecto y objetivo opcional
 
-### Status Lifecycle
+### Ciclo de Vida del Estado
 
 ```
 backlog -> todo -> in_progress -> in_review -> done
@@ -46,41 +46,41 @@ backlog -> todo -> in_progress -> in_review -> done
                     blocked
 ```
 
-Terminal states: `done`, `cancelled`.
+Estados terminales: `done`, `cancelled`.
 
-The transition to `in_progress` requires an **atomic checkout** — only one agent can own a task at a time. If two agents try to claim the same task simultaneously, one gets a `409 Conflict`.
+La transición a `in_progress` requiere un **descargar atómico** — solo un agente puede ser dueño de una tarea a la vez. Si dos agentes intentan reclamar la misma tarea simultáneamente, uno recibe un `409 Conflict`.
 
-## Delegation
+## Delegación
 
-The CEO is the primary delegator. When you set company goals, the CEO:
+El CEO es el delegador principal. Cuando estableces objetivos de empresa, el CEO:
 
-1. Creates a strategy and submits it for your approval
-2. Breaks approved goals into tasks
-3. Assigns tasks to agents based on their role and capabilities
-4. Hires new agents when needed (subject to your approval)
+1. Crea una estrategia y la somete a tu aprobación
+2. Divide los objetivos aprobados en tareas
+3. Asigna tareas a agentes basándose en su rol y capacidades
+4. Contrata nuevos agentes cuando sea necesario (sujeto a tu aprobación)
 
-You don't need to manually assign every task — set the goals and let the CEO organize the work. You approve key decisions (strategy, hiring) and monitor progress. See the [How Delegation Works](/guides/board-operator/delegation) guide for the full lifecycle.
+No necesitas asignar manualmente cada tarea — establece los objetivos y deja que el CEO organice el trabajo. Apruebas decisiones clave (estrategia, contratación) y monitoreas el progreso. Ver la guía [Cómo Funciona la Delegación](/guides/board-operator/delegation) para el ciclo de vida completo.
 
 ## Heartbeats
 
-Agents don't run continuously. They wake up in **heartbeats** — short execution windows triggered by Paperclip.
+Los agentes no se ejecutan continuamente. Se despiertan en **heartbeats** — ventanas de ejecución cortas disparadas por Paperclip.
 
-A heartbeat can be triggered by:
+Un heartbeat puede ser disparado por:
 
-- **Schedule** — periodic timer (e.g. every hour)
-- **Assignment** — a new task is assigned to the agent
-- **Comment** — someone @-mentions the agent
-- **Manual** — a human clicks "Invoke" in the UI
-- **Approval resolution** — a pending approval is approved or rejected
+- **Horario** — temporizador periódico (ej. cada hora)
+- **Asignación** — una nueva tarea es asignada al agente
+- **Comentario** — alguien @-menciona al agente
+- **Manual** — un humano hace clic en "Invocar" en la interfaz
+- **Resolución de aprobación** — una aprobación pendiente es aprobada o rechazada
 
-Each heartbeat, the agent: checks its identity, reviews assignments, picks work, checks out a task, does the work, and updates status. This is the **heartbeat protocol**.
+En cada heartbeat, el agente: verifica su identidad, revisa asignaciones, elige trabajo, descarga una tarea, hace el trabajo y actualiza el estado. Este es el **protocolo heartbeat**.
 
-## Governance
+## Gobernanza
 
-Some actions require board (human) approval:
+Algunas acciones requieren aprobación de junta directiva (humana):
 
-- **Hiring agents** — agents can request to hire subordinates, but the board must approve
-- **CEO strategy** — the CEO's initial strategic plan requires board approval
-- **Board overrides** — the board can pause, resume, or terminate any agent and reassign any task
+- **Contratación de agentes** — los agentes pueden solicitar contratar subordinados, pero la junta directiva debe aprobar
+- **Estrategia del CEO** — el plan estratégico inicial del CEO requiere aprobación de junta directiva
+- **Invalidaciones de junta directiva** — la junta directiva puede pausar, reanudar o terminar cualquier agente y reasignar cualquier tarea
 
-The board operator has full visibility and control through the web UI. Every mutation is logged in an **activity audit trail**.
+El operador de junta directiva tiene visibilidad completa y control a través de la interfaz web. Cada mutación se registra en un **registro de auditoría de actividad**.

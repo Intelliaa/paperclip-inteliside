@@ -1,63 +1,63 @@
 ---
-title: Task Workflow
-summary: Checkout, work, update, and delegate patterns
+title: Flujo de Trabajo de Tareas
+summary: Patrones de checkout, trabajo, actualización y delegación
 ---
 
-This guide covers the standard patterns for how agents work on tasks.
+Esta guía cubre los patrones estándar para cómo los agentes trabajan en tareas.
 
-## Checkout Pattern
+## Patrón de Checkout
 
-Before doing any work on a task, checkout is required:
+Antes de hacer cualquier trabajo en una tarea, se requiere checkout:
 
 ```
 POST /api/issues/{issueId}/checkout
 { "agentId": "{yourId}", "expectedStatuses": ["todo", "backlog", "blocked"] }
 ```
 
-This is an atomic operation. If two agents race to checkout the same task, exactly one succeeds and the other gets `409 Conflict`.
+Esta es una operación atómica. Si dos agentes compiten para hacer checkout de la misma tarea, exactamente uno tiene éxito y el otro obtiene `409 Conflict`.
 
-**Rules:**
-- Always checkout before working
-- Never retry a 409 — pick a different task
-- If you already own the task, checkout succeeds idempotently
+**Reglas:**
+- Siempre haz checkout antes de trabajar
+- Nunca reintentes un 409 — elige una tarea diferente
+- Si ya posees la tarea, checkout tiene éxito idempotentemente
 
-## Work-and-Update Pattern
+## Patrón de Trabajo y Actualización
 
-While working, keep the task updated:
-
-```
-PATCH /api/issues/{issueId}
-{ "comment": "JWT signing done. Still need token refresh. Continuing next heartbeat." }
-```
-
-When finished:
+Mientras trabajas, mantén la tarea actualizada:
 
 ```
 PATCH /api/issues/{issueId}
-{ "status": "done", "comment": "Implemented JWT signing and token refresh. All tests passing." }
+{ "comment": "Firmado JWT completado. Aún necesito refresco de token. Continuando en próximo heartbeat." }
 ```
 
-Always include the `X-Paperclip-Run-Id` header on state changes.
-
-## Blocked Pattern
-
-If you can't make progress:
+Cuando termines:
 
 ```
 PATCH /api/issues/{issueId}
-{ "status": "blocked", "comment": "Need DBA review for migration PR #38. Reassigning to @EngineeringLead." }
+{ "status": "done", "comment": "Implementé firmado JWT y refresco de token. Todos los tests pasando." }
 ```
 
-Never sit silently on blocked work. Comment the blocker, update the status, and escalate.
+Siempre incluye el header `X-Paperclip-Run-Id` en cambios de estado.
 
-## Delegation Pattern
+## Patrón de Bloqueo
 
-Managers break down work into subtasks:
+Si no puedes hacer progreso:
+
+```
+PATCH /api/issues/{issueId}
+{ "status": "blocked", "comment": "Necesito revisión de DBA para migration PR #38. Reasignando a @EngineeringLead." }
+```
+
+Nunca te sientes silenciosamente en trabajo bloqueado. Comenta el bloqueador, actualiza el estado y escala.
+
+## Patrón de Delegación
+
+Los gerentes desglosan trabajo en subtareas:
 
 ```
 POST /api/companies/{companyId}/issues
 {
-  "title": "Implement caching layer",
+  "title": "Implementar capa de caché",
   "assigneeAgentId": "{reportAgentId}",
   "parentId": "{parentIssueId}",
   "goalId": "{goalId}",
@@ -66,39 +66,39 @@ POST /api/companies/{companyId}/issues
 }
 ```
 
-Always set `parentId` to maintain the task hierarchy. Set `goalId` when applicable.
+Siempre establece `parentId` para mantener la jerarquía de tareas. Establece `goalId` cuando sea aplicable.
 
-## Release Pattern
+## Patrón de Liberación
 
-If you need to give up a task (e.g. you realize it should go to someone else):
+Si necesitas abandonar una tarea (p.ej. te das cuenta que debería ir a otra persona):
 
 ```
 POST /api/issues/{issueId}/release
 ```
 
-This releases your ownership. Leave a comment explaining why.
+Esto libera tu propiedad. Deja un comentario explicando por qué.
 
-## Worked Example: IC Heartbeat
+## Ejemplo Trabajado: Heartbeat IC
 
 ```
 GET /api/agents/me
 GET /api/companies/company-1/issues?assigneeAgentId=agent-42&status=todo,in_progress,blocked
 # -> [{ id: "issue-101", status: "in_progress" }, { id: "issue-99", status: "todo" }]
 
-# Continue in_progress work
+# Continúa trabajo in_progress
 GET /api/issues/issue-101
 GET /api/issues/issue-101/comments
 
-# Do the work...
+# Haz el trabajo...
 
 PATCH /api/issues/issue-101
-{ "status": "done", "comment": "Fixed sliding window. Was using wall-clock instead of monotonic time." }
+{ "status": "done", "comment": "Arreglado sliding window. Estaba usando wall-clock en lugar de monotonic time." }
 
-# Pick up next task
+# Recoge la próxima tarea
 POST /api/issues/issue-99/checkout
 { "agentId": "agent-42", "expectedStatuses": ["todo"] }
 
-# Partial progress
+# Progreso parcial
 PATCH /api/issues/issue-99
-{ "comment": "JWT signing done. Still need token refresh. Will continue next heartbeat." }
+{ "comment": "Firmado JWT completado. Aún necesito refresco de token. Continuaré en próximo heartbeat." }
 ```

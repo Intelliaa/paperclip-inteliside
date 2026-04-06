@@ -1,202 +1,202 @@
 ---
 name: pr-report
 description: >
-  Review a pull request or contribution deeply, explain it tutorial-style for a
-  maintainer, and produce a polished report artifact such as HTML or Markdown.
-  Use when asked to analyze a PR, explain a contributor's design decisions,
-  compare it with similar systems, or prepare a merge recommendation.
+  Revisar un pull request o contribución en profundidad, explicarlo estilo tutorial para
+  un mantenedor y producir un artefacto de reporte pulido como HTML o Markdown.
+  Usar cuando se pida analizar un PR, explicar las decisiones de diseño de un
+  contribuidor, compararlo con sistemas similares o preparar una recomendación de merge.
 ---
 
-# PR Report Skill
+# Skill de Reporte de PR
 
-Produce a maintainer-grade review of a PR, branch, or large contribution.
+Producir una revisión de nivel mantenedor de un PR, rama o contribución grande.
 
-Default posture:
+Postura por defecto:
 
-- understand the change before judging it
-- explain the system as built, not just the diff
-- separate architectural problems from product-scope objections
-- make a concrete recommendation, not a vague impression
+- entender el cambio antes de juzgarlo
+- explicar el sistema tal como fue construido, no solo el diff
+- separar problemas arquitectónicos de objeciones de alcance de producto
+- hacer una recomendación concreta, no una impresión vaga
 
-## When to Use
+## Cuándo Usar
 
-Use this skill when the user asks for things like:
+Usar este skill cuando el usuario pida cosas como:
 
-- "review this PR deeply"
-- "explain this contribution to me"
-- "make me a report or webpage for this PR"
-- "compare this design to similar systems"
-- "should I merge this?"
+- "revisa este PR en profundidad"
+- "explícame esta contribución"
+- "hazme un reporte o página web para este PR"
+- "compara este diseño con sistemas similares"
+- "¿debería mergear esto?"
 
-## Outputs
+## Salidas
 
-Common outputs:
+Salidas comunes:
 
-- standalone HTML report in `tmp/reports/...`
-- Markdown report in `report/` or another requested folder
-- short maintainer summary in chat
+- reporte HTML independiente en `tmp/reports/...`
+- reporte Markdown en `report/` u otra carpeta solicitada
+- resumen corto para mantenedor en el chat
 
-If the user asks for a webpage, build a polished standalone HTML artifact with
-clear sections and readable visual hierarchy.
+Si el usuario pide una página web, construir un artefacto HTML independiente pulido con
+secciones claras y jerarquía visual legible.
 
-Resources bundled with this skill:
+Recursos incluidos con este skill:
 
-- `references/style-guide.md` for visual direction and report presentation rules
-- `assets/html-report-starter.html` for a reusable standalone HTML/CSS starter
+- `references/style-guide.md` para la dirección visual y reglas de presentación del reporte
+- `assets/html-report-starter.html` para un inicio reutilizable de HTML/CSS independiente
 
-## Workflow
+## Flujo de Trabajo
 
-### 1. Acquire and frame the target
+### 1. Adquirir y enmarcar el objetivo
 
-Work from local code when possible, not just the GitHub PR page.
+Trabajar desde código local cuando sea posible, no solo la página del PR en GitHub.
 
-Gather:
+Recopilar:
 
-- target branch or worktree
-- diff size and changed subsystems
-- relevant repo docs, specs, and invariants
-- contributor intent if it is documented in PR text or design docs
+- rama objetivo o worktree
+- tamaño del diff y subsistemas afectados
+- documentación relevante del repo, especificaciones e invariantes
+- intención del contribuidor si está documentada en el texto del PR o documentos de diseño
 
-Start by answering: what is this change *trying* to become?
+Comenzar respondiendo: ¿en qué *intenta convertirse* este cambio?
 
-### 2. Build a mental model of the system
+### 2. Construir un modelo mental del sistema
 
-Do not stop at file-by-file notes. Reconstruct the design:
+No detenerse en notas archivo por archivo. Reconstruir el diseño:
 
-- what new runtime or contract exists
-- which layers changed: db, shared types, server, UI, CLI, docs
-- lifecycle: install, startup, execution, UI, failure, disablement
-- trust boundary: what code runs where, under what authority
+- qué nuevo runtime o contrato existe
+- qué capas cambiaron: bd, tipos compartidos, servidor, UI, CLI, documentación
+- ciclo de vida: instalación, arranque, ejecución, UI, falla, desactivación
+- límite de confianza: qué código se ejecuta dónde, bajo qué autoridad
 
-For large contributions, include a tutorial-style section that teaches the
-system from first principles.
+Para contribuciones grandes, incluir una sección estilo tutorial que enseñe el
+sistema desde los primeros principios.
 
-### 3. Review like a maintainer
+### 3. Revisar como un mantenedor
 
-Findings come first. Order by severity.
+Los hallazgos van primero. Ordenar por severidad.
 
-Prioritize:
+Priorizar:
 
-- behavioral regressions
-- trust or security gaps
-- misleading abstractions
-- lifecycle and operational risks
-- coupling that will be hard to unwind
-- missing tests or unverifiable claims
+- regresiones de comportamiento
+- brechas de confianza o seguridad
+- abstracciones engañosas
+- riesgos de ciclo de vida y operacionales
+- acoplamiento difícil de deshacer
+- pruebas faltantes o afirmaciones no verificables
 
-Always cite concrete file references when possible.
+Siempre citar referencias concretas a archivos cuando sea posible.
 
-### 4. Distinguish the objection type
+### 4. Distinguir el tipo de objeción
 
-Be explicit about whether a concern is:
+Ser explícito sobre si una preocupación es:
 
-- product direction
-- architecture
-- implementation quality
-- rollout strategy
-- documentation honesty
+- dirección de producto
+- arquitectura
+- calidad de implementación
+- estrategia de despliegue
+- honestidad de documentación
 
-Do not hide an architectural objection inside a scope objection.
+No esconder una objeción arquitectónica dentro de una objeción de alcance.
 
-### 5. Compare to external precedents when needed
+### 5. Comparar con precedentes externos cuando sea necesario
 
-If the contribution introduces a framework or platform concept, compare it to
-similar open-source systems.
+Si la contribución introduce un concepto de framework o plataforma, compararlo con
+sistemas open-source similares.
 
-When comparing:
+Al comparar:
 
-- prefer official docs or source
-- focus on extension boundaries, context passing, trust model, and UI ownership
-- extract lessons, not just similarities
+- preferir documentación oficial o código fuente
+- enfocarse en límites de extensión, paso de contexto, modelo de confianza y propiedad de UI
+- extraer lecciones, no solo similitudes
 
-Good comparison questions:
+Buenas preguntas de comparación:
 
-- Who owns lifecycle?
-- Who owns UI composition?
-- Is context explicit or ambient?
-- Are plugins trusted code or sandboxed code?
-- Are extension points named and typed?
+- ¿Quién es dueño del ciclo de vida?
+- ¿Quién es dueño de la composición de UI?
+- ¿El contexto es explícito o ambiental?
+- ¿Los plugins son código confiable o código en sandbox?
+- ¿Los puntos de extensión están nombrados y tipados?
 
-### 6. Make the recommendation actionable
+### 6. Hacer la recomendación accionable
 
-Do not stop at "merge" or "do not merge."
+No detenerse en "mergear" o "no mergear".
 
-Choose one:
+Elegir una:
 
-- merge as-is
-- merge after specific redesign
-- salvage specific pieces
-- keep as design research
+- mergear tal cual
+- mergear después de un rediseño específico
+- rescatar piezas específicas
+- mantener como investigación de diseño
 
-If rejecting or narrowing, say what should be kept.
+Si se rechaza o reduce, decir qué debería conservarse.
 
-Useful recommendation buckets:
+Categorías útiles de recomendación:
 
-- keep the protocol/type model
-- redesign the UI boundary
-- narrow the initial surface area
-- defer third-party execution
-- ship a host-owned extension-point model first
+- conservar el modelo de protocolo/tipos
+- rediseñar el límite de UI
+- reducir la superficie inicial
+- diferir la ejecución de terceros
+- enviar primero un modelo de punto de extensión propio del host
 
-### 7. Build the artifact
+### 7. Construir el artefacto
 
-Suggested report structure:
+Estructura sugerida del reporte:
 
-1. Executive summary
-2. What the PR actually adds
-3. Tutorial: how the system works
-4. Strengths
-5. Main findings
-6. Comparisons
-7. Recommendation
+1. Resumen ejecutivo
+2. Qué agrega realmente el PR
+3. Tutorial: cómo funciona el sistema
+4. Fortalezas
+5. Hallazgos principales
+6. Comparaciones
+7. Recomendación
 
-For HTML reports:
+Para reportes HTML:
 
-- use intentional typography and color
-- make navigation easy for long reports
-- favor strong section headings and small reference labels
-- avoid generic dashboard styling
+- usar tipografía y color intencionales
+- facilitar la navegación en reportes largos
+- favorecer encabezados de sección fuertes y etiquetas de referencia pequeñas
+- evitar estilos genéricos de dashboard
 
-Before building from scratch, read `references/style-guide.md`.
-If a fast polished starter is helpful, begin from `assets/html-report-starter.html`
-and replace the placeholder content with the actual report.
+Antes de construir desde cero, leer `references/style-guide.md`.
+Si un inicio rápido pulido es útil, comenzar desde `assets/html-report-starter.html`
+y reemplazar el contenido de marcador de posición con el reporte real.
 
-### 8. Verify before handoff
+### 8. Verificar antes de entregar
 
-Check:
+Verificar:
 
-- artifact path exists
-- findings still match the actual code
-- any requested forbidden strings are absent from generated output
-- if tests were not run, say so explicitly
+- la ruta del artefacto existe
+- los hallazgos aún coinciden con el código real
+- cualquier cadena prohibida solicitada está ausente de la salida generada
+- si no se ejecutaron pruebas, decirlo explícitamente
 
-## Review Heuristics
+## Heurísticas de Revisión
 
-### Plugin and platform work
+### Trabajo de plugins y plataforma
 
-Watch closely for:
+Vigilar de cerca:
 
-- docs claiming sandboxing while runtime executes trusted host processes
-- module-global state used to smuggle React context
-- hidden dependence on render order
-- plugins reaching into host internals instead of using explicit APIs
-- "capabilities" that are really policy labels on top of fully trusted code
+- documentación que afirma sandboxing mientras el runtime ejecuta procesos confiables del host
+- estado global de módulo usado para pasar contexto React de contrabando
+- dependencia oculta en orden de renderizado
+- plugins accediendo a internos del host en lugar de usar APIs explícitas
+- "capacidades" que son realmente etiquetas de política sobre código completamente confiable
 
-### Good signs
+### Buenas señales
 
-- typed contracts shared across layers
-- explicit extension points
-- host-owned lifecycle
-- honest trust model
-- narrow first rollout with room to grow
+- contratos tipados compartidos entre capas
+- puntos de extensión explícitos
+- ciclo de vida propiedad del host
+- modelo de confianza honesto
+- primer despliegue reducido con espacio para crecer
 
-## Final Response
+## Respuesta Final
 
-In chat, summarize:
+En el chat, resumir:
 
-- where the report is
-- your overall call
-- the top one or two reasons
-- whether verification or tests were skipped
+- dónde está el reporte
+- tu veredicto general
+- las una o dos razones principales
+- si se omitieron verificaciones o pruebas
 
-Keep the chat summary shorter than the report itself.
+Mantener el resumen del chat más corto que el reporte mismo.

@@ -1,62 +1,62 @@
 ---
-title: Database
-summary: Embedded PGlite vs Docker Postgres vs hosted
+title: Base de Datos
+summary: PostgreSQL embebido vs Docker Postgres vs alojado
 ---
 
-Paperclip uses PostgreSQL via Drizzle ORM. There are three ways to run the database.
+Paperclip usa PostgreSQL a través de Drizzle ORM. Hay tres formas de ejecutar la base de datos.
 
-## 1. Embedded PostgreSQL (Default)
+## 1. PostgreSQL Embebido (Predeterminado)
 
-Zero config. If you don't set `DATABASE_URL`, the server starts an embedded PostgreSQL instance automatically.
+Cero configuración. Si no estableces `DATABASE_URL`, el servidor inicia una instancia embebida de PostgreSQL automáticamente.
 
 ```sh
 pnpm dev
 ```
 
-On first start, the server:
+En el primer inicio, el servidor:
 
-1. Creates `~/.paperclip/instances/default/db/` for storage
-2. Ensures the `paperclip` database exists
-3. Runs migrations automatically
-4. Starts serving requests
+1. Crea `~/.paperclip/instances/default/db/` para almacenamiento
+2. Asegura que la base de datos `paperclip` existe
+3. Ejecuta migraciones automáticamente
+4. Comienza a servir solicitudes
 
-Data persists across restarts. To reset: `rm -rf ~/.paperclip/instances/default/db`.
+Los datos persisten entre reinicios. Para reiniciar: `rm -rf ~/.paperclip/instances/default/db`.
 
-The Docker quickstart also uses embedded PostgreSQL by default.
+El inicio rápido de Docker también usa PostgreSQL embebido por defecto.
 
-## 2. Local PostgreSQL (Docker)
+## 2. PostgreSQL Local (Docker)
 
-For a full PostgreSQL server locally:
+Para un servidor PostgreSQL completo localmente:
 
 ```sh
 docker compose up -d
 ```
 
-This starts PostgreSQL 17 on `localhost:5432`. Set the connection string:
+Esto inicia PostgreSQL 17 en `localhost:5432`. Establece la cadena de conexión:
 
 ```sh
 cp .env.example .env
 # DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip
 ```
 
-Push the schema:
+Presiona el esquema:
 
 ```sh
 DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip \
   npx drizzle-kit push
 ```
 
-## 3. Hosted PostgreSQL (Supabase)
+## 3. PostgreSQL Alojado (Supabase)
 
-For production, use a hosted provider like [Supabase](https://supabase.com/).
+Para producción, usa un proveedor alojado como [Supabase](https://supabase.com/).
 
-1. Create a project at [database.new](https://database.new)
-2. Copy the connection string from Project Settings > Database
-3. Set `DATABASE_URL` in your `.env`
+1. Crea un proyecto en [database.new](https://database.new)
+2. Copia la cadena de conexión desde Project Settings > Database
+3. Establece `DATABASE_URL` en tu `.env`
 
-Use the **direct connection** (port 5432) for migrations and the **pooled connection** (port 6543) for the application.
+Usa la **conexión directa** (puerto 5432) para migraciones y la **conexión agrupada** (puerto 6543) para la aplicación.
 
-If using connection pooling, disable prepared statements:
+Si usas connection pooling, deshabilita las declaraciones preparadas:
 
 ```ts
 // packages/db/src/client.ts
@@ -66,12 +66,12 @@ export function createDb(url: string) {
 }
 ```
 
-## Switching Between Modes
+## Cambiar Entre Modos
 
-| `DATABASE_URL` | Mode |
+| `DATABASE_URL` | Modo |
 |----------------|------|
-| Not set | Embedded PostgreSQL |
-| `postgres://...localhost...` | Local Docker PostgreSQL |
-| `postgres://...supabase.com...` | Hosted Supabase |
+| No establecido | PostgreSQL Embebido |
+| `postgres://...localhost...` | PostgreSQL Local Docker |
+| `postgres://...supabase.com...` | Supabase Alojado |
 
-The Drizzle schema (`packages/db/src/schema/`) is the same regardless of mode.
+El esquema de Drizzle (`packages/db/src/schema/`) es igual independientemente del modo.

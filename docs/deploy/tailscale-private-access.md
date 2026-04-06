@@ -1,77 +1,77 @@
 ---
-title: Tailscale Private Access
-summary: Run Paperclip with Tailscale-friendly host binding and connect from other devices
+title: Acceso Privado Tailscale
+summary: Ejecutar Paperclip con enlace de host compatible con Tailscale y conectar desde otros dispositivos
 ---
 
-Use this when you want to access Paperclip over Tailscale (or a private LAN/VPN) instead of only `localhost`.
+Usa esto cuando quieras acceder a Paperclip sobre Tailscale (o una LAN privada/VPN) en lugar de solo `localhost`.
 
-## 1. Start Paperclip in private authenticated mode
+## 1. Inicia Paperclip en modo autenticado privado
 
 ```sh
 pnpm dev --tailscale-auth
 ```
 
-This configures:
+Esto configura:
 
 - `PAPERCLIP_DEPLOYMENT_MODE=authenticated`
 - `PAPERCLIP_DEPLOYMENT_EXPOSURE=private`
 - `PAPERCLIP_AUTH_BASE_URL_MODE=auto`
-- `HOST=0.0.0.0` (bind on all interfaces)
+- `HOST=0.0.0.0` (enlazar en todas las interfaces)
 
-Equivalent flag:
+Bandera equivalente:
 
 ```sh
 pnpm dev --authenticated-private
 ```
 
-## 2. Find your reachable Tailscale address
+## 2. Encuentra tu dirección Tailscale accesible
 
-From the machine running Paperclip:
+Desde la máquina que ejecuta Paperclip:
 
 ```sh
 tailscale ip -4
 ```
 
-You can also use your Tailscale MagicDNS hostname (for example `my-macbook.tailnet.ts.net`).
+También puedes usar tu nombre de host Tailscale MagicDNS (por ejemplo `mi-macbook.tailnet.ts.net`).
 
-## 3. Open Paperclip from another device
+## 3. Abre Paperclip desde otro dispositivo
 
-Use the Tailscale IP or MagicDNS host with the Paperclip port:
-
-```txt
-http://<tailscale-host-or-ip>:3100
-```
-
-Example:
+Usa la IP de Tailscale o el host MagicDNS con el puerto de Paperclip:
 
 ```txt
-http://my-macbook.tailnet.ts.net:3100
+http://<tailscale-host-o-ip>:3100
 ```
 
-## 4. Allow custom private hostnames when needed
+Ejemplo:
 
-If you access Paperclip with a custom private hostname, add it to the allowlist:
+```txt
+http://mi-macbook.tailnet.ts.net:3100
+```
+
+## 4. Permite nombres de host privados personalizados cuando sea necesario
+
+Si accedes a Paperclip con un nombre de host privado personalizado, añádelo a la lista de permitidos:
 
 ```sh
-pnpm paperclipai allowed-hostname my-macbook.tailnet.ts.net
+pnpm paperclipai allowed-hostname mi-macbook.tailnet.ts.net
 ```
 
-## 5. Verify the server is reachable
+## 5. Verifica que el servidor sea alcanzable
 
-From a remote Tailscale-connected device:
+Desde un dispositivo conectado remotamente a Tailscale:
 
 ```sh
-curl http://<tailscale-host-or-ip>:3100/api/health
+curl http://<tailscale-host-o-ip>:3100/api/health
 ```
 
-Expected result:
+Resultado esperado:
 
 ```json
 {"status":"ok"}
 ```
 
-## Troubleshooting
+## Solución de Problemas
 
-- Login or redirect errors on a private hostname: add it with `paperclipai allowed-hostname`.
-- App only works on `localhost`: make sure you started with `--tailscale-auth` (or set `HOST=0.0.0.0` in private mode).
-- Can connect locally but not remotely: verify both devices are on the same Tailscale network and port `3100` is reachable.
+- Errores de login o redirección en un nombre de host privado: añádelo con `paperclipai allowed-hostname`.
+- La app solo funciona en `localhost`: asegúrate de que iniciaste con `--tailscale-auth` (o establece `HOST=0.0.0.0` en modo privado).
+- Puedes conectar localmente pero no remotamente: verifica que ambos dispositivos están en la misma red Tailscale y el puerto `3100` es alcanzable.

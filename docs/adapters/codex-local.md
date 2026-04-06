@@ -1,56 +1,56 @@
 ---
 title: Codex Local
-summary: OpenAI Codex local adapter setup and configuration
+summary: Configuración del adapter local de OpenAI Codex
 ---
 
-The `codex_local` adapter runs OpenAI's Codex CLI locally. It supports session persistence via `previous_response_id` chaining and skills injection through the global Codex skills directory.
+El adapter `codex_local` ejecuta el CLI de Codex de OpenAI localmente. Soporta persistencia de sesión a través de encadenamiento de `previous_response_id` e inyección de skills a través del directorio global de skills de Codex.
 
-## Prerequisites
+## Requisitos Previos
 
-- Codex CLI installed (`codex` command available)
-- `OPENAI_API_KEY` set in the environment or agent config
+- CLI de Codex instalado (comando `codex` disponible)
+- `OPENAI_API_KEY` establecido en el entorno o configuración del agente
 
-## Configuration Fields
+## Campos de Configuración
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Requerido | Descripción |
 |-------|------|----------|-------------|
-| `cwd` | string | Yes | Working directory for the agent process (absolute path; created automatically if missing when permissions allow) |
-| `model` | string | No | Model to use |
-| `promptTemplate` | string | No | Prompt used for all runs |
-| `env` | object | No | Environment variables (supports secret refs) |
-| `timeoutSec` | number | No | Process timeout (0 = no timeout) |
-| `graceSec` | number | No | Grace period before force-kill |
-| `dangerouslyBypassApprovalsAndSandbox` | boolean | No | Skip safety checks (dev only) |
+| `cwd` | string | Sí | Directorio de trabajo para el proceso del agente (ruta absoluta; se crea automáticamente si falta cuando los permisos lo permiten) |
+| `model` | string | No | Modelo a usar |
+| `promptTemplate` | string | No | Prompt usado para todas las ejecuciones |
+| `env` | object | No | Variables de entorno (soporta referencias secretas) |
+| `timeoutSec` | number | No | Timeout del proceso (0 = sin timeout) |
+| `graceSec` | number | No | Período de gracia antes de force-kill |
+| `dangerouslyBypassApprovalsAndSandbox` | boolean | No | Omitir verificaciones de seguridad (solo dev) |
 
-## Session Persistence
+## Persistencia de Sesión
 
-Codex uses `previous_response_id` for session continuity. The adapter serializes and restores this across heartbeats, allowing the agent to maintain conversation context.
+Codex usa `previous_response_id` para continuidad de sesión. El adapter serializa y restaura esto entre heartbeats, permitiendo que el agente mantenga el contexto de conversación.
 
-## Skills Injection
+## Inyección de Skills
 
-The adapter symlinks Paperclip skills into the global Codex skills directory (`~/.codex/skills`). Existing user skills are not overwritten.
+El adapter crea symlinks de skills de Paperclip en el directorio global de skills de Codex (`~/.codex/skills`). Los skills existentes del usuario no se sobrescriben.
 
-When Paperclip is running inside a managed worktree instance (`PAPERCLIP_IN_WORKTREE=true`), the adapter instead uses a worktree-isolated `CODEX_HOME` under the Paperclip instance so Codex skills, sessions, logs, and other runtime state do not leak across checkouts. It seeds that isolated home from the user's main Codex home for shared auth/config continuity.
+Cuando Paperclip se ejecuta dentro de una instancia de worktree gestionada (`PAPERCLIP_IN_WORKTREE=true`), el adapter en su lugar usa un `CODEX_HOME` aislado de worktree bajo la instancia de Paperclip para que los skills, sesiones, logs, y otros estados de runtime de Codex no se filtren entre checkouts. Siembra ese home aislado desde el home principal de Codex del usuario para continuidad compartida de auth/config.
 
-For manual local CLI usage outside heartbeat runs (for example running as `codexcoder` directly), use:
+Para uso manual del CLI local fuera de ejecuciones de heartbeat (por ejemplo ejecutando como `codexcoder` directamente), usa:
 
 ```sh
 pnpm paperclipai agent local-cli codexcoder --company-id <company-id>
 ```
 
-This installs any missing skills, creates an agent API key, and prints shell exports to run as that agent.
+Esto instala cualquier skill faltante, crea una clave API del agente, e imprime exports de shell para ejecutar como ese agente.
 
-## Instructions Resolution
+## Resolución de Instrucciones
 
-If `instructionsFilePath` is configured, Paperclip reads that file and prepends it to the stdin prompt sent to `codex exec` on every run.
+Si `instructionsFilePath` está configurado, Paperclip lee ese archivo y lo antepone al prompt stdin enviado a `codex exec` en cada ejecución.
 
-This is separate from any workspace-level instruction discovery that Codex itself performs in the run `cwd`. Paperclip does not disable Codex-native repo instruction files, so a repo-local `AGENTS.md` may still be loaded by Codex in addition to the Paperclip-managed agent instructions.
+Esto es separado de cualquier descubrimiento de instrucciones a nivel de workspace que Codex mismo realiza en el `cwd` de ejecución. Paperclip no deshabilita archivos de instrucciones nativos del repo de Codex, así que un `AGENTS.md` local del repo puede aún ser cargado por Codex además de las instrucciones del agente gestionado por Paperclip.
 
-## Environment Test
+## Prueba del Entorno
 
-The environment test checks:
+La prueba del entorno verifica:
 
-- Codex CLI is installed and accessible
-- Working directory is absolute and available (auto-created if missing and permitted)
-- Authentication signal (`OPENAI_API_KEY` presence)
-- A live hello probe (`codex exec --json -` with prompt `Respond with hello.`) to verify the CLI can actually run
+- CLI de Codex está instalado y accesible
+- El directorio de trabajo es absoluto y está disponible (se crea automáticamente si falta y está permitido)
+- Señal de autenticación (presencia de `OPENAI_API_KEY`)
+- Una prueba viva de hello (`codex exec --json -` con prompt `Respond with hello.`) para verificar que el CLI puede ejecutarse realmente

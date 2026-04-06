@@ -1,25 +1,25 @@
 ---
-title: Creating an Adapter
-summary: Guide to building a custom adapter
+title: Creando un Adapter
+summary: Guía para construir un adapter personalizado
 ---
 
-Build a custom adapter to connect Paperclip to any agent runtime.
+Construye un adapter personalizado para conectar Paperclip a cualquier runtime de agente.
 
 <Tip>
-If you're using Claude Code, the `.agents/skills/create-agent-adapter` skill can guide you through the full adapter creation process interactively. Just ask Claude to create a new adapter and it will walk you through each step.
+Si estás usando Claude Code, el skill `.agents/skills/create-agent-adapter` puede guiarte a través del proceso completo de creación de adapter interactivamente. Solo pídele a Claude que cree un nuevo adapter y te guiará a través de cada paso.
 </Tip>
 
-## Two Paths
+## Dos Caminos
 
-| | Built-in | External Plugin |
+| | Incorporado | Plugin Externo |
 |---|---|---|
-| Source | Inside `paperclip-fork` | Separate npm package |
-| Distribution | Ships with Paperclip | Independent npm publish |
-| UI parser | Static import | Dynamic load from API |
-| Registration | Edit 3 registries | Auto-loaded at startup |
-| Best for | Core adapters, contributors | Third-party adapters, internal tools |
+| Fuente | Dentro de `paperclip-fork` | Paquete npm separado |
+| Distribución | Se envía con Paperclip | Publicación npm independiente |
+| UI parser | Importación estática | Carga dinámica desde API |
+| Registro | Edita 3 registros | Auto-cargado al inicio |
+| Mejor para | Adapters centrales, colaboradores | Adapters de terceros, herramientas internas |
 
-For most cases, **build an external adapter plugin**. It's cleaner, independently versioned, and doesn't require modifying Paperclip's source. See [External Adapters](/adapters/external-adapters) for the full guide.
+Para la mayoría de casos, **construye un plugin adapter externo**. Es más limpio, versionado independientemente, y no requiere modificar el código fuente de Paperclip. Ver [Adapters Externos](/adapters/external-adapters) para la guía completa.
 
 The rest of this page covers the shared internals that both paths use.
 

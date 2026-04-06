@@ -1,38 +1,38 @@
 ---
-title: Storage
-summary: Local disk vs S3-compatible storage
+title: Almacenamiento
+summary: Disco local vs almacenamiento compatible con S3
 ---
 
-Paperclip stores uploaded files (issue attachments, images) using a configurable storage provider.
+Paperclip almacena archivos subidos (adjuntos de issues, imágenes) usando un proveedor de almacenamiento configurable.
 
-## Local Disk (Default)
+## Disco Local (Predeterminado)
 
-Files are stored at:
+Los archivos se almacenan en:
 
 ```
 ~/.paperclip/instances/default/data/storage
 ```
 
-No configuration required. Suitable for local development and single-machine deployments.
+No se requiere configuración. Adecuado para desarrollo local y despliegues en máquina única.
 
-## S3-Compatible Storage
+## Almacenamiento Compatible con S3
 
-For production or multi-node deployments, use S3-compatible object storage (AWS S3, MinIO, Cloudflare R2, etc.).
+Para producción o despliegues multi-nodo, usa almacenamiento de objetos compatible con S3 (AWS S3, MinIO, Cloudflare R2, etc.).
 
-Configure via CLI:
+Configura vía CLI:
 
 ```sh
 pnpm paperclipai configure --section storage
 ```
 
-## Configuration
+## Configuración
 
-| Provider | Best For |
+| Proveedor | Mejor para |
 |----------|----------|
-| `local_disk` | Local development, single-machine deployments |
-| `s3` | Production, multi-node, cloud deployments |
+| `local_disk` | Desarrollo local, despliegues en máquina única |
+| `s3` | Producción, multi-nodo, despliegues en nube |
 
-Storage configuration is stored in the instance config file:
+La configuración de almacenamiento se almacena en el archivo de configuración de instancia:
 
 ```
 ~/.paperclip/instances/default/config.json

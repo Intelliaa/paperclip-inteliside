@@ -1,123 +1,123 @@
-# Feedback Voting — Local Data Guide
+# Votación de Retroalimentación — Guía de Datos Locales
 
-When you rate an agent's response with **Helpful** (thumbs up) or **Needs work** (thumbs down), Paperclip saves your vote locally alongside your running instance. This guide covers what gets stored, how to access it, and how to export it.
+Cuando califica la respuesta de un agente con **Helpful** (pulgar arriba) o **Needs work** (pulgar abajo), Paperclip guarda tu voto localmente junto con tu instancia en ejecución. Esta guía cubre qué se almacena, cómo acceder a ello y cómo exportarlo.
 
-## How voting works
+## Cómo funciona la votación
 
-1. Click **Helpful** or **Needs work** on any agent comment or document revision.
-2. If you click **Needs work**, an optional text prompt appears: _"What could have been better?"_ You can type a reason or dismiss it.
-3. A consent dialog asks whether to keep the vote local or share it. Your choice is remembered for future votes.
+1. Haz clic en **Helpful** o **Needs work** en cualquier comentario de agente o revisión de documento.
+2. Si haces clic en **Needs work**, aparece un prompt de texto opcional: _"¿Qué hubiera podido ser mejor?"_ Puedes escribir una razón o descartarlo.
+3. Un diálogo de consentimiento pregunta si mantener el voto local o compartirlo. Tu elección se recuerda para futuros votos.
 
-### What gets stored
+### Qué se almacena
 
-Each vote creates two local records:
+Cada voto crea dos registros locales:
 
-| Record | What it contains |
+| Registro | Qué contiene |
 |--------|-----------------|
-| **Vote** | Your vote (up/down), optional reason text, sharing preference, consent version, timestamp |
-| **Trace bundle** | Full context snapshot: the voted-on comment/revision text, issue title, agent info, your vote, and reason — everything needed to understand the feedback in isolation |
+| **Vote** | Tu voto (arriba/abajo), texto de razón opcional, preferencia de compartición, versión de consentimiento, timestamp |
+| **Trace bundle** | Snapshot de contexto completo: texto del comentario/revisión votado, título del problema, información del agente, tu voto y razón — todo lo necesario para entender la retroalimentación aisladamente |
 
-All data lives in your local Paperclip database. Nothing leaves your machine unless you explicitly choose to share.
+Todos los datos viven en tu base de datos local de Paperclip. Nada sale de tu máquina a menos que explícitamente elijas compartir.
 
-When a vote is marked for sharing, Paperclip immediately tries to upload the trace bundle through the Telemetry Backend. The upload is compressed in transit so full trace bundles stay under gateway size limits. If that immediate push fails, the trace is left in a retriable failed state for later flush attempts. The app server never uploads raw feedback trace bundles directly to object storage.
+Cuando un voto está marcado para compartir, Paperclip intenta inmediatamente subir el trace bundle a través del Telemetry Backend. La subida se comprime en tránsito para que los bundles de trace completos se mantengan bajo los límites de tamaño de gateway. Si ese push inmediato falla, el trace se deja en un estado fallido reintentable para intentos posteriores de flush. El servidor de aplicación nunca sube bundles de trace de retroalimentación sin procesar directamente al almacenamiento de objetos.
 
-## Viewing your votes
+## Visualizando tus votos
 
-### Quick report (terminal)
+### Reporte rápido (terminal)
 
 ```bash
 pnpm paperclipai feedback report
 ```
 
-Shows a color-coded summary: vote counts, per-trace details with reasons, and export statuses.
+Muestra un resumen codificado por colores: conteos de votos, detalles por trace con razones, y estados de exportación.
 
 ```bash
-# Installed CLI
+# CLI instalado
 paperclipai feedback report
 
-# Point to a different server or company
+# Apuntar a un servidor o compañía diferente
 pnpm paperclipai feedback report --api-base http://127.0.0.1:3000 --company-id <company-id>
 
-# Include raw payload dumps in the report
+# Incluir volcados de payload sin procesar en el reporte
 pnpm paperclipai feedback report --payloads
 ```
 
-### API endpoints
+### Endpoints de API
 
-All endpoints require board-user access (automatic in local dev).
+Todos los endpoints requieren acceso board-user (automático en local dev).
 
-**List votes for an issue:**
+**Listar votos para un issue:**
 ```bash
 curl http://127.0.0.1:3102/api/issues/<issueId>/feedback-votes
 ```
 
-**List trace bundles for an issue (with full payloads):**
+**Listar trace bundles para un issue (con payloads completos):**
 ```bash
 curl 'http://127.0.0.1:3102/api/issues/<issueId>/feedback-traces?includePayload=true'
 ```
 
-**List all traces company-wide:**
+**Listar todos los traces a nivel de compañía:**
 ```bash
 curl 'http://127.0.0.1:3102/api/companies/<companyId>/feedback-traces?includePayload=true'
 ```
 
-**Get a single trace envelope record:**
+**Obtener un registro envelope de trace único:**
 ```bash
 curl http://127.0.0.1:3102/api/feedback-traces/<traceId>
 ```
 
-**Get the full export bundle for a trace:**
+**Obtener el bundle de exportación completo para un trace:**
 ```bash
 curl http://127.0.0.1:3102/api/feedback-traces/<traceId>/bundle
 ```
 
-#### Filtering
+#### Filtrado
 
-The trace endpoints accept query parameters:
+Los endpoints de trace aceptan parámetros de query:
 
-| Parameter | Values | Description |
+| Parámetro | Valores | Descripción |
 |-----------|--------|-------------|
-| `vote` | `up`, `down` | Filter by vote direction |
-| `status` | `local_only`, `pending`, `sent`, `failed` | Filter by export status |
-| `targetType` | `issue_comment`, `issue_document_revision` | Filter by what was voted on |
-| `sharedOnly` | `true` | Only show votes the user chose to share |
-| `includePayload` | `true` | Include the full context snapshot |
-| `from` / `to` | ISO date | Date range filter |
+| `vote` | `up`, `down` | Filtrar por dirección de voto |
+| `status` | `local_only`, `pending`, `sent`, `failed` | Filtrar por estado de exportación |
+| `targetType` | `issue_comment`, `issue_document_revision` | Filtrar por qué fue votado |
+| `sharedOnly` | `true` | Mostrar solo votos que el usuario eligió compartir |
+| `includePayload` | `true` | Incluir el snapshot de contexto completo |
+| `from` / `to` | ISO date | Filtro de rango de fechas |
 
-## Exporting your data
+## Exportando tus datos
 
-### Export to files + zip
+### Exportar a archivos + zip
 
 ```bash
 pnpm paperclipai feedback export
 ```
 
-Creates a timestamped directory with:
+Crea un directorio con timestamp:
 
 ```
 feedback-export-20260331T120000Z/
-  index.json                    # manifest with summary stats
+  index.json                    # manifiesto con estadísticas resumidas
   votes/
-    PAP-123-a1b2c3d4.json      # vote metadata (one per vote)
+    PAP-123-a1b2c3d4.json      # metadatos de voto (uno por voto)
   traces/
-    PAP-123-e5f6g7h8.json      # Paperclip feedback envelope (one per trace)
+    PAP-123-e5f6g7h8.json      # envelope de retroalimentación Paperclip (uno por trace)
   full-traces/
     PAP-123-e5f6g7h8/
-      bundle.json              # full export manifest for the trace
-      ...raw adapter files     # codex / claude / opencode session artifacts when available
+      bundle.json              # manifiesto de exportación completo para el trace
+      ...raw adapter files     # artefactos de sesión codex / claude / opencode cuando están disponibles
 feedback-export-20260331T120000Z.zip
 ```
 
-Exports are full by default. `traces/` keeps the Paperclip envelope, while `full-traces/` contains the richer per-trace bundle plus any recoverable adapter-native files.
+Las exportaciones son completas por defecto. `traces/` mantiene el envelope Paperclip, mientras que `full-traces/` contiene el bundle por trace más rico más cualquier archivo nativo de adapter recuperable.
 
 ```bash
-# Custom server and output directory
+# Servidor personalizado y directorio de salida
 pnpm paperclipai feedback export --api-base http://127.0.0.1:3000 --company-id <company-id> --out ./my-export
 ```
 
-### Reading an exported trace
+### Leyendo un trace exportado
 
-Open any file in `traces/` to see:
+Abre cualquier archivo en `traces/` para ver:
 
 ```json
 {
@@ -128,7 +128,7 @@ Open any file in `traces/` to see:
   "targetType": "issue_comment",
   "targetSummary": {
     "label": "Comment",
-    "excerpt": "The first 80 chars of the comment that was voted on..."
+    "excerpt": "Los primeros 80 caracteres del comentario que fue votado..."
   },
   "payloadSnapshot": {
     "vote": {
@@ -136,7 +136,7 @@ Open any file in `traces/` to see:
       "reason": "Did not address the root cause"
     },
     "target": {
-      "body": "Full text of the agent comment..."
+      "body": "Texto completo del comentario del agente..."
     },
     "issue": {
       "identifier": "PAP-123",
@@ -146,47 +146,47 @@ Open any file in `traces/` to see:
 }
 ```
 
-Open `full-traces/<issue>-<trace>/bundle.json` to see the expanded export metadata, including capture notes, adapter type, integrity metadata, and the inventory of raw files written alongside it.
+Abre `full-traces/<issue>-<trace>/bundle.json` para ver los metadatos de exportación expandidos, incluyendo notas de captura, tipo de adapter, metadatos de integridad, e inventario de archivos sin procesar escritos junto a él.
 
-Each entry in `bundle.json.files[]` includes the actual captured file payload under `contents`, not just a pathname. For text artifacts this is stored as UTF-8 text; binary artifacts use base64 plus an `encoding` marker.
+Cada entrada en `bundle.json.files[]` incluye el payload real del archivo capturado bajo `contents`, no solo un pathname. Para artefactos de texto esto se almacena como texto UTF-8; los artefactos binarios usan base64 más un marcador `encoding`.
 
-Built-in local adapters now export their native session artifacts more directly:
+Los adapters locales incorporados ahora exportan sus artefactos de sesión nativos más directamente:
 
 - `codex_local`: `adapter/codex/session.jsonl`
-- `claude_local`: `adapter/claude/session.jsonl`, plus any `adapter/claude/session/...` sidecar files and `adapter/claude/debug.txt` when present
-- `opencode_local`: `adapter/opencode/session.json`, `adapter/opencode/messages/*.json`, and `adapter/opencode/parts/<messageId>/*.json`, with optional `project.json`, `todo.json`, and `session-diff.json`
+- `claude_local`: `adapter/claude/session.jsonl`, más cualquier archivo `adapter/claude/session/...` sidecar y `adapter/claude/debug.txt` cuando está presente
+- `opencode_local`: `adapter/opencode/session.json`, `adapter/opencode/messages/*.json`, y `adapter/opencode/parts/<messageId>/*.json`, con `project.json`, `todo.json`, y `session-diff.json` opcionales
 
-## Sharing preferences
+## Preferencias de compartición
 
-The first time you vote, a consent dialog asks:
+La primera vez que votas, un diálogo de consentimiento pregunta:
 
-- **Keep local** — vote is stored locally only (`sharedWithLabs: false`)
-- **Share this vote** — vote is marked for sharing (`sharedWithLabs: true`)
+- **Mantener local** — voto se almacena solo localmente (`sharedWithLabs: false`)
+- **Compartir este voto** — voto está marcado para compartir (`sharedWithLabs: true`)
 
-Your preference is saved per-company. You can change it any time via the feedback settings. Votes marked "keep local" are never queued for export.
+Tu preferencia se guarda por compañía. Puedes cambiarla en cualquier momento vía la configuración de retroalimentación. Los votos marcados "mantener local" nunca se ponen en cola para exportación.
 
-## Data lifecycle
+## Ciclo de vida de datos
 
-| Status | Meaning |
+| Estado | Significado |
 |--------|---------|
-| `local_only` | Vote stored locally, not marked for sharing |
-| `pending` | Marked for sharing, saved locally, and waiting for the immediate upload attempt |
-| `sent` | Successfully transmitted |
-| `failed` | Transmission attempted but failed (for example the backend is unreachable or not configured); later flushes retry once a backend is available |
+| `local_only` | Voto almacenado localmente, no marcado para compartir |
+| `pending` | Marcado para compartir, almacenado localmente, y esperando el intento de subida inmediato |
+| `sent` | Transmitido exitosamente |
+| `failed` | Intento de transmisión pero falló (por ejemplo el backend no está disponible o no configurado); los flushes posteriores reintentan una vez que un backend está disponible |
 
-Your local database always retains the full vote and trace data regardless of sharing status.
+Tu base de datos local siempre retiene los datos completos de voto y trace sin importar el estado de compartición.
 
-## Remote sync
+## Sincronización remota
 
-Votes you choose to share are sent to the Telemetry Backend immediately from the vote request. The server also keeps a background flush worker so failed traces can retry later. The Telemetry Backend validates the request, then persists the bundle into its configured object storage.
+Los votos que eliges compartir se envían al Telemetry Backend inmediatamente desde la solicitud de voto. El servidor también mantiene un worker de flush en segundo plano para que los traces fallidos puedan reintentar después. El Telemetry Backend valida la solicitud, luego persiste el bundle en su almacenamiento de objetos configurado.
 
-- App server responsibility: build the bundle, POST it to Telemetry Backend, update trace status
-- Telemetry Backend responsibility: authenticate the request, validate payload shape, compress/store the bundle, return the final object key
-- Retry behavior: failed uploads move to `failed` with an error message in `failureReason`, and the worker retries them on later ticks
-- Default endpoint: when no feedback export backend URL is configured, Paperclip falls back to `https://telemetry.paperclip.ing`
-- Important nuance: the uploaded object is a snapshot of the full bundle at vote time. If you fetch a local bundle later and the underlying adapter session file has continued to grow, the local regenerated bundle may be larger than the already-uploaded snapshot for that same trace.
+- Responsabilidad del servidor de aplicación: construir el bundle, POSTear a Telemetry Backend, actualizar estado del trace
+- Responsabilidad del Telemetry Backend: autenticar la solicitud, validar forma de payload, comprimir/almacenar el bundle, retornar la clave de objeto final
+- Comportamiento de reintento: las subidas fallidas se mueven a `failed` con un mensaje de error en `failureReason`, y el worker los reintenta en ticks posteriores
+- Endpoint predeterminado: cuando ninguna URL de backend de exportación de retroalimentación está configurada, Paperclip vuelve a `https://telemetry.paperclip.ing`
+- Matiz importante: el objeto subido es un snapshot del bundle completo en tiempo de voto. Si recuperas un bundle local después y el archivo de sesión del adapter subyacente ha continuado creciendo, el bundle regenerado localmente puede ser más grande que el snapshot ya subido para ese mismo trace.
 
-Exported objects use a deterministic key pattern so they are easy to inspect:
+Los objetos exportados usan un patrón de clave determinístico para que sean fáciles de inspeccionar:
 
 ```text
 feedback-traces/<companyId>/YYYY/MM/DD/<exportId-or-traceId>.json

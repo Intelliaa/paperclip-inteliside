@@ -1,84 +1,84 @@
 ---
-title: Deployment Modes
-summary: local_trusted vs authenticated (private/public)
+title: Modos de Despliegue
+summary: local_trusted vs authenticated (privado/público)
 ---
 
-Paperclip supports two runtime modes with different security profiles.
+Paperclip soporta dos modos de runtime con diferentes perfiles de seguridad.
 
 ## `local_trusted`
 
-The default mode. Optimized for single-operator local use.
+El modo predeterminado. Optimizado para uso local de un solo operador.
 
-- **Host binding**: loopback only (localhost)
-- **Authentication**: no login required
-- **Use case**: local development, solo experimentation
-- **Board identity**: auto-created local board user
+- **Enlace de host**: solo loopback (localhost)
+- **Autenticación**: no se requiere login
+- **Caso de uso**: desarrollo local, experimentación solo
+- **Identidad de la junta**: usuario de junta local creado automáticamente
 
 ```sh
-# Set during onboard
+# Establecer durante la incorporación
 pnpm paperclipai onboard
-# Choose "local_trusted"
+# Elige "local_trusted"
 ```
 
 ## `authenticated`
 
-Login required. Supports two exposure policies.
+Login requerido. Soporta dos políticas de exposición.
 
 ### `authenticated` + `private`
 
-For private network access (Tailscale, VPN, LAN).
+Para acceso a red privada (Tailscale, VPN, LAN).
 
-- **Authentication**: login required via Better Auth
-- **URL handling**: auto base URL mode (lower friction)
-- **Host trust**: private-host trust policy required
+- **Autenticación**: login requerido vía Better Auth
+- **Manejo de URL**: modo URL base automático (menos fricción)
+- **Confianza de host**: política de confianza de host privado requerida
 
 ```sh
 pnpm paperclipai onboard
-# Choose "authenticated" -> "private"
+# Elige "authenticated" -> "private"
 ```
 
-Allow custom Tailscale hostnames:
+Permite nombres de host Tailscale personalizados:
 
 ```sh
-pnpm paperclipai allowed-hostname my-machine
+pnpm paperclipai allowed-hostname mi-máquina
 ```
 
 ### `authenticated` + `public`
 
-For internet-facing deployment.
+Para despliegue con acceso a internet.
 
-- **Authentication**: login required
-- **URL**: explicit public URL required
-- **Security**: stricter deployment checks in doctor
+- **Autenticación**: login requerido
+- **URL**: URL pública explícita requerida
+- **Seguridad**: verificaciones de despliegue más estrictas en doctor
 
 ```sh
 pnpm paperclipai onboard
-# Choose "authenticated" -> "public"
+# Elige "authenticated" -> "public"
 ```
 
-## Board Claim Flow
+## Flujo de Reclamo de Junta
 
-When migrating from `local_trusted` to `authenticated`, Paperclip emits a one-time claim URL at startup:
+Cuando migras de `local_trusted` a `authenticated`, Paperclip emite una URL de reclamo de una sola vez al inicio:
 
 ```
 /board-claim/<token>?code=<code>
 ```
 
-A signed-in user visits this URL to claim board ownership. This:
+Un usuario conectado visita esta URL para reclamar la propiedad de la junta. Esto:
 
-- Promotes the current user to instance admin
-- Demotes the auto-created local board admin
-- Ensures active company membership for the claiming user
+- Promueve al usuario actual a administrador de instancia
+- Degrada al administrador de junta local creado automáticamente
+- Asegura la membresía de compañía activa para el usuario que reclama
 
-## Changing Modes
+## Cambiar Modos
 
-Update the deployment mode:
+Actualiza el modo de despliegue:
 
 ```sh
 pnpm paperclipai configure --section server
 ```
 
-Runtime override via environment variable:
+Anulación de runtime a través de variable de entorno:
 
 ```sh
 PAPERCLIP_DEPLOYMENT_MODE=authenticated pnpm paperclipai run

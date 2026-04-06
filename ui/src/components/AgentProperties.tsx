@@ -67,7 +67,7 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
           </PropertyRow>
         )}
         {runtimeState?.lastError && (
-          <PropertyRow label="Last error">
+          <PropertyRow label="Last Error">
             <span className="text-xs text-red-600 dark:text-red-400 truncate max-w-[160px]">{runtimeState.lastError}</span>
           </PropertyRow>
         )}

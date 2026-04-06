@@ -13,6 +13,7 @@ interface MetricCardProps {
 
 export function MetricCard({ icon: Icon, value, label, description, to, onClick }: MetricCardProps) {
   const isClickable = !!(to || onClick);
+  // No strings to translate in this component
 
   const inner = (
     <div className={`h-full px-4 py-4 sm:px-5 sm:py-5 rounded-lg transition-colors${isClickable ? " hover:bg-accent/50 cursor-pointer" : ""}`}>

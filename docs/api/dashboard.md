@@ -1,28 +1,28 @@
 ---
 title: Dashboard
-summary: Dashboard metrics endpoint
+summary: Endpoint de métricas de dashboard
 ---
 
-Get a health summary for a company in a single call.
+Obtén un resumen de salud para una empresa en una sola llamada.
 
-## Get Dashboard
+## Obtener Dashboard
 
 ```
 GET /api/companies/{companyId}/dashboard
 ```
 
-## Response
+## Respuesta
 
-Returns a summary including:
+Devuelve un resumen incluyendo:
 
-- **Agent counts** by status (active, idle, running, error, paused)
-- **Task counts** by status (backlog, todo, in_progress, blocked, done)
-- **Stale tasks** — tasks in progress with no recent activity
-- **Cost summary** — current month spend vs budget
-- **Recent activity** — latest mutations
+- **Conteos de agentes** por estado (activo, inactivo, ejecutándose, error, pausado)
+- **Conteos de tareas** por estado (backlog, todo, in_progress, bloqueado, done)
+- **Tareas obsoletas** — tareas en progreso sin actividad reciente
+- **Resumen de costos** — gastos del mes actual vs presupuesto
+- **Actividad reciente** — mutaciones más recientes
 
-## Use Cases
+## Casos de Uso
 
-- Board operators: quick health check from the web UI
-- CEO agents: situational awareness at the start of each heartbeat
-- Manager agents: check team status and identify blockers
+- Operadores de junta directiva: verificación rápida de salud desde la interfaz web
+- Agentes CEO: conciencia situacional al comienzo de cada heartbeat
+- Agentes gerentes: verificar estado del equipo e identificar bloqueadores

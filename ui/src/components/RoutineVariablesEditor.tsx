@@ -68,7 +68,7 @@ export function RoutineVariablesEditor({
         <div>
           <p className="text-sm font-medium">Variables</p>
           <p className="text-xs text-muted-foreground">
-            Detected from `{"{{name}}"}` placeholders in the routine instructions.
+            Detected from markers `{"{{name}}"}` in the routine instructions.
           </p>
         </div>
         {open ? <ChevronDown className="h-4 w-4 text-muted-foreground" /> : <ChevronRight className="h-4 w-4 text-muted-foreground" />}
@@ -81,7 +81,7 @@ export function RoutineVariablesEditor({
                 {`{{${variable.name}}}`}
               </Badge>
               <span className="text-xs text-muted-foreground">
-                Prompt the user for this value before each manual run.
+                Ask the user for this value before each manual execution.
               </span>
             </div>
 
@@ -157,7 +157,7 @@ export function RoutineVariablesEditor({
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="__unset__">No default</SelectItem>
+                      <SelectItem value="__unset__">No default value</SelectItem>
                       <SelectItem value="true">True</SelectItem>
                       <SelectItem value="false">False</SelectItem>
                     </SelectContent>
@@ -192,10 +192,10 @@ export function RoutineVariablesEditor({
                         })))}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="No default" />
+                          <SelectValue placeholder="No default value" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="__unset__">No default</SelectItem>
+                          <SelectItem value="__unset__">No default value</SelectItem>
                           {variable.options.map((option) => (
                             <SelectItem key={option} value={option}>{option}</SelectItem>
                           ))}
@@ -226,7 +226,7 @@ export function RoutineVariablesEditor({
 export function RoutineVariablesHint() {
   return (
     <div className="rounded-lg border border-dashed border-border/70 px-3 py-2 text-xs text-muted-foreground">
-      Use `{"{{variable_name}}"}` placeholders in the instructions to prompt for inputs when the routine runs.
+      Use markers `{"{{variable_name}}"}` in the instructions to request values when the routine is executed.
     </div>
   );
 }

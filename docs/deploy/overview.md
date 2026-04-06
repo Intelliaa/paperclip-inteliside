@@ -1,54 +1,54 @@
 ---
-title: Deployment Overview
-summary: Deployment modes at a glance
+title: Descripción General de Despliegue
+summary: Modos de despliegue de un vistazo
 ---
 
-Paperclip supports three deployment configurations, from zero-friction local to internet-facing production.
+Paperclip soporta tres configuraciones de despliegue, desde local sin fricción hasta producción en internet.
 
-## Deployment Modes
+## Modos de Despliegue
 
-| Mode | Auth | Best For |
-|------|------|----------|
-| `local_trusted` | No login required | Single-operator local machine |
-| `authenticated` + `private` | Login required | Private network (Tailscale, VPN, LAN) |
-| `authenticated` + `public` | Login required | Internet-facing cloud deployment |
+| Modo | Autenticación | Mejor para |
+|------|----------|----------|
+| `local_trusted` | No se requiere login | Máquina local de un solo operador |
+| `authenticated` + `private` | Login requerido | Red privada (Tailscale, VPN, LAN) |
+| `authenticated` + `public` | Login requerido | Despliegue en nube con acceso a internet |
 
-## Quick Comparison
+## Comparación Rápida
 
-### Local Trusted (Default)
+### Local Trusted (Predeterminado)
 
-- Loopback-only host binding (localhost)
-- No human login flow
-- Fastest local startup
-- Best for: solo development and experimentation
+- Enlace de host solo en loopback (localhost)
+- Sin flujo de login de usuario
+- Inicio local más rápido
+- Mejor para: desarrollo solo y experimentación
 
 ### Authenticated + Private
 
-- Login required via Better Auth
-- Binds to all interfaces for network access
-- Auto base URL mode (lower friction)
-- Best for: team access over Tailscale or local network
+- Login requerido vía Better Auth
+- Se enlaza a todas las interfaces para acceso de red
+- Modo URL base automático (menos fricción)
+- Mejor para: acceso de equipo sobre Tailscale o red local
 
 ### Authenticated + Public
 
-- Login required
-- Explicit public URL required
-- Stricter security checks
-- Best for: cloud hosting, internet-facing deployment
+- Login requerido
+- URL pública explícita requerida
+- Verificaciones de seguridad más estrictas
+- Mejor para: hosting en nube, despliegue con acceso a internet
 
-## Choosing a Mode
+## Elegir un Modo
 
-- **Just trying Paperclip?** Use `local_trusted` (the default)
-- **Sharing with a team on private network?** Use `authenticated` + `private`
-- **Deploying to the cloud?** Use `authenticated` + `public`
+- **¿Solo probando Paperclip?** Usa `local_trusted` (predeterminado)
+- **¿Compartiendo con un equipo en red privada?** Usa `authenticated` + `private`
+- **¿Desplegando a la nube?** Usa `authenticated` + `public`
 
-Set the mode during onboarding:
+Establece el modo durante la incorporación:
 
 ```sh
 pnpm paperclipai onboard
 ```
 
-Or update it later:
+O actualízalo después:
 
 ```sh
 pnpm paperclipai configure --section server

@@ -18,6 +18,7 @@ interface IssueRowProps {
   mobileMeta?: ReactNode;
   desktopTrailing?: ReactNode;
   trailingMeta?: ReactNode;
+  titleSuffix?: ReactNode;
   unreadState?: UnreadState | null;
   onMarkRead?: () => void;
   onArchive?: () => void;
@@ -35,6 +36,7 @@ export function IssueRow({
   mobileMeta,
   desktopTrailing,
   trailingMeta,
+  titleSuffix,
   unreadState = null,
   onMarkRead,
   onArchive,
@@ -63,7 +65,7 @@ export function IssueRow({
       </span>
       <span className="flex min-w-0 flex-1 flex-col gap-1 sm:contents">
         <span className="line-clamp-2 text-sm sm:order-2 sm:min-w-0 sm:flex-1 sm:truncate sm:line-clamp-none">
-          {issue.title}
+          {issue.title}{titleSuffix}
         </span>
         <span className="flex items-center gap-2 sm:order-1 sm:shrink-0">
           {desktopLeadingSpacer ? (
@@ -118,7 +120,7 @@ export function IssueRow({
                 "inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors",
                 selected ? "hover:bg-muted/80" : "hover:bg-blue-500/20",
               )}
-              aria-label="Mark as read"
+              aria-label="Marcar como leído"
             >
               <span
                 className={cn(
@@ -144,7 +146,7 @@ export function IssueRow({
               }}
               disabled={archiveDisabled}
               className="inline-flex h-4 w-4 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100 disabled:pointer-events-none disabled:opacity-30"
-              aria-label="Dismiss from inbox"
+              aria-label="Descartar de la bandeja"
             >
               <X className="h-3.5 w-3.5" />
             </button>

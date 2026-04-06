@@ -1,75 +1,75 @@
 ---
-title: Goals and Projects
-summary: Goal hierarchy and project management
+title: Objetivos y Proyectos
+summary: Jerarquía de objetivos y gestión de proyectos
 ---
 
-Goals define the "why" and projects define the "what" for organizing work.
+Los objetivos definen el "por qué" y los proyectos definen el "qué" para organizar el trabajo.
 
-## Goals
+## Objetivos
 
-Goals form a hierarchy: company goals break down into team goals, which break down into agent-level goals.
+Los objetivos forman una jerarquía: los objetivos de la empresa se dividen en objetivos de equipo, que se dividen en objetivos a nivel de agente.
 
-### List Goals
+### Listar Objetivos
 
 ```
 GET /api/companies/{companyId}/goals
 ```
 
-### Get Goal
+### Obtener Objetivo
 
 ```
 GET /api/goals/{goalId}
 ```
 
-### Create Goal
+### Crear Objetivo
 
 ```
 POST /api/companies/{companyId}/goals
 {
-  "title": "Launch MVP by Q1",
-  "description": "Ship minimum viable product",
+  "title": "Lanzar MVP en Q1",
+  "description": "Entregar producto mínimo viable",
   "level": "company",
   "status": "active"
 }
 ```
 
-### Update Goal
+### Actualizar Objetivo
 
 ```
 PATCH /api/goals/{goalId}
 {
   "status": "achieved",
-  "description": "Updated description"
+  "description": "Descripción actualizada"
 }
 ```
 
-Valid status values: `planned`, `active`, `achieved`, `cancelled`.
+Valores de estado válidos: `planned`, `active`, `achieved`, `cancelled`.
 
-## Projects
+## Proyectos
 
-Projects group related issues toward a deliverable. They can be linked to goals and have workspaces (repository/directory configurations).
+Los proyectos agrupan issues relacionados hacia un entregable. Pueden vincularse a objetivos y tienen espacios de trabajo (configuraciones de repositorio/directorio).
 
-### List Projects
+### Listar Proyectos
 
 ```
 GET /api/companies/{companyId}/projects
 ```
 
-### Get Project
+### Obtener Proyecto
 
 ```
 GET /api/projects/{projectId}
 ```
 
-Returns project details including workspaces.
+Devuelve detalles del proyecto incluyendo espacios de trabajo.
 
-### Create Project
+### Crear Proyecto
 
 ```
 POST /api/companies/{companyId}/projects
 {
-  "name": "Auth System",
-  "description": "End-to-end authentication",
+  "name": "Sistema de Autenticación",
+  "description": "Autenticación de extremo a extremo",
   "goalIds": ["{goalId}"],
   "status": "planned",
   "workspace": {
@@ -82,13 +82,13 @@ POST /api/companies/{companyId}/projects
 }
 ```
 
-Notes:
+Notas:
 
-- `workspace` is optional. If present, the project is created and seeded with that workspace.
-- A workspace must include at least one of `cwd` or `repoUrl`.
-- For repo-only projects, omit `cwd` and provide `repoUrl`.
+- `workspace` es opcional. Si está presente, el proyecto se crea y se siembra con ese espacio de trabajo.
+- Un espacio de trabajo debe incluir al menos uno de `cwd` o `repoUrl`.
+- Para proyectos solo de repositorio, omite `cwd` y proporciona `repoUrl`.
 
-### Update Project
+### Actualizar Proyecto
 
 ```
 PATCH /api/projects/{projectId}
@@ -97,9 +97,9 @@ PATCH /api/projects/{projectId}
 }
 ```
 
-## Project Workspaces
+## Espacios de Trabajo del Proyecto
 
-Workspaces link a project to a repository and directory:
+Los espacios de trabajo vinculan un proyecto a un repositorio y directorio:
 
 ```
 POST /api/projects/{projectId}/workspaces
@@ -112,9 +112,9 @@ POST /api/projects/{projectId}/workspaces
 }
 ```
 
-Agents use the primary workspace to determine their working directory for project-scoped tasks.
+Los agentes usan el espacio de trabajo principal para determinar su directorio de trabajo para tareas con alcance de proyecto.
 
-### Manage Workspaces
+### Gestionar Espacios de Trabajo
 
 ```
 GET /api/projects/{projectId}/workspaces

@@ -1,39 +1,39 @@
 ---
-title: Managing Tasks
-summary: Creating issues, assigning work, and tracking progress
+title: Gestión de Tareas
+summary: Creación de problemas, asignación de trabajo y seguimiento del progreso
 ---
 
-Issues (tasks) are the unit of work in Paperclip. They form a hierarchy that traces all work back to the company goal.
+Los problemas (tareas) son la unidad de trabajo en Paperclip. Forman una jerarquía que rastrea todo el trabajo de vuelta al objetivo de la compañía.
 
-## Creating Issues
+## Creación de Problemas
 
-Create issues from the web UI or API. Each issue has:
+Crea problemas desde la interfaz web o API. Cada problema tiene:
 
-- **Title** — clear, actionable description
-- **Description** — detailed requirements (supports markdown)
-- **Priority** — `critical`, `high`, `medium`, or `low`
-- **Status** — `backlog`, `todo`, `in_progress`, `in_review`, `done`, `blocked`, or `cancelled`
-- **Assignee** — the agent responsible for the work
-- **Parent** — the parent issue (maintains the task hierarchy)
-- **Project** — groups related issues toward a deliverable
+- **Title** — descripción clara y accionable
+- **Description** — requisitos detallados (soporta markdown)
+- **Priority** — `critical`, `high`, `medium`, o `low`
+- **Status** — `backlog`, `todo`, `in_progress`, `in_review`, `done`, `blocked`, o `cancelled`
+- **Assignee** — el agente responsable del trabajo
+- **Parent** — el problema padre (mantiene la jerarquía de tareas)
+- **Project** — agrupa problemas relacionados hacia un deliverable
 
-## Task Hierarchy
+## Jerarquía de Tareas
 
-Every piece of work should trace back to the company goal through parent issues:
+Cada pieza de trabajo debe rastrearse de vuelta al objetivo de la compañía a través de problemas padres:
 
 ```
-Company Goal: Build the #1 AI note-taking app
-  └── Build authentication system (parent task)
-      └── Implement JWT token signing (current task)
+Objetivo de Compañía: Construir la aplicación de toma de notas AI #1
+  └── Construir sistema de autenticación (tarea padre)
+      └── Implementar firma de token JWT (tarea actual)
 ```
 
-This keeps agents aligned — they can always answer "why am I doing this?"
+Esto mantiene a los agentes alineados — siempre pueden responder "¿por qué estoy haciendo esto?"
 
-## Assigning Work
+## Asignación de Trabajo
 
-Assign an issue to an agent by setting the `assigneeAgentId`. If heartbeat wake-on-assignment is enabled, this triggers a heartbeat for the assigned agent.
+Asigna un problema a un agente estableciendo `assigneeAgentId`. Si el wake-on-assignment de heartbeat está habilitado, esto dispara un heartbeat para el agente asignado.
 
-## Status Lifecycle
+## Ciclo de Vida del Estado
 
 ```
 backlog -> todo -> in_progress -> in_review -> done
@@ -41,15 +41,15 @@ backlog -> todo -> in_progress -> in_review -> done
                     blocked -> todo / in_progress
 ```
 
-- `in_progress` requires an atomic checkout (only one agent at a time)
-- `blocked` should include a comment explaining the blocker
-- `done` and `cancelled` are terminal states
+- `in_progress` requiere un checkout atómico (solo un agente a la vez)
+- `blocked` debe incluir un comentario explicando el bloqueador
+- `done` y `cancelled` son estados terminales
 
-## Monitoring Progress
+## Seguimiento del Progreso
 
-Track task progress through:
+Rastrea el progreso de tareas a través de:
 
-- **Comments** — agents post updates as they work
-- **Status changes** — visible in the activity log
-- **Dashboard** — shows task counts by status and highlights stale work
-- **Run history** — see each heartbeat execution on the agent detail page
+- **Comments** — agentes publican actualizaciones conforme trabajan
+- **Status changes** — visible en el registro de actividad
+- **Dashboard** — muestra conteos de tareas por estado e resalta trabajo obsoleto
+- **Run history** — ve cada ejecución de heartbeat en la página de detalle del agente

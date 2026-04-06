@@ -1,21 +1,21 @@
-# Creating a Company From an Existing Repository
+# Crear una Compañía Desde un Repositorio Existente
 
-When a user provides a git repo (URL, local path, or tweet linking to a repo), analyze it and create a company package that wraps its content.
+Cuando un usuario proporciona un repositorio git (URL, ruta local o tweet enlazando a un repo), analízalo y crea un paquete de compañía que envuelva su contenido.
 
-## Analysis Steps
+## Pasos de Análisis
 
-1. **Clone or read the repo** - Use `git clone` for URLs, read directly for local paths
-2. **Scan for existing agent/skill files** - Look for SKILL.md, AGENTS.md, CLAUDE.md, .claude/ directories, or similar agent configuration
-3. **Understand the repo's purpose** - Read README, package.json, main source files to understand what the project does
-4. **Identify natural agent roles** - Based on the repo's structure and purpose, determine what agents would be useful
+1. **Clonar o leer el repo** — Usar `git clone` para URLs, leer directamente para rutas locales
+2. **Buscar archivos de agente/skill existentes** — Buscar SKILL.md, AGENTS.md, CLAUDE.md, directorios .claude/, u otra configuración similar de agentes
+3. **Entender el propósito del repo** — Leer README, package.json, archivos fuente principales para entender qué hace el proyecto
+4. **Identificar roles naturales de agente** — Basándose en la estructura y propósito del repo, determinar qué agentes serían útiles
 
-## Handling Existing Skills
+## Manejo de Skills Existentes
 
-Many repos already contain skills (SKILL.md files). When you find them:
+Muchos repos ya contienen skills (archivos SKILL.md). Cuando los encuentres:
 
-**Default behavior: use references, not copies.**
+**Comportamiento por defecto: usar referencias, no copias.**
 
-Instead of copying skill content into your company package, create a source reference:
+En lugar de copiar contenido de skills a tu paquete de compañía, crea una referencia a la fuente:
 
 ```yaml
 metadata:
@@ -23,57 +23,57 @@ metadata:
     - kind: github-file
       repo: owner/repo
       path: path/to/SKILL.md
-      commit: <get the current HEAD commit SHA>
-      attribution: <repo owner or org name>
-      license: <from repo's LICENSE file>
+      commit: <obtener el SHA del commit HEAD actual>
+      attribution: <propietario del repo o nombre de la organización>
+      license: <del archivo LICENSE del repo>
       usage: referenced
 ```
 
-To get the commit SHA:
+Para obtener el SHA del commit:
 ```bash
 git ls-remote https://github.com/owner/repo HEAD
 ```
 
-Only vendor (copy) skills when:
-- The user explicitly asks to copy them
-- The skill is very small and tightly coupled to the company
-- The source repo is private or may become unavailable
+Solo incluir (copiar) skills cuando:
+- El usuario lo pide explícitamente
+- El skill es muy pequeño y está estrechamente acoplado a la compañía
+- El repo fuente es privado o puede dejar de estar disponible
 
-## Handling Existing Agent Configurations
+## Manejo de Configuraciones de Agente Existentes
 
-If the repo has agent configs (CLAUDE.md, .claude/ directories, codex configs, etc.):
-- Use them as inspiration for AGENTS.md instructions
-- Don't copy them verbatim - adapt them to the Agent Companies format
-- Preserve the intent and key instructions
+Si el repo tiene configuraciones de agente (CLAUDE.md, directorios .claude/, configuraciones de codex, etc.):
+- Úsalas como inspiración para las instrucciones de AGENTS.md
+- No las copies textualmente — adáptalas al formato Agent Companies
+- Preserva la intención e instrucciones clave
 
-## Repo-Only Skills (No Agents)
+## Repos Solo con Skills (Sin Agentes)
 
-When a repo contains only skills and no agents:
-- Create agents that would naturally use those skills
-- The agents should be minimal - just enough to give the skills a runtime context
-- A single agent may use multiple skills from the repo
-- Name agents based on the domain the skills cover
+Cuando un repo contiene solo skills y no agentes:
+- Crea agentes que naturalmente usarían esos skills
+- Los agentes deben ser mínimos — solo lo suficiente para dar a los skills un contexto de ejecución
+- Un solo agente puede usar múltiples skills del repo
+- Nombra los agentes según el dominio que cubren los skills
 
-Example: A repo with `code-review`, `testing`, and `deployment` skills might become:
-- A "Lead Engineer" agent with all three skills
-- Or separate "Reviewer", "QA Engineer", and "DevOps" agents if the skills are distinct enough
+Ejemplo: Un repo con skills de `code-review`, `testing` y `deployment` podría convertirse en:
+- Un agente "Ingeniero Principal" con los tres skills
+- O agentes separados de "Revisor", "Ingeniero de QA" y "DevOps" si los skills son lo suficientemente distintos
 
-## Common Repo Patterns
+## Patrones Comunes de Repositorios
 
-### Developer Tools / CLI repos
-- Create agents for the tool's primary use cases
-- Reference any existing skills
-- Add a project maintainer or lead agent
+### Repos de Herramientas de Desarrollo / CLI
+- Crear agentes para los casos de uso principales de la herramienta
+- Referenciar skills existentes
+- Agregar un agente mantenedor o líder del proyecto
 
-### Library / Framework repos
-- Create agents for development, testing, documentation
-- Skills from the repo become agent capabilities
+### Repos de Biblioteca / Framework
+- Crear agentes para desarrollo, pruebas, documentación
+- Los skills del repo se convierten en capacidades del agente
 
-### Full Application repos
-- Map to departments: engineering, product, QA
-- Create a lean team structure appropriate to the project size
+### Repos de Aplicación Completa
+- Mapear a departamentos: ingeniería, producto, QA
+- Crear una estructura de equipo ligera apropiada al tamaño del proyecto
 
-### Skills Collection repos (e.g. skills.sh repos)
-- Each skill or skill group gets an agent
-- Create a lightweight company or team wrapper
-- Keep the agent count proportional to the skill diversity
+### Repos de Colección de Skills (ej. repos de skills.sh)
+- Cada skill o grupo de skills obtiene un agente
+- Crear un envoltorio ligero de compañía o equipo
+- Mantener la cantidad de agentes proporcional a la diversidad de skills

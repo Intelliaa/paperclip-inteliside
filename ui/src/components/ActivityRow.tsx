@@ -13,7 +13,7 @@ const ACTION_VERBS: Record<string, string> = {
   "issue.attachment_added": "attached file to",
   "issue.attachment_removed": "removed attachment from",
   "issue.document_created": "created document for",
-  "issue.document_updated": "updated document on",
+  "issue.document_updated": "updated document in",
   "issue.document_deleted": "deleted document from",
   "issue.commented": "commented on",
   "issue.deleted": "deleted",
@@ -55,14 +55,14 @@ function formatVerb(action: string, details?: Record<string, unknown> | null): s
     if (details.status !== undefined) {
       const from = previous.status;
       return from
-        ? `changed status from ${humanizeValue(from)} to ${humanizeValue(details.status)} on`
-        : `changed status to ${humanizeValue(details.status)} on`;
+        ? `changed status from ${humanizeValue(from)} to ${humanizeValue(details.status)} in`
+        : `changed status to ${humanizeValue(details.status)} in`;
     }
     if (details.priority !== undefined) {
       const from = previous.priority;
       return from
-        ? `changed priority from ${humanizeValue(from)} to ${humanizeValue(details.priority)} on`
-        : `changed priority to ${humanizeValue(details.priority)} on`;
+        ? `changed priority from ${humanizeValue(from)} to ${humanizeValue(details.priority)} in`
+        : `changed priority to ${humanizeValue(details.priority)} in`;
     }
   }
   return ACTION_VERBS[action] ?? action.replace(/[._]/g, " ");
@@ -106,7 +106,7 @@ export function ActivityRow({ event, agentMap, entityNameMap, entityTitleMap, cl
     : entityLink(event.entityType, event.entityId, name);
 
   const actor = event.actorType === "agent" ? agentMap.get(event.actorId) : null;
-  const actorName = actor?.name ?? (event.actorType === "system" ? "System" : event.actorType === "user" ? "Board" : event.actorId || "Unknown");
+  const actorName = actor?.name ?? (event.actorType === "system" ? "System" : event.actorType === "user" ? "Dashboard" : event.actorId || "Unknown");
 
   const inner = (
     <div className="flex gap-3">

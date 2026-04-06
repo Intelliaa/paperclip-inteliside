@@ -1,88 +1,88 @@
 ---
-title: Adapters Overview
-summary: What adapters are and how they connect agents to Paperclip
+title: Descripción General de Adapters
+summary: Qué son los adapters y cómo conectan agentes a Paperclip
 ---
 
-Adapters are the bridge between Paperclip's orchestration layer and agent runtimes. Each adapter knows how to invoke a specific type of AI agent and capture its results.
+Los adapters son el puente entre la capa de orquestación de Paperclip y los runtimes del agente. Cada adapter sabe cómo invocar un tipo específico de agente de IA y capturar sus resultados.
 
-## How Adapters Work
+## Cómo Funcionan los Adapters
 
-When a heartbeat fires, Paperclip:
+Cuando se dispara un heartbeat, Paperclip:
 
-1. Looks up the agent's `adapterType` and `adapterConfig`
-2. Calls the adapter's `execute()` function with the execution context
-3. The adapter spawns or calls the agent runtime
-4. The adapter captures stdout, parses usage/cost data, and returns a structured result
+1. Busca `adapterType` y `adapterConfig` del agente
+2. Llama a la función `execute()` del adapter con el contexto de ejecución
+3. El adapter genera o llama al runtime del agente
+4. El adapter captura stdout, analiza datos de uso/costo, y devuelve un resultado estructurado
 
-## Built-in Adapters
+## Adapters Incorporados
 
-| Adapter | Type Key | Description |
+| Adapter | Clave de Tipo | Descripción |
 |---------|----------|-------------|
-| [Claude Local](/adapters/claude-local) | `claude_local` | Runs Claude Code CLI locally |
-| [Codex Local](/adapters/codex-local) | `codex_local` | Runs OpenAI Codex CLI locally |
-| [Gemini Local](/adapters/gemini-local) | `gemini_local` | Runs Gemini CLI locally (experimental — adapter package exists, not yet in stable type enum) |
-| OpenCode Local | `opencode_local` | Runs OpenCode CLI locally (multi-provider `provider/model`) |
-| Cursor | `cursor` | Runs Cursor in background mode |
-| Pi Local | `pi_local` | Runs an embedded Pi agent locally |
-| Hermes Local | `hermes_local` | Runs Hermes CLI locally (`hermes-paperclip-adapter`) |
-| OpenClaw Gateway | `openclaw_gateway` | Connects to an OpenClaw gateway endpoint |
-| [Process](/adapters/process) | `process` | Executes arbitrary shell commands |
-| [HTTP](/adapters/http) | `http` | Sends webhooks to external agents |
+| [Claude Local](/adapters/claude-local) | `claude_local` | Ejecuta Claude Code CLI localmente |
+| [Codex Local](/adapters/codex-local) | `codex_local` | Ejecuta OpenAI Codex CLI localmente |
+| [Gemini Local](/adapters/gemini-local) | `gemini_local` | Ejecuta Gemini CLI localmente (experimental — el paquete del adapter existe, aún no en enum de tipo estable) |
+| OpenCode Local | `opencode_local` | Ejecuta OpenCode CLI localmente (multi-proveedor `provider/model`) |
+| Cursor | `cursor` | Ejecuta Cursor en modo de fondo |
+| Pi Local | `pi_local` | Ejecuta un agente Pi embebido localmente |
+| Hermes Local | `hermes_local` | Ejecuta Hermes CLI localmente (`hermes-paperclip-adapter`) |
+| OpenClaw Gateway | `openclaw_gateway` | Se conecta a un endpoint de puerta de enlace OpenClaw |
+| [Process](/adapters/process) | `process` | Ejecuta comandos shell arbitrarios |
+| [HTTP](/adapters/http) | `http` | Envía webhooks a agentes externos |
 
-### External (plugin) adapters
+### Adapters externos (plugin)
 
-These adapters ship as standalone npm packages and are installed via the plugin system:
+Estos adapters se distribuyen como paquetes npm independientes e se instalan a través del sistema de plugins:
 
-| Adapter | Package | Type Key | Description |
+| Adapter | Paquete | Clave de Tipo | Descripción |
 |---------|---------|----------|-------------|
-| Droid Local | `@henkey/droid-paperclip-adapter` | `droid_local` | Runs Factory Droid locally |
+| Droid Local | `@henkey/droid-paperclip-adapter` | `droid_local` | Ejecuta Factory Droid localmente |
 
-## External Adapters
+## Adapters Externos
 
-You can build and distribute adapters as standalone packages — no changes to Paperclip's source code required. External adapters are loaded at startup via the plugin system.
+Puedes construir y distribuir adapters como paquetes independientes — sin cambios requeridos en el código fuente de Paperclip. Los adapters externos se cargan al inicio a través del sistema de plugins.
 
 ```sh
-# Install from npm via API
+# Instala desde npm vía API
 curl -X POST http://localhost:3102/api/adapters \
   -d '{"packageName": "my-paperclip-adapter"}'
 
-# Or link from a local directory
+# O enlaza desde un directorio local
 curl -X POST http://localhost:3102/api/adapters \
   -d '{"localPath": "/home/user/my-adapter"}'
 ```
 
-See [External Adapters](/adapters/external-adapters) for the full guide.
+Ver [Adapters Externos](/adapters/external-adapters) para la guía completa.
 
-## Adapter Architecture
+## Arquitectura del Adapter
 
-Each adapter is a package with modules consumed by three registries:
+Cada adapter es un paquete con módulos consumidos por tres registros:
 
 ```
-my-adapter/
+mi-adapter/
   src/
-    index.ts            # Shared metadata (type, label, models)
+    index.ts            # Metadatos compartidos (tipo, etiqueta, modelos)
     server/
-      execute.ts        # Core execution logic
-      parse.ts          # Output parsing
-      test.ts           # Environment diagnostics
-    ui-parser.ts        # Self-contained UI transcript parser (for external adapters)
+      execute.ts        # Lógica de ejecución central
+      parse.ts          # Análisis de salida
+      test.ts           # Diagnósticos del entorno
+    ui-parser.ts        # Parser de transcripción UI autónomo (para adapters externos)
     cli/
-      format-event.ts   # Terminal output for `paperclipai run --watch`
+      format-event.ts   # Salida de terminal para `paperclipai run --watch`
 ```
 
-| Registry | What it does | Source |
+| Registro | Qué hace | Fuente |
 |----------|-------------|--------|
-| **Server** | Executes agents, captures results | `createServerAdapter()` from package root |
-| **UI** | Renders run transcripts, provides config forms | `ui-parser.js` (dynamic) or static import (built-in) |
-| **CLI** | Formats terminal output for live watching | Static import |
+| **Server** | Ejecuta agentes, captura resultados | `createServerAdapter()` de la raíz del paquete |
+| **UI** | Renderiza transcripciones de ejecución, proporciona formularios de configuración | `ui-parser.js` (dinámico) o importación estática (incorporado) |
+| **CLI** | Formatea la salida del terminal para ver en directo | Importación estática |
 
-## Choosing an Adapter
+## Elegir un Adapter
 
-- **Need a coding agent?** Use `claude_local`, `codex_local`, `opencode_local`, `hermes_local`, or install `droid_local` as an external plugin
-- **Need to run a script or command?** Use `process`
-- **Need to call an external service?** Use `http`
-- **Need something custom?** [Create your own adapter](/adapters/creating-an-adapter) or [build an external adapter plugin](/adapters/external-adapters)
+- **¿Necesitas un agente de codificación?** Usa `claude_local`, `codex_local`, `opencode_local`, `hermes_local`, o instala `droid_local` como plugin externo
+- **¿Necesitas ejecutar un script o comando?** Usa `process`
+- **¿Necesitas llamar a un servicio externo?** Usa `http`
+- **¿Necesitas algo personalizado?** [Crea tu propio adapter](/adapters/creating-an-adapter) o [construye un plugin de adapter externo](/adapters/external-adapters)
 
-## UI Parser Contract
+## Contrato UI Parser
 
-External adapters can ship a self-contained UI parser that tells the Paperclip web UI how to render their stdout. Without it, the UI uses a generic shell parser. See the [UI Parser Contract](/adapters/adapter-ui-parser) for details.
+Los adapters externos pueden distribuir un parser UI autónomo que le dice a la UI web de Paperclip cómo renderizar su stdout. Sin él, la UI usa un parser shell genérico. Ver el [Contrato UI Parser](/adapters/adapter-ui-parser) para detalles.
