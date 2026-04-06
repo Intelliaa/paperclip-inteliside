@@ -2,7 +2,7 @@
 
 **Rama:** `feat/traduccion-espanol`  
 **Fecha:** 2026-04-06  
-**Estado:** En progreso — Fases 1-4 completadas, Fase 5 en progreso (30/62 docs = 48%)
+**Estado:** COMPLETADO — Todas las fases (1-5) completadas (62/62 docs Fase 5 = 100%)
 
 ---
 
@@ -278,22 +278,22 @@ Prioridad media-baja. Documentación del proyecto para desarrolladores y operado
 - [x] `docs/guides/board-operator/managing-tasks.md`
 - [x] `docs/guides/board-operator/org-structure.md`
 
-#### `docs/guides/agent-developer/` (7 archivos)
-- [ ] `docs/guides/agent-developer/comments-and-communication.md`
-- [ ] `docs/guides/agent-developer/cost-reporting.md`
-- [ ] `docs/guides/agent-developer/handling-approvals.md`
-- [ ] `docs/guides/agent-developer/heartbeat-protocol.md`
-- [ ] `docs/guides/agent-developer/how-agents-work.md`
-- [ ] `docs/guides/agent-developer/task-workflow.md`
-- [ ] `docs/guides/agent-developer/writing-a-skill.md`
+#### `docs/guides/agent-developer/` (7 archivos) ✅
+- [x] `docs/guides/agent-developer/comments-and-communication.md`
+- [x] `docs/guides/agent-developer/cost-reporting.md`
+- [x] `docs/guides/agent-developer/handling-approvals.md`
+- [x] `docs/guides/agent-developer/heartbeat-protocol.md`
+- [x] `docs/guides/agent-developer/how-agents-work.md`
+- [x] `docs/guides/agent-developer/task-workflow.md`
+- [x] `docs/guides/agent-developer/writing-a-skill.md`
 
-#### Otros docs (6 archivos)
-- [ ] `docs/agents-runtime.md`
-- [ ] `docs/feedback-voting.md`
-- [ ] `docs/companies/companies-spec.md`
-- [ ] `docs/guides/openclaw-docker-setup.md`
-- [ ] `docs/specs/agent-config-ui.md`
-- [ ] `docs/specs/cliphub-plan.md`
+#### Otros docs (6 archivos) ✅
+- [x] `docs/agents-runtime.md`
+- [x] `docs/feedback-voting.md`
+- [x] `docs/companies/companies-spec.md`
+- [x] `docs/guides/openclaw-docker-setup.md`
+- [x] `docs/specs/agent-config-ui.md`
+- [x] `docs/specs/cliphub-plan.md`
 
 ---
 
