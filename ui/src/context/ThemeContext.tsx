@@ -17,8 +17,8 @@ interface ThemeContextValue {
 }
 
 const THEME_STORAGE_KEY = "taskorg.theme";
-const DARK_THEME_COLOR = "#18181b";
-const LIGHT_THEME_COLOR = "#ffffff";
+const DARK_THEME_COLOR = "#1E1E1E";
+const LIGHT_THEME_COLOR = "#DAD4CE";
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 function resolveThemeFromDocument(): Theme {
