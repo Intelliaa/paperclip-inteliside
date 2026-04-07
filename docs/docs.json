@@ -10,8 +10,8 @@
   },
   "favicon": "/favicon.svg",
   "logo": {
-    "dark": "/images/logo-dark.svg",
-    "light": "/images/logo-light.svg"
+    "dark": "/images/LogoTaskOrg-Dark.png",
+    "light": "/images/LogoTaskOrg-light.png"
   },
   "topbarLinks": [
     {
