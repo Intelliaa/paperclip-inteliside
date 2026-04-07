@@ -271,7 +271,8 @@ export function CompanyRail() {
     <div className="flex flex-col items-center w-[72px] shrink-0 h-full bg-background border-r border-border">
       {/* TaskOrg icon - aligned with top sections (implied line, no visible border) */}
       <div className="flex items-center justify-center h-12 w-full shrink-0">
-        <img src="/taskorg-logo.webp" alt="TaskOrg" className="h-10 w-10 rounded" />
+        <img src="/brands/IsotipoTaskOrg-light.png" alt="TaskOrg" className="h-8 object-contain rounded dark:hidden" />
+        <img src="/brands/IsotipoTaskOrg-Dark.png" alt="TaskOrg" className="h-8 object-contain rounded hidden dark:block" />
       </div>
 
       {/* Company list */}
