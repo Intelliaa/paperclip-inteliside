@@ -1,14 +1,14 @@
 {
-  "name": "@paperclipai/adapter-utils",
+  "name": "@taskorg/adapter-utils",
   "version": "0.3.1",
   "license": "MIT",
-  "homepage": "https://github.com/paperclipai/paperclip",
+  "homepage": "https://github.com/Intelliaa/paperclip-inteliside",
   "bugs": {
-    "url": "https://github.com/paperclipai/paperclip/issues"
+    "url": "https://github.com/Intelliaa/paperclip-inteliside/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paperclipai/paperclip",
+    "url": "https://github.com/Intelliaa/paperclip-inteliside",
     "directory": "packages/adapter-utils"
   },
   "type": "module",

@@ -1,7 +1,7 @@
 ---
 name: design-guide
 description: >
-  Guía del sistema de diseño UI de Paperclip para construir componentes frontend
+  Guía del sistema de diseño UI de TaskOrg para construir componentes frontend
   consistentes y reutilizables. Usar al crear nuevos componentes UI, modificar
   los existentes, agregar páginas o funcionalidades al frontend, estilizar
   elementos UI, o cuando necesites entender el lenguaje y las convenciones de
@@ -12,9 +12,9 @@ description: >
   web).
 ---
 
-# Guía de Diseño de Paperclip
+# Guía de Diseño de TaskOrg
 
-La UI de Paperclip es un plano de control de grado profesional — denso, orientado al teclado, con tema oscuro por defecto. Cada píxel justifica su lugar.
+La UI de TaskOrg es un plano de control de grado profesional — denso, orientado al teclado, con tema oscuro por defecto. Cada píxel justifica su lugar.
 
 **Usar siempre con:** `frontend-design` (pulido visual) y `web-design-guidelines` (mejores prácticas web).
 
@@ -134,7 +134,7 @@ Puntos coloreados en línea: running (cian, animate-pulse), active (verde), paus
 Tres niveles:
 
 1. **Primitivos shadcn/ui** (`ui/src/components/ui/`) — Button, Card, Input, Badge, Dialog, Tabs, etc. No modificar estos directamente; extender vía composición.
-2. **Compuestos personalizados** (`ui/src/components/`) — StatusBadge, EntityRow, MetricCard, etc. Estos capturan el lenguaje de diseño específico de Paperclip.
+2. **Compuestos personalizados** (`ui/src/components/`) — StatusBadge, EntityRow, MetricCard, etc. Estos capturan el lenguaje de diseño específico de TaskOrg.
 3. **Componentes de página** (`ui/src/pages/`) — Componen primitivos y compuestos en vistas completas.
 
 **Ver [references/component-index.md](references/component-index.md) para el inventario completo de componentes con guía de uso.**

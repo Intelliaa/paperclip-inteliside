@@ -9,7 +9,7 @@ description: >
   una compañía de agentes", "crear un equipo de agentes", "contratar agentes", o cuando
   se proporciona una URL de repositorio y se pide convertirlo en compañía. NO usar para
   importar un paquete de compañía existente (usar el comando import del CLI en su lugar)
-  ni para modificar una compañía que ya está ejecutándose en Paperclip.
+  ni para modificar una compañía que ya está ejecutándose en TaskOrg.
 ---
 
 # Creador de Compañías
@@ -122,20 +122,20 @@ Crea la estructura de directorios y todos los archivos. Sigue las convenciones d
 │   └── <slug>/TASK.md        (si se necesitan tareas)
 ├── skills/
 │   └── <slug>/SKILL.md       (si se necesitan skills personalizados)
-└── .paperclip.yaml            (extensión de proveedor Paperclip)
+└── .taskorg.yaml            (extensión de proveedor TaskOrg)
 ```
 
 **Reglas:**
 
 - Los slugs deben ser seguros para URL, en minúsculas, separados por guiones
 - COMPANY.md lleva `schema: agentcompanies/v1` — los demás archivos lo heredan
-- Las instrucciones del agente van en el cuerpo de AGENTS.md, no en .paperclip.yaml
+- Las instrucciones del agente van en el cuerpo de AGENTS.md, no en .taskorg.yaml
 - Los skills referenciados por nombre corto en AGENTS.md se resuelven a `skills/<shortname>/SKILL.md`
 - Para skills externos, usar `sources` con `usage: referenced` (ver sección 12 de la especificación)
 - No exportar secretos, rutas locales de máquina ni IDs de base de datos
 - Omitir campos vacíos/por defecto
 - Para compañías generadas desde un repo, agregar un pie de referencias al final del cuerpo de COMPANY.md:
-  `Generated from [repo-name](repo-url) with the company-creator skill from [Paperclip](https://github.com/paperclipai/paperclip)`
+  `Generated from [repo-name](repo-url) with the company-creator skill from [TaskOrg](https://github.com/Intelliaa/paperclip-inteliside)`
 
 **Estructura de reporte:**
 
@@ -170,8 +170,8 @@ Pregunta al usuario dónde escribir el paquete. Opciones comunes:
 - El flujo de trabajo / cómo opera la compañía
 - Organigrama como lista o tabla markdown mostrando agentes, títulos, estructura de reporte y skills
 - Breve descripción del rol de cada agente
-- Citas y referencias: enlace al repo fuente (si es desde repo), enlace a la especificación Agent Companies (https://agentcompanies.io/specification), y enlace a Paperclip (https://github.com/paperclipai/paperclip)
-- Una sección "Primeros Pasos" explicando cómo importar: `paperclipai company import --from <path>`
+- Citas y referencias: enlace al repo fuente (si es desde repo), enlace a la especificación Agent Companies (https://agentcompanies.io/specification), y enlace a TaskOrg (https://github.com/Intelliaa/paperclip-inteliside)
+- Una sección "Primeros Pasos" explicando cómo importar: `taskorg company import --from <path>`
 
 **LICENSE** — incluir un archivo LICENSE. El titular del copyright es el usuario que crea la compañía, no el autor del repo upstream (ellos hicieron los skills, el usuario está haciendo la compañía). Usar el mismo tipo de licencia que el repo fuente (si es desde repo) o preguntar al usuario (si es desde cero). Por defecto MIT si no está claro.
 
@@ -185,15 +185,15 @@ Escribe todos los archivos, luego da un breve resumen:
 - Proyectos y tareas si los hay
 - La ruta de salida
 
-## Directrices de .paperclip.yaml
+## Directrices de .taskorg.yaml
 
-El archivo `.paperclip.yaml` es la extensión de proveedor de Paperclip. Configura adapters e inputs de entorno por agente.
+El archivo `.taskorg.yaml` es la extensión de proveedor de TaskOrg. Configura adapters e inputs de entorno por agente.
 
 ### Reglas de Adapter
 
-**No especifiques un adapter a menos que el repo o el contexto del usuario lo justifique.** Si no sabes qué adapter quiere el usuario, omite el bloque de adapter por completo — Paperclip usará su valor por defecto. Especificar un tipo de adapter desconocido causa un error de importación.
+**No especifiques un adapter a menos que el repo o el contexto del usuario lo justifique.** Si no sabes qué adapter quiere el usuario, omite el bloque de adapter por completo — TaskOrg usará su valor por defecto. Especificar un tipo de adapter desconocido causa un error de importación.
 
-Tipos de adapter soportados por Paperclip (estos son los ÚNICOS valores válidos):
+Tipos de adapter soportados por TaskOrg (estos son los ÚNICOS valores válidos):
 - `claude_local` — Claude Code CLI
 - `codex_local` — Codex CLI
 - `opencode_local` — OpenCode CLI
@@ -216,7 +216,7 @@ Solo configurar un adapter cuando:
 
 Ejemplo con adapter (solo cuando está justificado):
 ```yaml
-schema: paperclip/v1
+schema: taskorg/v1
 agents:
   release-engineer:
     adapter:
@@ -232,7 +232,7 @@ agents:
 
 Ejemplo — solo los agentes con sobrecargas reales aparecen:
 ```yaml
-schema: paperclip/v1
+schema: taskorg/v1
 agents:
   release-engineer:
     inputs:
@@ -242,7 +242,7 @@ agents:
           requirement: optional
 ```
 
-En este ejemplo, solo `release-engineer` aparece porque necesita `GH_TOKEN`. Los otros agentes (ceo, cto, etc.) no tienen sobrecargas, así que se omiten completamente de `.paperclip.yaml`.
+En este ejemplo, solo `release-engineer` aparece porque necesita `GH_TOKEN`. Los otros agentes (ceo, cto, etc.) no tienen sobrecargas, así que se omiten completamente de `.taskorg.yaml`.
 
 ## Referencias de Skills Externos
 

@@ -17,9 +17,11 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { initPluginBridge } from "./plugins/bridge-init";
 import { PluginLauncherProvider } from "./plugins/launchers";
+import { migrateLocalStorage } from "./lib/storage-migration";
 import "@mdxeditor/editor/style.css";
 import "./index.css";
 
+migrateLocalStorage();
 initPluginBridge(React, ReactDOM);
 
 if ("serviceWorker" in navigator) {

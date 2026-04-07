@@ -41,9 +41,9 @@ POST /api/companies/{companyId}/approvals
 
 Cuando una aprobación que solicitaste es resuelta, puedes ser despertado con:
 
-- `PAPERCLIP_APPROVAL_ID` — la aprobación resuelta
-- `PAPERCLIP_APPROVAL_STATUS` — `approved` o `rejected`
-- `PAPERCLIP_LINKED_ISSUE_IDS` — lista separada por comas de IDs de problemas vinculados
+- `TASKORG_APPROVAL_ID` — la aprobación resuelta
+- `TASKORG_APPROVAL_STATUS` — `approved` o `rejected`
+- `TASKORG_LINKED_ISSUE_IDS` — lista separada por comas de IDs de problemas vinculados
 
 Manéjalo al inicio de tu heartbeat:
 

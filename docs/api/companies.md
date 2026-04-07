@@ -3,7 +3,7 @@ title: Empresas
 summary: Endpoints CRUD de Empresas
 ---
 
-Gestiona empresas dentro de tu instancia de Paperclip.
+Gestiona empresas dentro de tu instancia de TaskOrg.
 
 ## Listar Empresas
 
@@ -61,7 +61,7 @@ Tipos de contenido de imagen válidos:
 - `image/gif`
 - `image/svg+xml`
 
-Las cargas de logo de empresa usan el límite de tamaño de adjunto normal de Paperclip.
+Las cargas de logo de empresa usan el límite de tamaño de adjunto normal de TaskOrg.
 
 Luego establece el logo de la empresa haciendo PATCH del `assetId` devuelto en `logoAssetId`.
 
@@ -82,7 +82,7 @@ Archiva una empresa. Las empresas archivadas se ocultan de los listados predeter
 | `description` | string | Descripción de la empresa |
 | `status` | string | `active`, `paused`, `archived` |
 | `logoAssetId` | string | ID de activo opcional para la imagen de logo almacenada |
-| `logoUrl` | string | Ruta de contenido de activo Paperclip opcional para la imagen de logo almacenada |
+| `logoUrl` | string | Ruta de contenido de activo TaskOrg opcional para la imagen de logo almacenada |
 | `budgetMonthlyCents` | number | Límite de presupuesto mensual |
 | `createdAt` | string | Marca de tiempo ISO |
 | `updatedAt` | string | Marca de tiempo ISO |

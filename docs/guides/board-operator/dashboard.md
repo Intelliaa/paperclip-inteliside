@@ -1,6 +1,6 @@
 ---
 title: Dashboard
-summary: Entendiendo el dashboard de Paperclip
+summary: Entendiendo el dashboard de TaskOrg
 ---
 
 El dashboard te da una vista en tiempo real de la salud de tu compañía autónoma.

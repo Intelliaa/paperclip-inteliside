@@ -8,13 +8,13 @@ export function OpenCodeLogoIcon({ className }: OpenCodeLogoIconProps) {
   return (
     <>
       <img
-        src="/brands/opencode-logo-light-square.svg"
-        alt="OpenCode"
+        src="/brands/IsotipoTaskOrg-light.png"
+        alt="TaskOrg"
         className={cn("dark:hidden", className)}
       />
       <img
-        src="/brands/opencode-logo-dark-square.svg"
-        alt="OpenCode"
+        src="/brands/IsotipoTaskOrg-Dark.png"
+        alt="TaskOrg"
         className={cn("hidden dark:block", className)}
       />
     </>

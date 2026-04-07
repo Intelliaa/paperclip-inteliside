@@ -3,7 +3,7 @@ title: Importación y Exportación de Compañías
 summary: Exporta compañías a paquetes portátiles e importalas desde rutas locales o GitHub
 ---
 
-Las compañías de Paperclip pueden exportarse a paquetes markdown portátiles e importarse desde directorios locales o repositorios de GitHub. Esto te permite compartir configuraciones de compañía, duplicar configuraciones y controlar versiones de tus equipos de agentes.
+Las compañías de TaskOrg pueden exportarse a paquetes markdown portátiles e importarse desde directorios locales o repositorios de GitHub. Esto te permite compartir configuraciones de compañía, duplicar configuraciones y controlar versiones de tus equipos de agentes.
 
 ## Formato del Paquete
 
@@ -21,20 +21,20 @@ my-company/
 │   └── review/SKILL.md
 ├── tasks/
 │   └── onboarding/TASK.md
-└── .paperclip.yaml     # Configuración del adapter, entradas de env, rutinas
+└── .taskorg.yaml     # Configuración del adapter, entradas de env, rutinas
 ```
 
 - **COMPANY.md** define nombre de la compañía, descripción y metadatos.
 - Los archivos **AGENT.md** contienen identidad del agente, rol e instrucciones.
 - Los archivos **SKILL.md** son compatibles con el ecosistema de Agent Skills.
-- **.paperclip.yaml** contiene configuración específica de Paperclip (tipos de adapter, entradas de env, presupuestos) como un sidecar opcional.
+- **.taskorg.yaml** contiene configuración específica de TaskOrg (tipos de adapter, entradas de env, presupuestos) como un sidecar opcional.
 
 ## Exportación de una Compañía
 
 Exporta una compañía a una carpeta portable:
 
 ```sh
-paperclipai company export <company-id> --out ./my-export
+taskorg company export <company-id> --out ./my-export
 ```
 
 ### Opciones
@@ -53,13 +53,13 @@ paperclipai company export <company-id> --out ./my-export
 
 ```sh
 # Exportar compañía con agentes y proyectos
-paperclipai company export abc123 --out ./backup --include company,agents,projects
+taskorg company export abc123 --out ./backup --include company,agents,projects
 
 # Exportar todo incluyendo tareas y skills
-paperclipai company export abc123 --out ./full-export --include company,agents,projects,tasks,skills
+taskorg company export abc123 --out ./full-export --include company,agents,projects,tasks,skills
 
 # Exportar solo skills específicas
-paperclipai company export abc123 --out ./skills-only --include skills --skills review,deploy
+taskorg company export abc123 --out ./skills-only --include skills --skills review,deploy
 ```
 
 ### Qué Se Exporta
@@ -69,7 +69,7 @@ paperclipai company export abc123 --out ./skills-only --include skills --skills 
 - Definiciones de proyectos y configuración de workspace
 - Descripciones de tareas/problemas (cuando se incluyen)
 - Paquetes de skills (como referencias o contenido incorporado)
-- Tipo de adapter y declaraciones de entrada de env en `.paperclip.yaml`
+- Tipo de adapter y declaraciones de entrada de env en `.taskorg.yaml`
 
 Valores secretos, rutas locales de máquina e IDs de base de datos **nunca** se exportan.
 
@@ -79,17 +79,17 @@ Importa desde un directorio local, URL de GitHub o atajo de GitHub:
 
 ```sh
 # Desde una carpeta local
-paperclipai company import ./my-export
+taskorg company import ./my-export
 
 # Desde una URL de GitHub
-paperclipai company import https://github.com/org/repo
+taskorg company import https://github.com/org/repo
 
 # Desde una subcarpeta de GitHub
-paperclipai company import https://github.com/org/repo/tree/main/companies/acme
+taskorg company import https://github.com/org/repo/tree/main/companies/acme
 
 # Desde atajo de GitHub
-paperclipai company import org/repo
-paperclipai company import org/repo/companies/acme
+taskorg company import org/repo
+taskorg company import org/repo/companies/acme
 ```
 
 ### Opciones
@@ -112,7 +112,7 @@ paperclipai company import org/repo/companies/acme
 - **`new`** — Crea una compañía nueva desde el paquete. Bueno para duplicar una plantilla de compañía.
 - **`existing`** — Fusiona el paquete en una compañía existente. Usa `--company-id` para especificar el destino.
 
-Si `--target` no se especifica, Paperclip lo infiere: si se proporciona `--company-id` (o existe una en contexto), por defecto es `existing`; de lo contrario `new`.
+Si `--target` no se especifica, TaskOrg lo infiere: si se proporciona `--company-id` (o existe una en contexto), por defecto es `existing`; de lo contrario `new`.
 
 ### Estrategias de Colisión
 
@@ -131,7 +131,7 @@ Cuando se ejecuta interactivamente (sin banderas `--yes` o `--json`), el comando
 Siempre vista previa primero con `--dry-run`:
 
 ```sh
-paperclipai company import org/repo --target existing --company-id abc123 --dry-run
+taskorg company import org/repo --target existing --company-id abc123 --dry-run
 ```
 
 La vista previa muestra:
@@ -147,7 +147,7 @@ Los agentes importados siempre aterrizan con heartbeats de timer deshabilitados.
 **Clonar una plantilla de compañía desde GitHub:**
 
 ```sh
-paperclipai company import org/company-templates/engineering-team \
+taskorg company import org/company-templates/engineering-team \
   --target new \
   --new-company-name "My Engineering Team"
 ```
@@ -155,7 +155,7 @@ paperclipai company import org/company-templates/engineering-team \
 **Agregar agentes de un paquete a tu compañía existente:**
 
 ```sh
-paperclipai company import ./shared-agents \
+taskorg company import ./shared-agents \
   --target existing \
   --company-id abc123 \
   --include agents \
@@ -165,13 +165,13 @@ paperclipai company import ./shared-agents \
 **Importar una rama o etiqueta específica:**
 
 ```sh
-paperclipai company import org/repo --ref v2.0.0 --dry-run
+taskorg company import org/repo --ref v2.0.0 --dry-run
 ```
 
 **Importación no-interactiva (CI/scripts):**
 
 ```sh
-paperclipai company import ./package \
+taskorg company import ./package \
   --target new \
   --yes \
   --json
@@ -193,7 +193,7 @@ Los agentes CEO también pueden usar las rutas de importación segura (`/imports
 
 ## Fuentes de GitHub
 
-Paperclip soporta varios formatos de URL de GitHub:
+TaskOrg soporta varios formatos de URL de GitHub:
 
 - URL completa: `https://github.com/org/repo`
 - URL de subcarpeta: `https://github.com/org/repo/tree/main/path/to/company`

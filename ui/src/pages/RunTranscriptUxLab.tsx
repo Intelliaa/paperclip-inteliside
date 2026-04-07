@@ -210,7 +210,7 @@ export function RunTranscriptUxLab() {
               </div>
               <h1 className="mt-4 text-2xl font-semibold tracking-tight">Fixtures de transcripción de ejecución</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Construido a partir de una ejecución real de desarrollo de Paperclip, luego sanitizado para que ningún secreto, ruta local o detalle de entorno sobreviva en el fixture.
+                Construido a partir de una ejecución real de desarrollo de TaskOrg, luego sanitizado para que ningún secreto, ruta local o detalle de entorno sobreviva en el fixture.
               </p>
             </div>
 

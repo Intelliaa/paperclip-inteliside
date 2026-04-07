@@ -3,14 +3,14 @@ title: Gestión de Secretos
 summary: Clave maestra, encriptación, y modo estricto
 ---
 
-Paperclip encripta secretos en reposo usando una clave maestra local. Las variables de entorno del agente que contienen valores sensibles (claves API, tokens) se almacenan como referencias secretas encriptadas.
+TaskOrg encripta secretos en reposo usando una clave maestra local. Las variables de entorno del agente que contienen valores sensibles (claves API, tokens) se almacenan como referencias secretas encriptadas.
 
 ## Proveedor Predeterminado: `local_encrypted`
 
 Los secretos se encriptan con una clave maestra local almacenada en:
 
 ```
-~/.paperclip/instances/default/secrets/master.key
+~/.taskorg/instances/default/secrets/master.key
 ```
 
 Esta clave se crea automáticamente durante la incorporación. La clave nunca abandona tu máquina.
@@ -22,35 +22,35 @@ Esta clave se crea automáticamente durante la incorporación. La clave nunca ab
 La incorporación escribe la configuración predeterminada de secretos:
 
 ```sh
-pnpm paperclipai onboard
+pnpm taskorg onboard
 ```
 
 Actualiza la configuración de secretos:
 
 ```sh
-pnpm paperclipai configure --section secrets
+pnpm taskorg configure --section secrets
 ```
 
 Valida la configuración de secretos:
 
 ```sh
-pnpm paperclipai doctor
+pnpm taskorg doctor
 ```
 
 ### Anulaciones de Entorno
 
 | Variable | Descripción |
 |----------|-------------|
-| `PAPERCLIP_SECRETS_MASTER_KEY` | Clave de 32 bytes como base64, hex, o string raw |
-| `PAPERCLIP_SECRETS_MASTER_KEY_FILE` | Ruta personalizada del archivo de clave |
-| `PAPERCLIP_SECRETS_STRICT_MODE` | Establece en `true` para aplicar referencias secretas |
+| `TASKORG_SECRETS_MASTER_KEY` | Clave de 32 bytes como base64, hex, o string raw |
+| `TASKORG_SECRETS_MASTER_KEY_FILE` | Ruta personalizada del archivo de clave |
+| `TASKORG_SECRETS_STRICT_MODE` | Establece en `true` para aplicar referencias secretas |
 
 ## Modo Estricto
 
 Cuando se habilita el modo estricto, las claves env sensibles (que coinciden con `*_API_KEY`, `*_TOKEN`, `*_SECRET`) deben usar referencias secretas en lugar de valores simples en línea.
 
 ```sh
-PAPERCLIP_SECRETS_STRICT_MODE=true
+TASKORG_SECRETS_STRICT_MODE=true
 ```
 
 Recomendado para cualquier despliegue más allá de local de confianza.

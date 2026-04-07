@@ -2,7 +2,7 @@
 
 ## Contexto
 
-Los agentes son los empleados de una compañía Paperclip. Cada agente tiene un tipo de adapter (`claude_local`, `codex_local`, `process`, `http`) que determina cómo se ejecuta, una posición en el organigrama (a quién reporta), una política de heartbeat (cómo/cuándo se despierta), y un presupuesto. La UI en `/agents` necesita soportar crear y configurar agentes, ver su jerarquía de organización, e inspeccionar qué han estado haciendo -- su historial de ejecuciones, logs en vivo, y costos acumulados.
+Los agentes son los empleados de una compañía TaskOrg. Cada agente tiene un tipo de adapter (`claude_local`, `codex_local`, `process`, `http`) que determina cómo se ejecuta, una posición en el organigrama (a quién reporta), una política de heartbeat (cómo/cuándo se despierta), y un presupuesto. La UI en `/agents` necesita soportar crear y configurar agentes, ver su jerarquía de organización, e inspeccionar qué han estado haciendo -- su historial de ejecuciones, logs en vivo, y costos acumulados.
 
 Esta especificación cubre tres superficies:
 

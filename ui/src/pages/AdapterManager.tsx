@@ -474,7 +474,7 @@ export function AdapterManager() {
                     <Label htmlFor="adapterPackageName">Nombre del paquete</Label>
                     <Input
                       id="adapterPackageName"
-                      placeholder="my-paperclip-adapter"
+                      placeholder="my-taskorg-adapter"
                       value={installPackage}
                       onChange={(e) => setInstallPackage(e.target.value)}
                     />

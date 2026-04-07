@@ -12,7 +12,7 @@ Esta especificación es una extensión de la especificación de Agent Skills, no
 
 Define cómo la estructura de paquete a nivel de compañía, equipo y agente se compone alrededor del modelo `SKILL.md` existente.
 
-Esta especificación es agnóstica de vendor. Se pretende que sea utilizable por cualquier runtime de agent-company, no solo Paperclip.
+Esta especificación es agnóstica de vendor. Se pretende que sea utilizable por cualquier runtime de agent-company, no solo TaskOrg.
 
 El formato está diseñado para:
 
@@ -21,7 +21,7 @@ El formato está diseñado para:
 - no requerir un registro central
 - soportar atribución y referencias fijadas a archivos upstream
 - extender el ecosistema de Agent Skills existente sin redefinirlo
-- ser útil fuera de Paperclip
+- ser útil fuera de TaskOrg
 
 ## 2. Principios Principales
 
@@ -66,7 +66,7 @@ projects/<slug>/PROJECT.md
 projects/<slug>/tasks/<slug>/TASK.md
 tasks/<slug>/TASK.md
 skills/<slug>/SKILL.md
-.paperclip.yaml
+.taskorg.yaml
 
 HEARTBEAT.md
 SOUL.md
@@ -268,11 +268,11 @@ recurring: true
 ### Tareas Recurrentes
 
 - el paquete base solo necesita decir si una tarea es recurrente
-- los vendors pueden adjuntar la fidelidad real de horario / trigger / runtime en una extensión de vendor como `.paperclip.yaml`
+- los vendors pueden adjuntar la fidelidad real de horario / trigger / runtime en una extensión de vendor como `.taskorg.yaml`
 - esto mantiene `TASK.md` portable mientras aún permite a sistemas de runtime más rico hacer round-trip de sus propios detalles de automatización
 - los paquetes heredados pueden aún usar `schedule.recurrence` durante la transición, pero los exportadores deben preferir `recurring: true`
 
-Ejemplo de extensión Paperclip:
+Ejemplo de extensión TaskOrg:
 
 ```yaml
 routines:
@@ -293,8 +293,8 @@ Un paquete de skill debe permanecer un paquete válido de Agent Skills.
 Reglas:
 
 - `SKILL.md` debe seguir la especificación de Agent Skills
-- Paperclip no debe requerir campos top-level extra para validez de skill
-- las extensiones específicas de Paperclip deben vivir bajo `metadata.paperclip` o `metadata.sources`
+- TaskOrg no debe requerir campos top-level extra para validez de skill
+- las extensiones específicas de TaskOrg deben vivir bajo `metadata.taskorg` o `metadata.sources`
 - un directorio de skill puede incluir `scripts/`, `references/`, y `assets/` exactamente como el ecosistema de Agent Skills espera
 - las herramientas implementando esta especificación deben tratar la compatibilidad de `skills.sh` como un objetivo de primera clase en lugar de inventar un formato de skill paralelo
 
@@ -310,7 +310,7 @@ allowed-tools:
   - Read
   - Grep
 metadata:
-  paperclip:
+  taskorg:
     tags:
       - engineering
       - review
@@ -418,10 +418,10 @@ Comportamiento sugerido de UI de importación:
 
 Los datos específicos de vendor deben vivir fuera de la forma de paquete base.
 
-Para Paperclip, la extensión de fidelidad preferida es:
+Para TaskOrg, la extensión de fidelidad preferida es:
 
 ```text
-.paperclip.yaml
+.taskorg.yaml
 ```
 
 Usos de ejemplo:
@@ -433,18 +433,18 @@ Usos de ejemplo:
 - presupuestos
 - políticas de aprobación
 - políticas de workspace de ejecución de proyecto
-- metadatos solo de Paperclip de issue/tarea
+- metadatos solo de TaskOrg de issue/tarea
 
 Reglas:
 
 - el paquete base debe permanecer legible sin la extensión
 - las herramientas que no entienden una extensión de vendor deben ignorarla
-- las herramientas de Paperclip pueden emitir la extensión de vendor por defecto como un sidecar mientras mantienen el markdown base limpio
+- las herramientas de TaskOrg pueden emitir la extensión de vendor por defecto como un sidecar mientras mantienen el markdown base limpio
 
-Forma Paperclip sugerida:
+Forma TaskOrg sugerida:
 
 ```yaml
-schema: paperclip/v1
+schema: taskorg/v1
 agents:
   claudecoder:
     adapter:
@@ -472,13 +472,13 @@ routines:
         timezone: America/Chicago
 ```
 
-Reglas adicionales para exportadores de Paperclip:
+Reglas adicionales para exportadores de TaskOrg:
 
 - no duplicar `promptTemplate` cuando `AGENTS.md` ya contiene las instrucciones del agente
 - no exportar vinculaciones secretas específicas de proveedor tales como `secretId`, `version`, o `type: secret_ref`
 - exportar inputs de env como declaraciones portables con semántica `required` u `optional` y valores por defecto opcionales
 - advertir sobre valores dependientes del sistema tales como comandos absolutos y anulaciones de `PATH` absoluto
-- omitir campos Paperclip vacíos y con valores predeterminados cuando sea posible
+- omitir campos TaskOrg vacíos y con valores predeterminados cuando sea posible
 
 ## 16. Reglas de Exportación
 
@@ -491,7 +491,7 @@ Un exportador compatible debe:
 - preservar descripciones de tarea y declaraciones de tarea recurrente al exportar tareas
 - omitir campos vacíos/predeterminados
 - por defecto al paquete base agnóstico de vendor
-- los exportadores de Paperclip deben emitir `.paperclip.yaml` como un sidecar por defecto
+- los exportadores de TaskOrg deben emitir `.taskorg.yaml` como un sidecar por defecto
 - preservar atribución y referencias de fuente
 - preferir `referenced` sobre vendoring silencioso para contenido de terceros
 - preservar `SKILL.md` tal cual al exportar skills compatibles
@@ -528,9 +528,9 @@ Reglas:
 - los archivos de bloqueo son artefactos generados, no entrada de autoría canónica
 - el paquete markdown permanece como la fuente de verdad
 
-## 19. Mapeo de Paperclip
+## 19. Mapeo de TaskOrg
 
-Paperclip puede mapear esta especificación a su modelo de runtime así:
+TaskOrg puede mapear esta especificación a su modelo de runtime así:
 
 - paquete base:
   - `COMPANY.md` -> metadatos de compañía
@@ -540,24 +540,24 @@ Paperclip puede mapear esta especificación a su modelo de runtime así:
   - `TASK.md` -> definición de tarea/issue iniciadora, o plantilla de tarea recurrente cuando `recurring: true`
   - `SKILL.md` -> paquete de skill importado
   - `sources[]` -> proveniencia y refs upstream fijados
-- Extensión Paperclip:
-  - `.paperclip.yaml` -> configuración de adapter, configuración de runtime, declaraciones de entrada de env, permisos, presupuestos, triggers de routine, y otra fidelidad específica de Paperclip
+- Extensión TaskOrg:
+  - `.taskorg.yaml` -> configuración de adapter, configuración de runtime, declaraciones de entrada de env, permisos, presupuestos, triggers de routine, y otra fidelidad específica de TaskOrg
 
-Los metadatos solo de Paperclip inline que deben vivir dentro de un archivo markdown compartido deben usar:
+Los metadatos solo de TaskOrg inline que deben vivir dentro de un archivo markdown compartido deben usar:
 
-- `metadata.paperclip`
+- `metadata.taskorg`
 
-Eso mantiene el formato base más amplio que Paperclip.
+Eso mantiene el formato base más amplio que TaskOrg.
 
-Esta especificación misma permanece agnóstica de vendor e intentada para cualquier runtime de agent-company, no solo Paperclip.
+Esta especificación misma permanece agnóstica de vendor e intentada para cualquier runtime de agent-company, no solo TaskOrg.
 
 ## 20. Transición
 
-Paperclip debe hacer transición a este modelo de paquete markdown-first como el formato de portabilidad primario.
+TaskOrg debe hacer transición a este modelo de paquete markdown-first como el formato de portabilidad primario.
 
-`paperclip.manifest.json` no necesita ser preservado como un requisito de compatibilidad para el sistema de paquete futuro.
+`taskorg.manifest.json` no necesita ser preservado como un requisito de compatibilidad para el sistema de paquete futuro.
 
-Para Paperclip, esto debe ser tratado como una transición dura en dirección de producto en lugar de una estrategia dual-formato de vida larga.
+Para TaskOrg, esto debe ser tratado como una transición dura en dirección de producto en lugar de una estrategia dual-formato de vida larga.
 
 ## 21. Ejemplo Mínimo
 
@@ -583,7 +583,7 @@ lean-dev-shop/
 Opcional:
 
 ```text
-.paperclip.yaml
+.taskorg.yaml
 ```
 ```
 

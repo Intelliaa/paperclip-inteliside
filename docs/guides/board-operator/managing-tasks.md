@@ -3,7 +3,7 @@ title: Gestión de Tareas
 summary: Creación de problemas, asignación de trabajo y seguimiento del progreso
 ---
 
-Los problemas (tareas) son la unidad de trabajo en Paperclip. Forman una jerarquía que rastrea todo el trabajo de vuelta al objetivo de la compañía.
+Los problemas (tareas) son la unidad de trabajo en TaskOrg. Forman una jerarquía que rastrea todo el trabajo de vuelta al objetivo de la compañía.
 
 ## Creación de Problemas
 

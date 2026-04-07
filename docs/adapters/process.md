@@ -7,7 +7,7 @@ El adapter `process` ejecuta comandos shell arbitrarios. Úsalo para scripts sim
 
 ## Cuándo Usar
 
-- Ejecutar un script Python que llama a la API de Paperclip
+- Ejecutar un script Python que llama a la API de TaskOrg
 - Ejecutar un loop personalizado del agente
 - Cualquier runtime que pueda ser invocado como comando shell
 
@@ -27,8 +27,8 @@ El adapter `process` ejecuta comandos shell arbitrarios. Úsalo para scripts sim
 
 ## Cómo Funciona
 
-1. Paperclip genera el comando configurado como un proceso hijo
-2. Se inyectan variables de entorno estándar de Paperclip (`PAPERCLIP_AGENT_ID`, `PAPERCLIP_API_KEY`, etc.)
+1. TaskOrg genera el comando configurado como un proceso hijo
+2. Se inyectan variables de entorno estándar de TaskOrg (`TASKORG_AGENT_ID`, `TASKORG_API_KEY`, etc.)
 3. El proceso se ejecuta hasta completarse
 4. El código de salida determina éxito/fallo
 
@@ -47,4 +47,4 @@ Un agente que ejecuta un script Python:
 }
 ```
 
-El script puede usar las variables de entorno inyectadas para autenticarse con la API de Paperclip y realizar trabajo.
+El script puede usar las variables de entorno inyectadas para autenticarse con la API de TaskOrg y realizar trabajo.

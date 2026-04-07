@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "Paperclip",
+  "name": "TaskOrg",
   "description": "The control plane for autonomous AI companies",
   "theme": "mint",
   "colors": {
@@ -10,13 +10,13 @@
   },
   "favicon": "/favicon.svg",
   "logo": {
-    "dark": "/images/logo-dark.svg",
-    "light": "/images/logo-light.svg"
+    "dark": "/images/LogoTaskOrg-Dark.png",
+    "light": "/images/LogoTaskOrg-light.png"
   },
   "topbarLinks": [
     {
       "name": "GitHub",
-      "url": "https://github.com/paperclip-ai/paperclip"
+      "url": "https://github.com/taskorg-ai/taskorg"
     }
   ],
   "navigation": {
@@ -27,7 +27,7 @@
           {
             "group": "Introduction",
             "pages": [
-              "start/what-is-paperclip",
+              "start/what-is-taskorg",
               "start/quickstart",
               "start/core-concepts",
               "start/architecture"
@@ -142,6 +142,6 @@
     ]
   },
   "footerSocials": {
-    "github": "https://github.com/paperclip-ai/paperclip"
+    "github": "https://github.com/taskorg-ai/taskorg"
   }
 }

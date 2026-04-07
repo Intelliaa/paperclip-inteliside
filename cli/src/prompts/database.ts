@@ -3,11 +3,11 @@ import type { DatabaseConfig } from "../config/schema.js";
 import {
   resolveDefaultBackupDir,
   resolveDefaultEmbeddedPostgresDir,
-  resolvePaperclipInstanceId,
+  resolveTaskOrgInstanceId,
 } from "../config/home.js";
 
 export async function promptDatabase(current?: DatabaseConfig): Promise<DatabaseConfig> {
-  const instanceId = resolvePaperclipInstanceId();
+  const instanceId = resolveTaskOrgInstanceId();
   const defaultEmbeddedDir = resolveDefaultEmbeddedPostgresDir(instanceId);
   const defaultBackupDir = resolveDefaultBackupDir(instanceId);
   const base: DatabaseConfig = current ?? {
@@ -44,7 +44,7 @@ export async function promptDatabase(current?: DatabaseConfig): Promise<Database
     const value = await p.text({
       message: "Cadena de conexión de PostgreSQL",
       defaultValue: base.connectionString ?? "",
-      placeholder: "postgres://user:pass@localhost:5432/paperclip",
+      placeholder: "postgres://user:pass@localhost:5432/taskorg",
       validate: (val) => {
         if (!val) return "La cadena de conexión es obligatoria para el modo PostgreSQL";
         if (!val.startsWith("postgres")) return "Debe ser una URL postgres:// o postgresql://";

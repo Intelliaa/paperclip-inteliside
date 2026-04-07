@@ -1,6 +1,6 @@
 # Votación de Retroalimentación — Guía de Datos Locales
 
-Cuando califica la respuesta de un agente con **Helpful** (pulgar arriba) o **Needs work** (pulgar abajo), Paperclip guarda tu voto localmente junto con tu instancia en ejecución. Esta guía cubre qué se almacena, cómo acceder a ello y cómo exportarlo.
+Cuando califica la respuesta de un agente con **Helpful** (pulgar arriba) o **Needs work** (pulgar abajo), TaskOrg guarda tu voto localmente junto con tu instancia en ejecución. Esta guía cubre qué se almacena, cómo acceder a ello y cómo exportarlo.
 
 ## Cómo funciona la votación
 
@@ -17,29 +17,29 @@ Cada voto crea dos registros locales:
 | **Vote** | Tu voto (arriba/abajo), texto de razón opcional, preferencia de compartición, versión de consentimiento, timestamp |
 | **Trace bundle** | Snapshot de contexto completo: texto del comentario/revisión votado, título del problema, información del agente, tu voto y razón — todo lo necesario para entender la retroalimentación aisladamente |
 
-Todos los datos viven en tu base de datos local de Paperclip. Nada sale de tu máquina a menos que explícitamente elijas compartir.
+Todos los datos viven en tu base de datos local de TaskOrg. Nada sale de tu máquina a menos que explícitamente elijas compartir.
 
-Cuando un voto está marcado para compartir, Paperclip intenta inmediatamente subir el trace bundle a través del Telemetry Backend. La subida se comprime en tránsito para que los bundles de trace completos se mantengan bajo los límites de tamaño de gateway. Si ese push inmediato falla, el trace se deja en un estado fallido reintentable para intentos posteriores de flush. El servidor de aplicación nunca sube bundles de trace de retroalimentación sin procesar directamente al almacenamiento de objetos.
+Cuando un voto está marcado para compartir, TaskOrg intenta inmediatamente subir el trace bundle a través del Telemetry Backend. La subida se comprime en tránsito para que los bundles de trace completos se mantengan bajo los límites de tamaño de gateway. Si ese push inmediato falla, el trace se deja en un estado fallido reintentable para intentos posteriores de flush. El servidor de aplicación nunca sube bundles de trace de retroalimentación sin procesar directamente al almacenamiento de objetos.
 
 ## Visualizando tus votos
 
 ### Reporte rápido (terminal)
 
 ```bash
-pnpm paperclipai feedback report
+pnpm taskorg feedback report
 ```
 
 Muestra un resumen codificado por colores: conteos de votos, detalles por trace con razones, y estados de exportación.
 
 ```bash
 # CLI instalado
-paperclipai feedback report
+taskorg feedback report
 
 # Apuntar a un servidor o compañía diferente
-pnpm paperclipai feedback report --api-base http://127.0.0.1:3000 --company-id <company-id>
+pnpm taskorg feedback report --api-base http://127.0.0.1:3000 --company-id <company-id>
 
 # Incluir volcados de payload sin procesar en el reporte
-pnpm paperclipai feedback report --payloads
+pnpm taskorg feedback report --payloads
 ```
 
 ### Endpoints de API
@@ -89,7 +89,7 @@ Los endpoints de trace aceptan parámetros de query:
 ### Exportar a archivos + zip
 
 ```bash
-pnpm paperclipai feedback export
+pnpm taskorg feedback export
 ```
 
 Crea un directorio con timestamp:
@@ -100,7 +100,7 @@ feedback-export-20260331T120000Z/
   votes/
     PAP-123-a1b2c3d4.json      # metadatos de voto (uno por voto)
   traces/
-    PAP-123-e5f6g7h8.json      # envelope de retroalimentación Paperclip (uno por trace)
+    PAP-123-e5f6g7h8.json      # envelope de retroalimentación TaskOrg (uno por trace)
   full-traces/
     PAP-123-e5f6g7h8/
       bundle.json              # manifiesto de exportación completo para el trace
@@ -108,11 +108,11 @@ feedback-export-20260331T120000Z/
 feedback-export-20260331T120000Z.zip
 ```
 
-Las exportaciones son completas por defecto. `traces/` mantiene el envelope Paperclip, mientras que `full-traces/` contiene el bundle por trace más rico más cualquier archivo nativo de adapter recuperable.
+Las exportaciones son completas por defecto. `traces/` mantiene el envelope TaskOrg, mientras que `full-traces/` contiene el bundle por trace más rico más cualquier archivo nativo de adapter recuperable.
 
 ```bash
 # Servidor personalizado y directorio de salida
-pnpm paperclipai feedback export --api-base http://127.0.0.1:3000 --company-id <company-id> --out ./my-export
+pnpm taskorg feedback export --api-base http://127.0.0.1:3000 --company-id <company-id> --out ./my-export
 ```
 
 ### Leyendo un trace exportado
@@ -183,7 +183,7 @@ Los votos que eliges compartir se envían al Telemetry Backend inmediatamente de
 - Responsabilidad del servidor de aplicación: construir el bundle, POSTear a Telemetry Backend, actualizar estado del trace
 - Responsabilidad del Telemetry Backend: autenticar la solicitud, validar forma de payload, comprimir/almacenar el bundle, retornar la clave de objeto final
 - Comportamiento de reintento: las subidas fallidas se mueven a `failed` con un mensaje de error en `failureReason`, y el worker los reintenta en ticks posteriores
-- Endpoint predeterminado: cuando ninguna URL de backend de exportación de retroalimentación está configurada, Paperclip vuelve a `https://telemetry.paperclip.ing`
+- Endpoint predeterminado: cuando ninguna URL de backend de exportación de retroalimentación está configurada, TaskOrg vuelve a `https://telemetry.taskorg.ing`
 - Matiz importante: el objeto subido es un snapshot del bundle completo en tiempo de voto. Si recuperas un bundle local después y el archivo de sesión del adapter subyacente ha continuado creciendo, el bundle regenerado localmente puede ser más grande que el snapshot ya subido para ese mismo trace.
 
 Los objetos exportados usan un patrón de clave determinístico para que sean fáciles de inspeccionar:

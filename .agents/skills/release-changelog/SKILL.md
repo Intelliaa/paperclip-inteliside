@@ -1,17 +1,17 @@
 ---
 name: release-changelog
 description: >
-  Generar el changelog de release estable de Paperclip en releases/vYYYY.MDD.P.md
+  Generar el changelog de release estable de TaskOrg en releases/vYYYY.MDD.P.md
   leyendo commits, changesets y contexto de PRs mergeados desde la última etiqueta estable.
 ---
 
 # Skill de Changelog de Release
 
-Generar el changelog orientado al usuario para el release **estable** de Paperclip.
+Generar el changelog orientado al usuario para el release **estable** de TaskOrg.
 
 ## Modelo de Versionado
 
-Paperclip usa **versionado por calendario (calver)**:
+TaskOrg usa **versionado por calendario (calver)**:
 
 - Releases estables: `YYYY.MDD.P` (ej. `2026.318.0`)
 - Releases canary: `YYYY.MDD.P-canary.N` (ej. `2026.318.1-canary.0`)
@@ -126,7 +126,7 @@ Cuando un elemento claramente corresponde a un pull request mergeado, agregar at
 final de la entrada en este formato:
 
 ```
-- **Nombre de funcionalidad** — Descripción. ([#123](https://github.com/paperclipai/paperclip/pull/123), @contributor1, @contributor2)
+- **Nombre de funcionalidad** — Descripción. ([#123](https://github.com/Intelliaa/paperclip-inteliside/pull/123), @contributor1, @contributor2)
 ```
 
 Reglas:

@@ -1,10 +1,10 @@
 # Ejecutando OpenClaw en Docker (Desarrollo Local)
 
-Cómo hacer que OpenClaw se ejecute en un contenedor Docker para desarrollo local y prueba de la integración del adaptador OpenClaw de Paperclip.
+Cómo hacer que OpenClaw se ejecute en un contenedor Docker para desarrollo local y prueba de la integración del adaptador OpenClaw de TaskOrg.
 
 ## Prueba de Humo de Unión Automatizada (Recomendado Primero)
 
-Paperclip incluye un arnés de humo de unión end-to-end:
+TaskOrg incluye un arnés de humo de unión end-to-end:
 
 ```bash
 pnpm smoke:openclaw-join
@@ -39,10 +39,10 @@ Lo que este comando hace:
 
 - clona/actualiza `openclaw/openclaw` en `/tmp/openclaw-docker`
 - construye `openclaw:local` (a menos que `OPENCLAW_BUILD=0`)
-- escribe configuración de humo aislada bajo `~/.openclaw-paperclip-smoke/openclaw.json` y Docker `.env`
+- escribe configuración de humo aislada bajo `~/.openclaw-taskorg-smoke/openclaw.json` y Docker `.env`
 - fija valores por defecto de modelo de agente a OpenAI (`openai/gpt-5.2` con fallback de OpenAI)
 - inicia `openclaw-gateway` vía Compose (con anulación tmpfs `/tmp` requerida)
-- prueba e imprime una URL de host de Paperclip que es alcanzable desde dentro de Docker de OpenClaw
+- prueba e imprime una URL de host de TaskOrg que es alcanzable desde dentro de Docker de OpenClaw
 - espera por salud e imprime:
   - `http://127.0.0.1:18789/#token=...`
 - deshabilita emparejamiento de dispositivo de Control UI por defecto para ergonomía local de humo
@@ -59,38 +59,38 @@ Controles de entorno:
 - `OPENCLAW_DISABLE_DEVICE_AUTH=0` mantiene emparejamiento habilitado (luego aprueba navegador con comandos CLI `devices`)
 - `OPENCLAW_MODEL_PRIMARY` (predeterminado `openai/gpt-5.2`)
 - `OPENCLAW_MODEL_FALLBACK` (predeterminado `openai/gpt-5.2-chat-latest`)
-- `OPENCLAW_CONFIG_DIR` (predeterminado `~/.openclaw-paperclip-smoke`)
+- `OPENCLAW_CONFIG_DIR` (predeterminado `~/.openclaw-taskorg-smoke`)
 - `OPENCLAW_RESET_STATE=1` (predeterminado) reinicia estado de agente de humo en cada ejecución para evitar deriva de autenticación/sesión obsoleta
-- `PAPERCLIP_HOST_PORT` (predeterminado `3100`)
-- `PAPERCLIP_HOST_FROM_CONTAINER` (predeterminado `host.docker.internal`)
+- `TASKORG_HOST_PORT` (predeterminado `3100`)
+- `TASKORG_HOST_FROM_CONTAINER` (predeterminado `host.docker.internal`)
 
 ### Modo autenticado
 
-Si tu implementación de Paperclip es `authenticated`, proporciona contexto de autenticación:
+Si tu implementación de TaskOrg es `authenticated`, proporciona contexto de autenticación:
 
 ```bash
-PAPERCLIP_AUTH_HEADER="Bearer <token>" pnpm smoke:openclaw-join
+TASKORG_AUTH_HEADER="Bearer <token>" pnpm smoke:openclaw-join
 # o
-PAPERCLIP_COOKIE="your_session_cookie=..." pnpm smoke:openclaw-join
+TASKORG_COOKIE="your_session_cookie=..." pnpm smoke:openclaw-join
 ```
 
 ### Consejos de topología de red
 
 - Humo local de mismo-host: callback predeterminado usa `http://127.0.0.1:<port>/webhook`.
-- Dentro de Docker de OpenClaw, `127.0.0.1` apunta al contenedor mismo, no a tu servidor Paperclip host.
-- Para URLs de invitación/onboarding consumidas por OpenClaw en Docker, usa la URL Paperclip impresa por script (típicamente `http://host.docker.internal:3100`).
-- Si Paperclip rechaza el host visible por contenedor con un error de nombre de host, permítelo desde host:
+- Dentro de Docker de OpenClaw, `127.0.0.1` apunta al contenedor mismo, no a tu servidor TaskOrg host.
+- Para URLs de invitación/onboarding consumidas por OpenClaw en Docker, usa la URL TaskOrg impresa por script (típicamente `http://host.docker.internal:3100`).
+- Si TaskOrg rechaza el host visible por contenedor con un error de nombre de host, permítelo desde host:
 
 ```bash
-pnpm paperclipai allowed-hostname host.docker.internal
+pnpm taskorg allowed-hostname host.docker.internal
 ```
 
-Luego reinicia Paperclip y reejecutar el script de humo.
+Luego reinicia TaskOrg y reejecutar el script de humo.
 - Docker/OpenClaw remoto: prefiere un nombre de host alcanzable (alias de host Docker, nombre de host Tailscale, o dominio público).
 - Modo autenticado/privado: asegura que nombres de host estén en la lista permitida cuando sea requerido:
 
 ```bash
-pnpm paperclipai allowed-hostname <host>
+pnpm taskorg allowed-hostname <host>
 ```
 
 ## Requisitos Previos

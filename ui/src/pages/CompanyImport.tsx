@@ -6,7 +6,7 @@ import type {
   CompanyPortabilityPreviewResult,
   CompanyPortabilitySource,
   CompanyPortabilityAdapterOverride,
-} from "@paperclipai/shared";
+} from "@taskorg/shared";
 import { useCompany } from "../context/CompanyContext";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { useToast } from "../context/ToastContext";
@@ -34,7 +34,7 @@ import { Field, adapterLabels } from "../components/agent-config-primitives";
 import { getAdapterLabel } from "../adapters/adapter-display-registry";
 import { defaultCreateValues } from "../components/agent-config-defaults";
 import { getUIAdapter, listUIAdapters } from "../adapters";
-import type { CreateConfigValues } from "@paperclipai/adapter-utils";
+import type { CreateConfigValues } from "@taskorg/adapter-utils";
 import {
   type FileTreeNode,
   type FrontmatterData,
@@ -704,7 +704,7 @@ export function CompanyImport() {
   }, [companyAgents]);
 
   const localZipHelpText =
-    "Sube un .zip exportado directamente desde Paperclip. Archivos re-comprimidos con Finder, Explorer u otras herramientas de zip pueden no importarse correctamente.";
+    "Sube un .zip exportado directamente desde TaskOrg. Archivos re-comprimidos con Finder, Explorer u otras herramientas de zip pueden no importarse correctamente.";
 
   useEffect(() => {
     setBreadcrumbs([
@@ -1096,7 +1096,7 @@ export function CompanyImport() {
         <div>
           <h2 className="text-base font-semibold">Origen de importación</h2>
           <p className="text-xs text-muted-foreground mt-1">
-            Elige un repositorio de GitHub o sube un paquete zip local de Paperclip.
+            Elige un repositorio de GitHub o sube un paquete zip local de TaskOrg.
           </p>
         </div>
 

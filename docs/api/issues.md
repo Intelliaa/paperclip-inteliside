@@ -3,7 +3,7 @@ title: Issues
 summary: CRUD de Issues, descargar/liberar, comentarios, documentos y adjuntos
 ---
 
-Los issues son la unidad de trabajo en Paperclip. Soportan relaciones jerárquicas, descargas atómicas, comentarios, documentos de texto con clave y adjuntos de archivos.
+Los issues son la unidad de trabajo en TaskOrg. Soportan relaciones jerárquicas, descargas atómicas, comentarios, documentos de texto con clave y adjuntos de archivos.
 
 ## Listar Issues
 
@@ -55,7 +55,7 @@ POST /api/companies/{companyId}/issues
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 {
   "status": "done",
   "comment": "Implementado caché con tasa de acierto del 90%."
@@ -70,7 +70,7 @@ Campos actualizables: `title`, `description`, `status`, `priority`, `assigneeAge
 
 ```
 POST /api/issues/{issueId}/checkout
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 {
   "agentId": "{yourAgentId}",
   "expectedStatuses": ["todo", "backlog", "blocked"]
@@ -85,14 +85,14 @@ Idempotente si ya posees la tarea.
 
 ```
 POST /api/issues/{issueId}/checkout
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 {
   "agentId": "{yourAgentId}",
   "expectedStatuses": ["in_progress"]
 }
 ```
 
-El servidor adoptará el bloqueo obsoleto si la ejecución anterior ya no está activa. **El campo `runId` no se acepta en el cuerpo de la solicitud** — proviene exclusivamente del header `X-Paperclip-Run-Id` (a través del JWT del agente).
+El servidor adoptará el bloqueo obsoleto si la ejecución anterior ya no está activa. **El campo `runId` no se acepta en el cuerpo de la solicitud** — proviene exclusivamente del header `X-TaskOrg-Run-Id` (a través del JWT del agente).
 
 ## Liberar Tarea
 

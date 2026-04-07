@@ -33,7 +33,7 @@ Opciones de adapter comunes:
 - `process` para ejecución genérica de comandos locales
 
 Para `opencode_local`, configura un `adapterConfig.model` explícito (`provider/model`).
-Paperclip valida el modelo seleccionado contra la salida en vivo de `opencode models`.
+TaskOrg valida el modelo seleccionado contra la salida en vivo de `opencode models`.
 
 ## Contratación de Agentes a través de Gobernanza
 

@@ -1,7 +1,7 @@
-const FAVICON_BLOCK_START = "<!-- PAPERCLIP_FAVICON_START -->";
-const FAVICON_BLOCK_END = "<!-- PAPERCLIP_FAVICON_END -->";
-const RUNTIME_BRANDING_BLOCK_START = "<!-- PAPERCLIP_RUNTIME_BRANDING_START -->";
-const RUNTIME_BRANDING_BLOCK_END = "<!-- PAPERCLIP_RUNTIME_BRANDING_END -->";
+const FAVICON_BLOCK_START = "<!-- TASKORG_FAVICON_START -->";
+const FAVICON_BLOCK_END = "<!-- TASKORG_FAVICON_END -->";
+const RUNTIME_BRANDING_BLOCK_START = "<!-- TASKORG_RUNTIME_BRANDING_START -->";
+const RUNTIME_BRANDING_BLOCK_END = "<!-- TASKORG_RUNTIME_BRANDING_END -->";
 
 const DEFAULT_FAVICON_LINKS = [
   '<link rel="icon" href="/favicon.ico" sizes="48x48" />',
@@ -130,18 +130,19 @@ function escapeHtmlAttribute(value: string): string {
     .replaceAll(">", "&gt;");
 }
 
-function createFaviconDataUrl(background: string, foreground: string): string {
+function createFaviconDataUrl(background: string, _foreground: string): string {
+  // TaskOrg logo uses a "T" lettermark over the worktree brand color
   const svg = [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">',
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">',
     `<rect width="24" height="24" rx="6" fill="${background}"/>`,
-    `<path stroke="${foreground}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.15" d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>`,
+    '<text x="12" y="17" font-family="system-ui,sans-serif" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>',
     "</svg>",
   ].join("");
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
 export function isWorktreeUiBrandingEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isTruthyEnvValue(env.PAPERCLIP_IN_WORKTREE);
+  return isTruthyEnvValue(env.TASKORG_IN_WORKTREE);
 }
 
 export function getWorktreeUiBranding(env: NodeJS.ProcessEnv = process.env): WorktreeUiBranding {
@@ -155,8 +156,8 @@ export function getWorktreeUiBranding(env: NodeJS.ProcessEnv = process.env): Wor
     };
   }
 
-  const name = nonEmpty(env.PAPERCLIP_WORKTREE_NAME) ?? nonEmpty(env.PAPERCLIP_INSTANCE_ID) ?? "worktree";
-  const color = normalizeHexColor(env.PAPERCLIP_WORKTREE_COLOR) ?? deriveColorFromSeed(name);
+  const name = nonEmpty(env.TASKORG_WORKTREE_NAME) ?? nonEmpty(env.TASKORG_INSTANCE_ID) ?? "worktree";
+  const color = normalizeHexColor(env.TASKORG_WORKTREE_COLOR) ?? deriveColorFromSeed(name);
   const textColor = pickReadableTextColor(color);
 
   return {
@@ -182,10 +183,10 @@ export function renderRuntimeBrandingMeta(branding: WorktreeUiBranding): string 
   if (!branding.enabled || !branding.name || !branding.color || !branding.textColor) return "";
 
   return [
-    '<meta name="paperclip-worktree-enabled" content="true" />',
-    `<meta name="paperclip-worktree-name" content="${escapeHtmlAttribute(branding.name)}" />`,
-    `<meta name="paperclip-worktree-color" content="${escapeHtmlAttribute(branding.color)}" />`,
-    `<meta name="paperclip-worktree-text-color" content="${escapeHtmlAttribute(branding.textColor)}" />`,
+    '<meta name="taskorg-worktree-enabled" content="true" />',
+    `<meta name="taskorg-worktree-name" content="${escapeHtmlAttribute(branding.name)}" />`,
+    `<meta name="taskorg-worktree-color" content="${escapeHtmlAttribute(branding.color)}" />`,
+    `<meta name="taskorg-worktree-text-color" content="${escapeHtmlAttribute(branding.textColor)}" />`,
   ].join("\n");
 }
 

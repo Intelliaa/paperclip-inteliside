@@ -45,15 +45,15 @@ Si la reanudación falla con un error de sesión desconocido, el adapter automá
 
 ## Inyección de Skills
 
-El adapter crea un directorio temporal con symlinks a skills de Paperclip y lo pasa a través de `--add-dir`. Esto hace que los skills sean descubribles sin contaminar el directorio de trabajo del agente.
+El adapter crea un directorio temporal con symlinks a skills de TaskOrg y lo pasa a través de `--add-dir`. Esto hace que los skills sean descubribles sin contaminar el directorio de trabajo del agente.
 
 Para uso manual del CLI local fuera de ejecuciones de heartbeat (por ejemplo ejecutando como `claudecoder` directamente), usa:
 
 ```sh
-pnpm paperclipai agent local-cli claudecoder --company-id <company-id>
+pnpm taskorg agent local-cli claudecoder --company-id <company-id>
 ```
 
-Esto instala skills de Paperclip en `~/.claude/skills`, crea una clave API del agente, e imprime exports de shell para ejecutar como ese agente.
+Esto instala skills de TaskOrg en `~/.claude/skills`, crea una clave API del agente, e imprime exports de shell para ejecutar como ese agente.
 
 ## Prueba del Entorno
 

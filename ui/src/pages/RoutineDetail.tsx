@@ -56,7 +56,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import type { RoutineTrigger, RoutineVariable } from "@paperclipai/shared";
+import type { RoutineTrigger, RoutineVariable } from "@taskorg/shared";
 
 const concurrencyPolicies = ["coalesce_if_active", "always_enqueue", "skip_if_active"];
 const catchUpPolicies = ["skip_missed", "enqueue_missed_with_cap"];
@@ -428,7 +428,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al guardar la rutina",
-        body: error instanceof Error ? error.message : "Paperclip no pudo guardar la rutina.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo guardar la rutina.",
         tone: "error",
       });
     },
@@ -460,7 +460,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Ejecución de rutina fallida",
-        body: error instanceof Error ? error.message : "Paperclip no pudo iniciar la ejecución de la rutina.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo iniciar la ejecución de la rutina.",
         tone: "error",
       });
     },
@@ -482,7 +482,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al actualizar la rutina",
-        body: error instanceof Error ? error.message : "Paperclip no pudo actualizar la rutina.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo actualizar la rutina.",
         tone: "error",
       });
     },
@@ -529,7 +529,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al agregar trigger",
-        body: error instanceof Error ? error.message : "Paperclip no pudo crear el trigger.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo crear el trigger.",
         tone: "error",
       });
     },
@@ -552,7 +552,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al actualizar trigger",
-        body: error instanceof Error ? error.message : "Paperclip no pudo actualizar el trigger.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo actualizar el trigger.",
         tone: "error",
       });
     },
@@ -574,7 +574,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al eliminar trigger",
-        body: error instanceof Error ? error.message : "Paperclip no pudo eliminar el trigger.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo eliminar el trigger.",
         tone: "error",
       });
     },
@@ -596,7 +596,7 @@ export function RoutineDetail() {
     onError: (error) => {
       pushToast({
         title: "Error al rotar secreto de webhook",
-        body: error instanceof Error ? error.message : "Paperclip no pudo rotar el secreto del webhook.",
+        body: error instanceof Error ? error.message : "TaskOrg no pudo rotar el secreto del webhook.",
         tone: "error",
       });
     },
@@ -729,7 +729,7 @@ export function RoutineDetail() {
         <div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-4 space-y-3 text-sm">
           <div>
             <p className="font-medium">{secretMessage.title}</p>
-            <p className="text-xs text-muted-foreground">Save this now. Paperclip will not show the secret value again.</p>
+            <p className="text-xs text-muted-foreground">Save this now. TaskOrg will not show the secret value again.</p>
           </div>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
