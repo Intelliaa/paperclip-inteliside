@@ -39,7 +39,7 @@ company-package/
 ├── assets/
 ├── scripts/
 ├── references/
-└── .paperclip.yaml          (extensión de proveedor opcional)
+└── .taskorg.yaml          (extensión de proveedor opcional)
 ```
 
 ## Campos Comunes de Frontmatter

@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { HelpCircle, ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
-import { AGENT_ROLE_LABELS } from "@paperclipai/shared";
+import { AGENT_ROLE_LABELS } from "@taskorg/shared";
 
 /* ---- Help text for (?) tooltips ---- */
 export const help: Record<string, string> = {
@@ -34,7 +34,7 @@ export const help: Record<string, string> = {
   dangerouslySkipPermissions: "Ejecuta sin supervisión aprobando automáticamente los permisos del adapter cuando esté soportado.",
   dangerouslyBypassSandbox: "Ejecuta Codex sin restricciones de sandbox. Requerido para acceso a sistema de archivos/red.",
   search: "Habilita la capacidad de búsqueda web de Codex durante las ejecuciones.",
-  workspaceStrategy: "Cómo Paperclip debe aprovisionar un workspace de ejecución para este agente. Mantén project_primary para ejecución normal de cwd, o usa git_worktree para checkouts aislados por tarea.",
+  workspaceStrategy: "Cómo TaskOrg debe aprovisionar un workspace de ejecución para este agente. Mantén project_primary para ejecución normal de cwd, o usa git_worktree para checkouts aislados por tarea.",
   workspaceBaseRef: "Ref git base usado al crear una rama de worktree. Dejar en blanco para usar el ref del workspace resuelto o HEAD.",
   workspaceBranchTemplate: "Template para nombrar ramas derivadas. Soporta {{issue.identifier}}, {{issue.title}}, {{agent.name}}, {{project.id}}, {{workspace.repoRef}} y {{slug}}.",
   worktreeParentDir: "Directorio donde se crearán los worktrees derivados. Soporta rutas absolutas, prefijo ~, y rutas relativas al repositorio.",
@@ -45,8 +45,8 @@ export const help: Record<string, string> = {
   args: "Argumentos de línea de comandos, separados por coma.",
   extraArgs: "Argumentos CLI adicionales para adapters locales, separados por coma.",
   envVars: "Variables de entorno inyectadas en el proceso del adapter. Usa valores simples o referencias a secretos.",
-  bootstrapPrompt: "Solo se envía cuando Paperclip inicia una nueva sesión. Úsalo para guías de configuración estables que no deben repetirse en cada heartbeat.",
-  payloadTemplateJson: "JSON opcional fusionado en los payloads de solicitud del adapter remoto antes de que Paperclip agregue sus campos estándar de wake y workspace.",
+  bootstrapPrompt: "Solo se envía cuando TaskOrg inicia una nueva sesión. Úsalo para guías de configuración estables que no deben repetirse en cada heartbeat.",
+  payloadTemplateJson: "JSON opcional fusionado en los payloads de solicitud del adapter remoto antes de que TaskOrg agregue sus campos estándar de wake y workspace.",
   webhookUrl: "La URL que recibe solicitudes POST cuando el agente es invocado.",
   heartbeatInterval: "Ejecuta este agente automáticamente en un temporizador. Útil para tareas periódicas como verificar nuevo trabajo.",
   intervalSec: "Segundos entre invocaciones automáticas de heartbeat.",

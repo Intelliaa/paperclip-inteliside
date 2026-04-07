@@ -1,14 +1,14 @@
 ---
 name: release
 description: >
-  Coordinar un release completo de Paperclip a través de verificación de ingeniería, npm,
+  Coordinar un release completo de TaskOrg a través de verificación de ingeniería, npm,
   GitHub, pruebas de humo y seguimiento de anuncios. Usar cuando liderazgo pida
   enviar un release, no simplemente discutir versionado.
 ---
 
 # Skill de Coordinación de Release
 
-Ejecutar el flujo de trabajo completo de release de mantenedor de Paperclip, no solo un npm publish.
+Ejecutar el flujo de trabajo completo de release de mantenedor de TaskOrg, no solo un npm publish.
 
 Este skill coordina:
 
@@ -38,7 +38,7 @@ Antes de proceder, verificar todo lo siguiente:
 4. El SHA candidato ha pasado la puerta de verificación o está por hacerlo.
 5. Si los manifiestos cambiaron, la actualización de `pnpm-lock.yaml` propiedad de CI ya está mergeada en `master`.
 6. Los permisos de publicación npm están disponibles a través de publicación confiable de GitHub, o a través de autenticación npm local para uso de emergencia/manual.
-7. Si se ejecuta a través de Paperclip, tienes contexto de issue para actualizaciones de estado y creación de tareas de seguimiento.
+7. Si se ejecuta a través de TaskOrg, tienes contexto de issue para actualizaciones de estado y creación de tareas de seguimiento.
 
 Si alguna precondición falla, detenerse y reportar el bloqueador.
 
@@ -53,7 +53,7 @@ Recopilar estas entradas por adelantado:
 
 ## Paso 0 — Modelo de Release
 
-Paperclip ahora usa un modelo de release dirigido por commits:
+TaskOrg ahora usa un modelo de release dirigido por commits:
 
 1. cada push a `master` publica un canary automáticamente
 2. los canaries usan `YYYY.MDD.P-canary.N`
@@ -88,7 +88,7 @@ Comandos útiles:
 ```bash
 git tag --list 'v*' --sort=-version:refname | head -1
 git log --oneline --no-merges
-npm view paperclipai@canary version
+npm view taskorg@canary version
 ```
 
 ## Paso 2 — Redactar el Changelog Estable
@@ -135,7 +135,7 @@ Confirmar:
 Verificaciones útiles:
 
 ```bash
-npm view paperclipai@canary version
+npm view taskorg@canary version
 git tag --list 'canary/v*' --sort=-version:refname | head -5
 ```
 
@@ -144,13 +144,13 @@ git tag --list 'canary/v*' --sort=-version:refname | head -5
 Ejecutar:
 
 ```bash
-PAPERCLIPAI_VERSION=canary ./scripts/docker-onboard-smoke.sh
+TASKORG_VERSION=canary ./scripts/docker-onboard-smoke.sh
 ```
 
 Variante aislada útil:
 
 ```bash
-HOST_PORT=3232 DATA_DIR=./data/release-smoke-canary PAPERCLIPAI_VERSION=canary ./scripts/docker-onboard-smoke.sh
+HOST_PORT=3232 DATA_DIR=./data/release-smoke-canary TASKORG_VERSION=canary ./scripts/docker-onboard-smoke.sh
 ```
 
 Confirmar:
@@ -210,7 +210,7 @@ Crear o verificar trabajo de seguimiento para:
 
 - publicación del changelog en el sitio web
 - publicación de lanzamiento / anuncio social
-- resumen del release en el contexto de issue de Paperclip
+- resumen del release en el contexto de issue de TaskOrg
 
 Estos deben referenciar el release estable, no el canary.
 

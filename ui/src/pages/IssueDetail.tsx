@@ -80,7 +80,7 @@ import {
   type Issue,
   type IssueAttachment,
   type IssueComment,
-} from "@paperclipai/shared";
+} from "@taskorg/shared";
 
 type CommentReassignment = IssueCommentReassignment;
 type IssueDetailComment = (IssueComment | OptimisticIssueComment) & {
@@ -116,7 +116,7 @@ const ACTION_LABELS: Record<string, string> = {
   "approval.rejected": "rechazó",
 };
 
-const FEEDBACK_TERMS_URL = import.meta.env.VITE_FEEDBACK_TERMS_URL?.trim() || "https://paperclip.ing/tos";
+const FEEDBACK_TERMS_URL = import.meta.env.VITE_FEEDBACK_TERMS_URL?.trim() || "https://taskorg.ing/tos";
 
 function humanizeValue(value: unknown): string {
   if (typeof value !== "string") return String(value ?? "none");
@@ -1526,7 +1526,7 @@ export function IssueDetail() {
             issueStatus={issue.status}
             agentMap={agentMap}
             currentUserId={currentUserId}
-            draftKey={`paperclip:issue-comment-draft:${issue.id}`}
+            draftKey={`taskorg:issue-comment-draft:${issue.id}`}
             enableReassign
             reassignOptions={commentReassignOptions}
             currentAssigneeValue={actualAssigneeValue}

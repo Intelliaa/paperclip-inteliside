@@ -333,7 +333,7 @@ export type {
   PluginLauncherDeclaration,
   PluginMinimumHostVersion,
   PluginUiDeclaration,
-  PaperclipPluginManifestV1,
+  TaskOrgPluginManifestV1,
   PluginRecord,
   PluginStateRecord,
   PluginConfig,
@@ -598,6 +598,7 @@ export {
   type ListPluginState,
 } from "./validators/index.js";
 
+export { readEnv } from "./env.js";
 export { API_PREFIX, API } from "./api.js";
 export { normalizeAgentUrlKey, deriveAgentUrlKey, isUuidLike } from "./agent-url-key.js";
 export { deriveProjectUrlKey, normalizeProjectUrlKey, hasNonAsciiContent } from "./project-url-key.js";
@@ -628,7 +629,7 @@ export {
 } from "./routine-variables.js";
 
 export {
-  paperclipConfigSchema,
+  taskorgConfigSchema,
   configMetaSchema,
   llmConfigSchema,
   databaseBackupConfigSchema,
@@ -643,7 +644,7 @@ export {
   secretsLocalEncryptedConfigSchema,
   telemetryConfigSchema,
   type TelemetryConfig,
-  type PaperclipConfig,
+  type TaskOrgConfig,
   type LlmConfig,
   type DatabaseBackupConfig,
   type DatabaseConfig,

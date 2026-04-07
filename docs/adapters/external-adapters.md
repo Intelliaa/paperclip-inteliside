@@ -1,19 +1,19 @@
 ---
 title: Adapters Externos
-summary: Construye, empaqueta, y distribuye adapters como plugins sin modificar el código fuente de Paperclip
+summary: Construye, empaqueta, y distribuye adapters como plugins sin modificar el código fuente de TaskOrg
 ---
 
-Paperclip soporta plugins de adapter externos que pueden ser instalados desde paquetes npm o directorios locales. Los adapters externos funcionan exactamente como adapters incorporados — ejecutan agentes, analizan salida, y renderizen transcripciones — pero viven en su propio paquete y no requieren cambios al código fuente de Paperclip.
+TaskOrg soporta plugins de adapter externos que pueden ser instalados desde paquetes npm o directorios locales. Los adapters externos funcionan exactamente como adapters incorporados — ejecutan agentes, analizan salida, y renderizen transcripciones — pero viven en su propio paquete y no requieren cambios al código fuente de TaskOrg.
 
 ## Incorporado vs Externo
 
 | | Incorporado | Externo |
 |---|---|---|
-| Ubicación de fuente | Dentro de `paperclip-fork/packages/adapters/` | Paquete npm separado o directorio local |
+| Ubicación de fuente | Dentro de `taskorg-fork/packages/adapters/` | Paquete npm separado o directorio local |
 | Registro | Codificado en tres registros | Cargado al inicio a través del sistema de plugins |
 | UI parser | Importación estática en tiempo de compilación | Cargado dinámicamente desde API (ver [UI Parser](/adapters/adapter-ui-parser)) |
-| Distribución | Se envía con Paperclip | Publicado en npm o enlazado vía `file:` |
-| Actualizaciones | Requiere lanzamiento de Paperclip | Versionado independiente |
+| Distribución | Se envía con TaskOrg | Publicado en npm o enlazado vía `file:` |
+| Actualizaciones | Requiere lanzamiento de TaskOrg | Versionado independiente |
 
 ## Quick Start
 
@@ -37,11 +37,11 @@ my-adapter/
 
 ```json
 {
-  "name": "my-paperclip-adapter",
+  "name": "my-taskorg-adapter",
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
-  "paperclip": {
+  "taskorg": {
     "adapterUiParser": "1.0.0"
   },
   "exports": {
@@ -54,7 +54,7 @@ my-adapter/
     "build": "tsc"
   },
   "dependencies": {
-    "@paperclipai/adapter-utils": "^2026.325.0",
+    "@taskorg/adapter-utils": "^2026.325.0",
     "picocolors": "^1.1.0"
   },
   "devDependencies": {
@@ -70,7 +70,7 @@ Key fields:
 |-------|---------|
 | `exports["."]` | Entry point — must export `createServerAdapter` |
 | `exports["./ui-parser"]` | Self-contained UI parser module (optional but recommended) |
-| `paperclip.adapterUiParser` | Contract version for the UI parser (`"1.0.0"`) |
+| `taskorg.adapterUiParser` | Contract version for the UI parser (`"1.0.0"`) |
 | `files` | Limits what gets published — only `dist/` |
 
 ### tsconfig.json
@@ -118,7 +118,7 @@ export { createServerAdapter } from "./server/index.js";
 ### src/server/index.ts
 
 ```ts
-import type { ServerAdapterModule } from "@paperclipai/adapter-utils";
+import type { ServerAdapterModule } from "@taskorg/adapter-utils";
 import { type, models, agentConfigurationDoc } from "../index.js";
 import { execute } from "./execute.js";
 import { testEnvironment } from "./test.js";
@@ -142,13 +142,13 @@ The core execution function. Receives an `AdapterExecutionContext` and returns a
 import type {
   AdapterExecutionContext,
   AdapterExecutionResult,
-} from "@paperclipai/adapter-utils";
+} from "@taskorg/adapter-utils";
 
 import {
   runChildProcess,
-  buildPaperclipEnv,
+  buildTaskOrgEnv,
   renderTemplate,
-} from "@paperclipai/adapter-utils/server-utils";
+} from "@taskorg/adapter-utils/server-utils";
 
 export async function execute(
   ctx: AdapterExecutionContext,
@@ -160,8 +160,8 @@ export async function execute(
   const command = String(config.command ?? "my-agent");
   const timeoutSec = Number(config.timeoutSec ?? 300);
 
-  // 2. Build environment with Paperclip vars injected
-  const env = buildPaperclipEnv(agent);
+  // 2. Build environment with TaskOrg vars injected
+  const env = buildTaskOrgEnv(agent);
 
   // 3. Render prompt template
   const prompt = config.promptTemplate
@@ -196,12 +196,12 @@ export async function execute(
 }
 ```
 
-#### Available Helpers from `@paperclipai/adapter-utils`
+#### Available Helpers from `@taskorg/adapter-utils`
 
 | Helper | Purpose |
 |--------|---------|
 | `runChildProcess(command, opts)` | Spawn a child process with timeout, grace period, and streaming callbacks |
-| `buildPaperclipEnv(agent)` | Inject `PAPERCLIP_*` environment variables |
+| `buildTaskOrgEnv(agent)` | Inject `TASKORG_*` environment variables |
 | `renderTemplate(template, data)` | `{{variable}}` substitution in prompt templates |
 | `asString(v)`, `asNumber(v)`, `asBoolean(v)` | Safe config value extraction |
 
@@ -213,7 +213,7 @@ Validates the adapter configuration before running. Returns structured diagnosti
 import type {
   AdapterEnvironmentTestContext,
   AdapterEnvironmentTestResult,
-} from "@paperclipai/adapter-utils";
+} from "@taskorg/adapter-utils";
 
 export async function testEnvironment(
   ctx: AdapterEnvironmentTestContext,
@@ -260,14 +260,14 @@ Check levels:
 ### From npm
 
 ```sh
-# Via the Paperclip UI
-# Settings → Adapters → Install from npm → "my-paperclip-adapter"
+# Via the TaskOrg UI
+# Settings → Adapters → Install from npm → "my-taskorg-adapter"
 
 # Or via API
 curl -X POST http://localhost:3102/api/adapters \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"packageName": "my-paperclip-adapter"}'
+  -d '{"packageName": "my-taskorg-adapter"}'
 ```
 
 ### From local directory
@@ -279,16 +279,16 @@ curl -X POST http://localhost:3102/api/adapters \
   -d '{"localPath": "/home/user/my-adapter"}'
 ```
 
-Local adapters are symlinked into Paperclip's adapter directory. Changes to the source are picked up on server restart.
+Local adapters are symlinked into TaskOrg's adapter directory. Changes to the source are picked up on server restart.
 
 ### Via adapter-plugins.json
 
-For development, you can also edit `~/.paperclip/adapter-plugins.json` directly:
+For development, you can also edit `~/.taskorg/adapter-plugins.json` directly:
 
 ```json
 [
   {
-    "packageName": "my-paperclip-adapter",
+    "packageName": "my-taskorg-adapter",
     "localPath": "/home/user/my-adapter",
     "type": "my_adapter",
     "installedAt": "2026-03-30T12:00:00.000Z"
@@ -301,7 +301,7 @@ For development, you can also edit `~/.paperclip/adapter-plugins.json` directly:
 If your agent runtime supports sessions (conversation continuity across heartbeats), implement a session codec:
 
 ```ts
-import type { AdapterSessionCodec } from "@paperclipai/adapter-utils";
+import type { AdapterSessionCodec } from "@taskorg/adapter-utils";
 
 export const sessionCodec: AdapterSessionCodec = {
   deserialize(raw) {
@@ -375,7 +375,7 @@ npm run build
 npm publish
 ```
 
-Other Paperclip users can then install your adapter by package name from the UI or API.
+Other TaskOrg users can then install your adapter by package name from the UI or API.
 
 ## Security
 

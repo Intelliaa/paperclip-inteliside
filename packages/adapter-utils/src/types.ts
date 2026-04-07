@@ -160,7 +160,8 @@ export type AdapterSkillState =
 
 export type AdapterSkillOrigin =
   | "company_managed"
-  | "paperclip_required"
+  | "taskorg_required"
+  | "paperclip_required" // kept for backward compat with hermes-paperclip-adapter
   | "user_installed"
   | "external_unknown";
 

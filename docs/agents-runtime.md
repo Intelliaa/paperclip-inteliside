@@ -2,11 +2,11 @@
 
 Estado: Guía dirigida al usuario
 Última actualización: 2026-03-26
-Audiencia: Operadores que configuren y ejecuten agentes en Paperclip
+Audiencia: Operadores que configuren y ejecuten agentes en TaskOrg
 
 ## 1. Qué hace este sistema
 
-Los agentes en Paperclip no se ejecutan continuamente.  
+Los agentes en TaskOrg no se ejecutan continuamente.  
 Se ejecutan en **heartbeats**: ventanas de ejecución cortas activadas por un despertar.
 
 Cada heartbeat:
@@ -39,16 +39,16 @@ Adapters incorporados:
 - `opencode_local`: ejecuta tu CLI `opencode` local
 - `cursor`: ejecuta Cursor en modo background
 - `pi_local`: ejecuta un agente Pi incr ustado localmente
-- `hermes_local`: ejecuta tu CLI `hermes` local (`hermes-paperclip-adapter`)
+- `hermes_local`: ejecuta tu CLI `hermes` local (`hermes-taskorg-adapter`)
 - `openclaw_gateway`: se conecta a un endpoint de gateway OpenClaw
 - `process`: adapter genérico de comandos shell
 - `http`: llama un endpoint HTTP externo
 
 Adapters de plugins externos (instala vía el administrador de adapters o API):
 
-- `droid_local`: ejecuta tu CLI Factory Droid local (`@henkey/droid-paperclip-adapter`)
+- `droid_local`: ejecuta tu CLI Factory Droid local (`@henkey/droid-taskorg-adapter`)
 
-Para adapters de CLI locales (`claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `droid_local`), Paperclip asume que el CLI ya está instalado y autenticado en la máquina host.
+Para adapters de CLI locales (`claude_local`, `codex_local`, `opencode_local`, `hermes_local`, `droid_local`), TaskOrg asume que el CLI ya está instalado y autenticado en la máquina host.
 
 ## 3.2 Comportamiento de Runtime
 
@@ -82,7 +82,7 @@ Las plantillas soportan variables como `{{agent.id}}`, `{{agent.name}}`, y valor
 
 ## 4. Comportamiento de Reanudación de Sesión
 
-Paperclip almacena IDs de sesión para adapters reanudables.
+TaskOrg almacena IDs de sesión para adapters reanudables.
 
 - El próximo heartbeat reutiliza la sesión guardada automáticamente.
 - Esto proporciona continuidad entre heartbeats.
@@ -107,7 +107,7 @@ En configuraciones local/dev, los logs completos se almacenan en disco bajo la r
 
 ## 6. Actualizaciones en vivo en la UI
 
-Paperclip empuja actualizaciones de runtime/actividad al navegador en tiempo real.
+TaskOrg empuja actualizaciones de runtime/actividad al navegador en tiempo real.
 
 Deberías ver cambios en vivo para:
 
@@ -161,7 +161,7 @@ Causas típicas de fallo:
 
 Nota específica de Claude:
 
-- Si `ANTHROPIC_API_KEY` está configurada en env del adapter o entorno host, Claude usa autenticación por clave API en lugar de login de suscripción. Paperclip lo muestra como una advertencia en tests de entorno, no como un error duro.
+- Si `ANTHROPIC_API_KEY` está configurada en env del adapter o entorno host, Claude usa autenticación por clave API en lugar de login de suscripción. TaskOrg lo muestra como una advertencia en tests de entorno, no como un error duro.
 
 ## 9. Notas de Seguridad y Riesgo
 

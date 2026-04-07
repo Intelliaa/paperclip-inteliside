@@ -1,9 +1,9 @@
 import * as p from "@clack/prompts";
 import type { StorageConfig } from "../config/schema.js";
-import { resolveDefaultStorageDir, resolvePaperclipInstanceId } from "../config/home.js";
+import { resolveDefaultStorageDir, resolveTaskOrgInstanceId } from "../config/home.js";
 
 function defaultStorageBaseDir(): string {
-  return resolveDefaultStorageDir(resolvePaperclipInstanceId());
+  return resolveDefaultStorageDir(resolveTaskOrgInstanceId());
 }
 
 export function defaultStorageConfig(): StorageConfig {
@@ -13,7 +13,7 @@ export function defaultStorageConfig(): StorageConfig {
       baseDir: defaultStorageBaseDir(),
     },
     s3: {
-      bucket: "paperclip",
+      bucket: "taskorg",
       region: "us-east-1",
       endpoint: undefined,
       prefix: "",
@@ -73,8 +73,8 @@ export async function promptStorage(current?: StorageConfig): Promise<StorageCon
 
   const bucket = await p.text({
     message: "Bucket de S3",
-    defaultValue: base.s3.bucket || "paperclip",
-    placeholder: "paperclip",
+    defaultValue: base.s3.bucket || "taskorg",
+    placeholder: "taskorg",
     validate: (value) => {
       if (!value || value.trim().length === 0) return "El bucket es obligatorio";
     },
@@ -113,7 +113,7 @@ export async function promptStorage(current?: StorageConfig): Promise<StorageCon
   const prefix = await p.text({
     message: "Prefijo de clave de objeto (opcional)",
     defaultValue: base.s3.prefix ?? "",
-    placeholder: "paperclip/",
+    placeholder: "taskorg/",
   });
 
   if (p.isCancel(prefix)) {

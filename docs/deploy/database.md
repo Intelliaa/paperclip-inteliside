@@ -3,7 +3,7 @@ title: Base de Datos
 summary: PostgreSQL embebido vs Docker Postgres vs alojado
 ---
 
-Paperclip usa PostgreSQL a través de Drizzle ORM. Hay tres formas de ejecutar la base de datos.
+TaskOrg usa PostgreSQL a través de Drizzle ORM. Hay tres formas de ejecutar la base de datos.
 
 ## 1. PostgreSQL Embebido (Predeterminado)
 
@@ -15,12 +15,12 @@ pnpm dev
 
 En el primer inicio, el servidor:
 
-1. Crea `~/.paperclip/instances/default/db/` para almacenamiento
-2. Asegura que la base de datos `paperclip` existe
+1. Crea `~/.taskorg/instances/default/db/` para almacenamiento
+2. Asegura que la base de datos `taskorg` existe
 3. Ejecuta migraciones automáticamente
 4. Comienza a servir solicitudes
 
-Los datos persisten entre reinicios. Para reiniciar: `rm -rf ~/.paperclip/instances/default/db`.
+Los datos persisten entre reinicios. Para reiniciar: `rm -rf ~/.taskorg/instances/default/db`.
 
 El inicio rápido de Docker también usa PostgreSQL embebido por defecto.
 
@@ -36,13 +36,13 @@ Esto inicia PostgreSQL 17 en `localhost:5432`. Establece la cadena de conexión:
 
 ```sh
 cp .env.example .env
-# DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip
+# DATABASE_URL=postgres://taskorg:taskorg@localhost:5432/taskorg
 ```
 
 Presiona el esquema:
 
 ```sh
-DATABASE_URL=postgres://paperclip:paperclip@localhost:5432/paperclip \
+DATABASE_URL=postgres://taskorg:taskorg@localhost:5432/taskorg \
   npx drizzle-kit push
 ```
 

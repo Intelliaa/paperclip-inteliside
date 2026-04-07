@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { ExecutionWorkspace } from "@paperclipai/shared";
+import type { ExecutionWorkspace } from "@taskorg/shared";
 import { Link } from "@/lib/router";
 import { Loader2 } from "lucide-react";
 import { executionWorkspacesApi } from "../api/execution-workspaces";
@@ -93,7 +93,7 @@ export function ExecutionWorkspaceCloseDialog({
           <DialogTitle>{actionLabel}</DialogTitle>
           <DialogDescription className="break-words text-xs sm:text-sm">
             Archivar <span className="font-medium text-foreground">{workspaceName}</span> y limpiar cualquier artefacto
-            del área de trabajo. Paperclip mantiene el registro del área de trabajo y el historial de tareas, pero lo elimina de las vistas activas.
+            del área de trabajo. TaskOrg mantiene el registro del área de trabajo y el historial de tareas, pero lo elimina de las vistas activas.
           </DialogDescription>
         </DialogHeader>
 

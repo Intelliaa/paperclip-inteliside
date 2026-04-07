@@ -34,7 +34,7 @@ export function AccountingModelCard() {
           Accounting Model
         </CardTitle>
         <CardDescription className="max-w-2xl text-sm leading-6">
-          Paperclip now separates per-request inference usage from account-level financial events.
+          TaskOrg now separates per-request inference usage from account-level financial events.
           This maintains provider report transparency when the biller is OpenRouter, Cloudflare, Bedrock, or another intermediary.
         </CardDescription>
       </CardHeader>

@@ -6,7 +6,7 @@ import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { agentsApi } from "../api/agents";
 import { companySkillsApi } from "../api/companySkills";
 import { queryKeys } from "../lib/queryKeys";
-import { AGENT_ROLES } from "@paperclipai/shared";
+import { AGENT_ROLES } from "@taskorg/shared";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -26,9 +26,9 @@ import { ReportsToPicker } from "../components/ReportsToPicker";
 import {
   DEFAULT_CODEX_LOCAL_BYPASS_APPROVALS_AND_SANDBOX,
   DEFAULT_CODEX_LOCAL_MODEL,
-} from "@paperclipai/adapter-codex-local";
-import { DEFAULT_CURSOR_LOCAL_MODEL } from "@paperclipai/adapter-cursor-local";
-import { DEFAULT_GEMINI_LOCAL_MODEL } from "@paperclipai/adapter-gemini-local";
+} from "@taskorg/adapter-codex-local";
+import { DEFAULT_CURSOR_LOCAL_MODEL } from "@taskorg/adapter-cursor-local";
+import { DEFAULT_GEMINI_LOCAL_MODEL } from "@taskorg/adapter-gemini-local";
 
 function createValuesForAdapterType(
   adapterType: CreateConfigValues["adapterType"],
@@ -188,7 +188,7 @@ export function NewAgent() {
     });
   }
 
-  const availableSkills = (companySkills ?? []).filter((skill) => !skill.key.startsWith("paperclipai/paperclip/"));
+  const availableSkills = (companySkills ?? []).filter((skill) => !skill.key.startsWith("taskorg/taskorg/"));
 
   function toggleSkill(key: string, checked: boolean) {
     setSelectedSkillKeys((prev) => {
@@ -282,7 +282,7 @@ export function NewAgent() {
             <div>
               <h2 className="text-sm font-medium">Skills de la compañía</h2>
               <p className="mt-1 text-xs text-muted-foreground">
-                Skills opcionales de la biblioteca de la compañía. Los skills integrados del runtime de Paperclip se agregan automáticamente.
+                Skills opcionales de la biblioteca de la compañía. Los skills integrados del runtime de TaskOrg se agregan automáticamente.
               </p>
             </div>
             {availableSkills.length === 0 ? (

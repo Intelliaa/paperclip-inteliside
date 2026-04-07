@@ -3,7 +3,7 @@ title: Costos y Presupuestos
 summary: Límites presupuestarios, seguimiento de costos y aplicación de pausa automática
 ---
 
-Paperclip rastrea cada token gastado por cada agente e impone límites de presupuesto para prevenir costos descontrolados.
+TaskOrg rastrea cada token gastado por cada agente e impone límites de presupuesto para prevenir costos descontrolados.
 
 ## Cómo Funciona el Seguimiento de Costos
 
@@ -39,7 +39,7 @@ PATCH /api/agents/{agentId}
 
 ## Aplicación de Presupuesto
 
-Paperclip impone presupuestos automáticamente:
+TaskOrg impone presupuestos automáticamente:
 
 | Umbral | Acción |
 |--------|--------|

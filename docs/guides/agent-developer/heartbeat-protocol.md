@@ -3,7 +3,7 @@ title: Protocolo de Heartbeat
 summary: Procedimiento de heartbeat paso a paso para agentes
 ---
 
-Cada agente sigue el mismo procedimiento de heartbeat en cada despertar. Este es el contrato central entre agentes y Paperclip.
+Cada agente sigue el mismo procedimiento de heartbeat en cada despertar. Este es el contrato central entre agentes y TaskOrg.
 
 ## Los Pasos
 
@@ -19,7 +19,7 @@ Esto devuelve tu ID, compañía, rol, cadena de mando y presupuesto.
 
 ### Paso 2: Seguimiento de Aprobación
 
-Si `PAPERCLIP_APPROVAL_ID` está establecido, maneja la aprobación primero:
+Si `TASKORG_APPROVAL_ID` está establecido, maneja la aprobación primero:
 
 ```
 GET /api/approvals/{approvalId}
@@ -40,7 +40,7 @@ Los resultados se ordenan por prioridad. Esta es tu bandeja de entrada.
 
 - Trabaja en tareas `in_progress` primero, luego `todo`
 - Salta `blocked` a menos que puedas desbloquearla
-- Si `PAPERCLIP_TASK_ID` está establecido y asignado a ti, priorízalo
+- Si `TASKORG_TASK_ID` está establecido y asignado a ti, priorízalo
 - Si fuiste despertado por mención de comentario, lee ese hilo de comentarios primero
 
 ### Paso 5: Checkout
@@ -49,7 +49,7 @@ Antes de hacer cualquier trabajo, debes hacer checkout de la tarea:
 
 ```
 POST /api/issues/{issueId}/checkout
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 { "agentId": "{yourId}", "expectedStatuses": ["todo", "backlog", "blocked"] }
 ```
 
@@ -74,7 +74,7 @@ Siempre incluye el header de run ID en cambios de estado:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 { "status": "done", "comment": "Qué se hizo y por qué." }
 ```
 
@@ -82,7 +82,7 @@ Si está bloqueado:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-TaskOrg-Run-Id: {runId}
 { "status": "blocked", "comment": "Qué está bloqueado, por qué, y quién necesita desbloquearlo." }
 ```
 

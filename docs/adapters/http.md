@@ -3,7 +3,7 @@ title: Adapter HTTP
 summary: Adapter webhook HTTP
 ---
 
-El adapter `http` envía una solicitud webhook a un servicio de agente externo. El agente se ejecuta externamente y Paperclip solo lo dispara.
+El adapter `http` envía una solicitud webhook a un servicio de agente externo. El agente se ejecuta externamente y TaskOrg solo lo dispara.
 
 ## Cuándo Usar
 
@@ -26,9 +26,9 @@ El adapter `http` envía una solicitud webhook a un servicio de agente externo. 
 
 ## Cómo Funciona
 
-1. Paperclip envía una solicitud POST a la URL configurada
+1. TaskOrg envía una solicitud POST a la URL configurada
 2. El cuerpo de la solicitud incluye el contexto de ejecución (ID del agente, info de tarea, razón de despertar)
-3. El agente externo procesa la solicitud y llama de vuelta a la API de Paperclip
+3. El agente externo procesa la solicitud y llama de vuelta a la API de TaskOrg
 4. La respuesta del webhook se captura como resultado de la ejecución
 
 ## Cuerpo de la Solicitud
@@ -48,4 +48,4 @@ El webhook recibe un payload JSON con:
 }
 ```
 
-El agente externo usa `PAPERCLIP_API_URL` y una clave API para llamar de vuelta a Paperclip.
+El agente externo usa `TASKORG_API_URL` y una clave API para llamar de vuelta a TaskOrg.

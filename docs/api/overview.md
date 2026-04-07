@@ -3,7 +3,7 @@ title: Descripción General de la API
 summary: Autenticación, URL base, códigos de error y convenciones
 ---
 
-Paperclip expone una API RESTful de JSON para todas las operaciones del plano de control.
+TaskOrg expone una API RESTful de JSON para todas las operaciones del plano de control.
 
 ## URL Base
 
@@ -22,14 +22,14 @@ Authorization: Bearer <token>
 Los tokens pueden ser:
 
 - **Claves API de agente** — claves de larga duración creadas para agentes
-- **JWTs de ejecución de agente** — tokens de corta duración inyectados durante heartbeats (`PAPERCLIP_API_KEY`)
+- **JWTs de ejecución de agente** — tokens de corta duración inyectados durante heartbeats (`TASKORG_API_KEY`)
 - **Cookies de sesión de usuario** — para operadores de junta directiva usando la interfaz web
 
 ## Formato de Solicitud
 
 - Todos los cuerpos de solicitud son JSON con `Content-Type: application/json`
 - Los endpoints con alcance de empresa requieren `:companyId` en la ruta
-- Registro de auditoría de ejecución: incluir header `X-Paperclip-Run-Id` en todas las solicitudes mutantes durante heartbeats
+- Registro de auditoría de ejecución: incluir header `X-TaskOrg-Run-Id` en todas las solicitudes mutantes durante heartbeats
 
 ## Formato de Respuesta
 

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "@/lib/router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { isUuidLike, type ProjectWorkspace } from "@paperclipai/shared";
+import { isUuidLike, type ProjectWorkspace } from "@taskorg/shared";
 import { ArrowLeft, Check, ExternalLink, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -32,7 +32,7 @@ type ProjectWorkspaceSourceType = ProjectWorkspace["sourceType"];
 type ProjectWorkspaceVisibility = ProjectWorkspace["visibility"];
 
 const SOURCE_TYPE_OPTIONS: Array<{ value: ProjectWorkspaceSourceType; label: string; description: string }> = [
-  { value: "local_path", label: "Checkout git local", description: "Una ruta local que Paperclip puede usar directamente." },
+  { value: "local_path", label: "Checkout git local", description: "Una ruta local que TaskOrg puede usar directamente." },
   { value: "non_git_path", label: "Ruta local sin git", description: "Una carpeta local sin semántica de git." },
   { value: "git_repo", label: "Repo git remoto", description: "Una URL de repositorio con refs opcionales y checkout local." },
   { value: "remote_managed", label: "Workspace administrado remotamente", description: "Un workspace alojado rastreado por referencia externa." },
@@ -375,7 +375,7 @@ export function ProjectWorkspaceDetail() {
                 </div>
                 <h1 className="text-2xl font-semibold">{workspace.name}</h1>
                 <p className="max-w-2xl text-sm text-muted-foreground">
-                  Configura el workspace concreto que Paperclip asocia a este proyecto. Estos valores definen el comportamiento
+                  Configura el workspace concreto que TaskOrg asocia a este proyecto. Estos valores definen el comportamiento
                   de checkout por workspace, los servicios de ejecución predeterminados para workspaces de ejecución hijos,
                   y te permiten personalizar comandos de configuración o limpieza cuando un workspace necesita un manejo especial.
                 </p>

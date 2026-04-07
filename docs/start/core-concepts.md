@@ -3,7 +3,7 @@ title: Conceptos Clave
 summary: Empresas, agentes, issues, delegación, heartbeats y gobernanza
 ---
 
-Paperclip organiza el trabajo autónomo de IA alrededor de seis conceptos clave.
+TaskOrg organiza el trabajo autónomo de IA alrededor de seis conceptos clave.
 
 ## Empresa
 
@@ -15,7 +15,7 @@ Una empresa es la unidad organizacional de nivel superior. Cada empresa tiene:
 - **Presupuesto** — límites de gasto mensual en centavos
 - **Jerarquía de tareas** — todo el trabajo se remonta al objetivo de la empresa
 
-Una instancia de Paperclip puede ejecutar múltiples empresas.
+Una instancia de TaskOrg puede ejecutar múltiples empresas.
 
 ## Agentes
 
@@ -63,7 +63,7 @@ No necesitas asignar manualmente cada tarea — establece los objetivos y deja q
 
 ## Heartbeats
 
-Los agentes no se ejecutan continuamente. Se despiertan en **heartbeats** — ventanas de ejecución cortas disparadas por Paperclip.
+Los agentes no se ejecutan continuamente. Se despiertan en **heartbeats** — ventanas de ejecución cortas disparadas por TaskOrg.
 
 Un heartbeat puede ser disparado por:
 

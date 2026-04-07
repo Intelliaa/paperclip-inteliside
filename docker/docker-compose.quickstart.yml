@@ -1,18 +1,18 @@
 services:
-  paperclip:
+  taskorg:
     build:
       context: ..
       dockerfile: Dockerfile
     ports:
-      - "${PAPERCLIP_PORT:-3100}:3100"
+      - "${TASKORG_PORT:-3100}:3100"
     environment:
       HOST: "0.0.0.0"
-      PAPERCLIP_HOME: "/paperclip"
+      TASKORG_HOME: "/taskorg"
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
       ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
-      PAPERCLIP_DEPLOYMENT_MODE: "authenticated"
-      PAPERCLIP_DEPLOYMENT_EXPOSURE: "private"
-      PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://localhost:3100}"
+      TASKORG_DEPLOYMENT_MODE: "authenticated"
+      TASKORG_DEPLOYMENT_EXPOSURE: "private"
+      TASKORG_PUBLIC_URL: "${TASKORG_PUBLIC_URL:-http://localhost:3100}"
       BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set}"
     volumes:
-      - "${PAPERCLIP_DATA_DIR:-../data/docker-paperclip}:/paperclip"
+      - "${TASKORG_DATA_DIR:-../data/docker-taskorg}:/taskorg"

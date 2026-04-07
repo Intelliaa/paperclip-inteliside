@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { PatchInstanceGeneralSettings } from "@paperclipai/shared";
+import type { PatchInstanceGeneralSettings } from "@taskorg/shared";
 import { LogOut, SlidersHorizontal } from "lucide-react";
 import { authApi } from "@/api/auth";
 import { instanceSettingsApi } from "@/api/instanceSettings";
@@ -10,7 +10,7 @@ import { queryKeys } from "../lib/queryKeys";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { cn } from "../lib/utils";
 
-const FEEDBACK_TERMS_URL = import.meta.env.VITE_FEEDBACK_TERMS_URL?.trim() || "https://paperclip.ing/tos";
+const FEEDBACK_TERMS_URL = import.meta.env.VITE_FEEDBACK_TERMS_URL?.trim() || "https://taskorg.ing/tos";
 
 export function InstanceGeneralSettings() {
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -126,7 +126,7 @@ export function InstanceGeneralSettings() {
             <h2 className="text-sm font-semibold">Compartir retroalimentación de IA</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
               Controla si los votos de pulgar arriba y pulgar abajo pueden enviar la salida de IA votada a
-              Paperclip Labs. Los votos siempre se guardan localmente.
+              TaskOrg Labs. Los votos siempre se guardan localmente.
             </p>
             {FEEDBACK_TERMS_URL ? (
               <a
@@ -201,7 +201,7 @@ export function InstanceGeneralSettings() {
           <div className="space-y-1.5">
             <h2 className="text-sm font-semibold">Cerrar sesión</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Cerrar sesión de esta instancia de Paperclip. Serás redirigido a la página de inicio de sesión.
+              Cerrar sesión de esta instancia de TaskOrg. Serás redirigido a la página de inicio de sesión.
             </p>
           </div>
           <Button

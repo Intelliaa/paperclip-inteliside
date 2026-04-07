@@ -3,7 +3,7 @@ title: Arquitectura
 summary: Descripción general del stack, flujo de solicitudes y modelo de adaptadores
 ---
 
-Paperclip es un monorepo con cuatro capas principales.
+TaskOrg es un monorepo con cuatro capas principales.
 
 ## Descripción General del Stack
 
@@ -38,7 +38,7 @@ Paperclip es un monorepo con cuatro capas principales.
 ## Estructura del Repositorio
 
 ```
-paperclip/
+taskorg/
 ├── ui/                          # Frontend React
 │   ├── src/pages/              # Páginas de ruta
 │   ├── src/components/         # Componentes React
@@ -60,7 +60,7 @@ paperclip/
 │       └── codex-local/         # Adaptador de OpenAI Codex
 │
 ├── skills/                      # Skills de agentes
-│   └── paperclip/               # Skill central de Paperclip (protocolo heartbeat)
+│   └── taskorg/               # Skill central de TaskOrg (protocolo heartbeat)
 │
 ├── cli/                         # Cliente CLI
 │   └── src/                     # Comandos de configuración y plano de control
@@ -74,24 +74,24 @@ Cuando se dispara un heartbeat:
 
 1. **Disparador** — Planificador, invocación manual o evento (asignación, mención) dispara un heartbeat
 2. **Invocación de adaptador** — Servidor llama a la función `execute()` del adaptador configurado
-3. **Proceso de agente** — Adaptador genera el agente (ej. CLI de Claude Code) con variables de entorno de Paperclip y un prompt
-4. **Trabajo del agente** — El agente llama a la API REST de Paperclip para verificar asignaciones, descargar tareas, hacer trabajo y actualizar estado
+3. **Proceso de agente** — Adaptador genera el agente (ej. CLI de Claude Code) con variables de entorno de TaskOrg y un prompt
+4. **Trabajo del agente** — El agente llama a la API REST de TaskOrg para verificar asignaciones, descargar tareas, hacer trabajo y actualizar estado
 5. **Captura de resultado** — Adaptador captura stdout, parsea datos de uso/costo, extrae estado de sesión
 6. **Registro de ejecución** — Servidor registra el resultado de ejecución, costos y cualquier estado de sesión para el próximo heartbeat
 
 ## Modelo de Adaptador
 
-Los adaptadores son el puente entre Paperclip y los runtimes de agentes. Cada adaptador es un paquete con tres módulos:
+Los adaptadores son el puente entre TaskOrg y los runtimes de agentes. Cada adaptador es un paquete con tres módulos:
 
 - **Módulo de servidor** — Función `execute()` que genera/llama el agente, más diagnósticos de entorno
 - **Módulo de UI** — Parser de stdout para el visor de ejecución, campos de formulario de configuración para creación de agentes
-- **Módulo de CLI** — Formateador de terminal para `paperclipai run --watch`
+- **Módulo de CLI** — Formateador de terminal para `taskorg run --watch`
 
 Adaptadores incorporados: `claude_local`, `codex_local`, `process`, `http`. Puedes crear adaptadores personalizados para cualquier runtime.
 
 ## Decisiones de Diseño Clave
 
-- **Plano de control, no plano de ejecución** — Paperclip orquesta agentes; no los ejecuta
+- **Plano de control, no plano de ejecución** — TaskOrg orquesta agentes; no los ejecuta
 - **Alcance de empresa** — todas las entidades pertenecen exactamente a una empresa; límites de datos estrictos
 - **Tareas de asignación única** — descargas atómicas previenen trabajo concurrente en la misma tarea
 - **Agnóstico a adaptadores** — cualquier runtime que pueda llamar una API HTTP funciona como agente

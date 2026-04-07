@@ -55,7 +55,7 @@ import { MarkdownEditor, type MarkdownEditorRef, type MentionOption } from "./Ma
 import { AgentIcon } from "./AgentIconPicker";
 import { InlineEntitySelector, type InlineEntityOption } from "./InlineEntitySelector";
 
-const DRAFT_KEY = "paperclip:issue-draft";
+const DRAFT_KEY = "taskorg:issue-draft";
 const DEBOUNCE_MS = 800;
 
 

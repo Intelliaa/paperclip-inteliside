@@ -1,7 +1,7 @@
 ---
 name: create-agent-adapter
 description: >
-  Guía técnica para crear un nuevo adapter de agente de Paperclip. Usar al construir
+  Guía técnica para crear un nuevo adapter de agente de TaskOrg. Usar al construir
   un nuevo paquete de adapter, agregar soporte para una nueva herramienta de codificación
   con IA (ej. un nuevo agente CLI, agente basado en API o proceso personalizado), o al
   modificar el sistema de adapters. Cubre las interfaces requeridas, estructura de
@@ -9,9 +9,9 @@ description: >
   claude-local y codex-local.
 ---
 
-# Crear un Adapter de Agente de Paperclip
+# Crear un Adapter de Agente de TaskOrg
 
-Un adapter conecta la capa de orquestación de Paperclip con un runtime específico de agente de IA (Claude Code, Codex CLI, un proceso personalizado, un endpoint HTTP, etc.). Cada adapter es un paquete autocontenido que proporciona implementaciones para **tres consumidores**: el servidor, la UI y el CLI.
+Un adapter conecta la capa de orquestación de TaskOrg con un runtime específico de agente de IA (Claude Code, Codex CLI, un proceso personalizado, un endpoint HTTP, etc.). Cada adapter es un paquete autocontenido que proporciona implementaciones para **tres consumidores**: el servidor, la UI y el CLI.
 
 ---
 
@@ -31,7 +31,7 @@ packages/adapters/<name>/
       build-config.ts   # CreateConfigValues -> JSON de adapterConfig para el formulario de creación de agente
     cli/
       index.ts          # Exportaciones de CLI: formatStdoutEvent
-      format-event.ts   # Salida coloreada de terminal para `paperclipai run --watch`
+      format-event.ts   # Salida coloreada de terminal para `taskorg run --watch`
   package.json
   tsconfig.json
 ```
@@ -46,9 +46,9 @@ Tres registros separados consumen módulos de adapter:
 
 ---
 
-## 2. Tipos Compartidos (`@paperclipai/adapter-utils`)
+## 2. Tipos Compartidos (`@taskorg/adapter-utils`)
 
-Todas las interfaces de adapter viven en `packages/adapter-utils/src/types.ts`. Importar desde `@paperclipai/adapter-utils` (tipos) o `@paperclipai/adapter-utils/server-utils` (helpers de runtime).
+Todas las interfaces de adapter viven en `packages/adapter-utils/src/types.ts`. Importar desde `@taskorg/adapter-utils` (tipos) o `@taskorg/adapter-utils/server-utils` (helpers de runtime).
 
 ### Interfaces Principales
 
@@ -79,7 +79,7 @@ interface AdapterExecutionResult {
   costUsd?: number | null;
   resultJson?: Record<string, unknown> | null;
   summary?: string | null;        // Resumen legible de lo que hizo el agente
-  clearSession?: boolean;         // true = indicar a Paperclip que olvide la sesión almacenada
+  clearSession?: boolean;         // true = indicar a TaskOrg que olvide la sesión almacenada
 }
 
 interface AdapterSessionCodec {
@@ -187,7 +187,7 @@ packages/adapters/<name>/
 
 ```json
 {
-  "name": "@paperclipai/adapter-<name>",
+  "name": "@taskorg/adapter-<name>",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -198,7 +198,7 @@ packages/adapters/<name>/
     "./cli": "./src/cli/index.ts"
   },
   "dependencies": {
-    "@paperclipai/adapter-utils": "workspace:*",
+    "@taskorg/adapter-utils": "workspace:*",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
@@ -233,7 +233,7 @@ export const agentConfigurationDoc = `# my_agent agent configuration
 
 **Escribir `agentConfigurationDoc` como lógica de enrutamiento:**
 
-El `agentConfigurationDoc` es leído por agentes LLM (incluyendo agentes de Paperclip que crean otros agentes). Escríbelo como **lógica de enrutamiento**, no como texto comercial. Incluye orientación concreta de "usar cuando" y "no usar cuando" para que un LLM pueda decidir si este adapter es apropiado para una tarea dada.
+El `agentConfigurationDoc` es leído por agentes LLM (incluyendo agentes de TaskOrg que crean otros agentes). Escríbelo como **lógica de enrutamiento**, no como texto comercial. Incluye orientación concreta de "usar cuando" y "no usar cuando" para que un LLM pueda decidir si este adapter es apropiado para una tarea dada.
 
 ```ts
 export const agentConfigurationDoc = `# my_agent agent configuration
@@ -266,8 +266,8 @@ Este es el archivo más importante. Recibe un `AdapterExecutionContext` y debe d
 
 **Comportamiento requerido:**
 
-1. **Leer configuración** — extraer valores tipados de `ctx.config` usando helpers (`asString`, `asNumber`, `asBoolean`, `asStringArray`, `parseObject` de `@paperclipai/adapter-utils/server-utils`)
-2. **Construir entorno** — llamar a `buildPaperclipEnv(agent)` luego agregar `PAPERCLIP_RUN_ID`, variables de contexto (`PAPERCLIP_TASK_ID`, `PAPERCLIP_WAKE_REASON`, `PAPERCLIP_WAKE_COMMENT_ID`, `PAPERCLIP_APPROVAL_ID`, `PAPERCLIP_APPROVAL_STATUS`, `PAPERCLIP_LINKED_ISSUE_IDS`), sobrecargas de env del usuario y token de autenticación
+1. **Leer configuración** — extraer valores tipados de `ctx.config` usando helpers (`asString`, `asNumber`, `asBoolean`, `asStringArray`, `parseObject` de `@taskorg/adapter-utils/server-utils`)
+2. **Construir entorno** — llamar a `buildTaskOrgEnv(agent)` luego agregar `TASKORG_RUN_ID`, variables de contexto (`TASKORG_TASK_ID`, `TASKORG_WAKE_REASON`, `TASKORG_WAKE_COMMENT_ID`, `TASKORG_APPROVAL_ID`, `TASKORG_APPROVAL_STATUS`, `TASKORG_LINKED_ISSUE_IDS`), sobrecargas de env del usuario y token de autenticación
 3. **Resolver sesión** — verificar `runtime.sessionParams` / `runtime.sessionId` para una sesión existente; validar que sea compatible (ej. mismo cwd); decidir si reanudar o iniciar nueva
 4. **Renderizar prompt** — usar `renderTemplate(template, data)` con las variables de plantilla: `agentId`, `companyId`, `runId`, `company`, `agent`, `run`, `context`
 5. **Llamar a onMeta** — emitir metadatos de invocación del adapter antes de lanzar el proceso
@@ -280,17 +280,17 @@ Este es el archivo más importante. Recibe un `AdapterExecutionContext` y debe d
 
 | Variable | Fuente |
 |----------|--------|
-| `PAPERCLIP_AGENT_ID` | `agent.id` |
-| `PAPERCLIP_COMPANY_ID` | `agent.companyId` |
-| `PAPERCLIP_API_URL` | URL propia del servidor |
-| `PAPERCLIP_RUN_ID` | Id de ejecución actual |
-| `PAPERCLIP_TASK_ID` | `context.taskId` o `context.issueId` |
-| `PAPERCLIP_WAKE_REASON` | `context.wakeReason` |
-| `PAPERCLIP_WAKE_COMMENT_ID` | `context.wakeCommentId` o `context.commentId` |
-| `PAPERCLIP_APPROVAL_ID` | `context.approvalId` |
-| `PAPERCLIP_APPROVAL_STATUS` | `context.approvalStatus` |
-| `PAPERCLIP_LINKED_ISSUE_IDS` | `context.issueIds` (separados por coma) |
-| `PAPERCLIP_API_KEY` | `authToken` (si no hay clave explícita en config) |
+| `TASKORG_AGENT_ID` | `agent.id` |
+| `TASKORG_COMPANY_ID` | `agent.companyId` |
+| `TASKORG_API_URL` | URL propia del servidor |
+| `TASKORG_RUN_ID` | Id de ejecución actual |
+| `TASKORG_TASK_ID` | `context.taskId` o `context.issueId` |
+| `TASKORG_WAKE_REASON` | `context.wakeReason` |
+| `TASKORG_WAKE_COMMENT_ID` | `context.wakeCommentId` o `context.commentId` |
+| `TASKORG_APPROVAL_ID` | `context.approvalId` |
+| `TASKORG_APPROVAL_STATUS` | `context.approvalStatus` |
+| `TASKORG_LINKED_ISSUE_IDS` | `context.issueIds` (separados por coma) |
+| `TASKORG_API_KEY` | `authToken` (si no hay clave explícita en config) |
 
 #### `server/parse.ts` — Parseador de Salida
 
@@ -396,7 +396,7 @@ El componente debe soportar tanto el modo `create` (usando `values`/`set`) como 
 
 #### `cli/format-event.ts` — Formateador de Terminal
 
-Imprime líneas de stdout con formato para `paperclipai run --watch`. Usar `picocolors` para colorear.
+Imprime líneas de stdout con formato para `taskorg run --watch`. Usar `picocolors` para colorear.
 
 ```ts
 import pc from "picocolors";
@@ -417,15 +417,15 @@ Después de crear el paquete del adapter, regístralo en los tres consumidores:
 ### 4.1 Registro en Servidor (`server/src/adapters/registry.ts`)
 
 ```ts
-import { execute as myExecute, sessionCodec as mySessionCodec } from "@paperclipai/adapter-my-agent/server";
-import { agentConfigurationDoc as myDoc, models as myModels } from "@paperclipai/adapter-my-agent";
+import { execute as myExecute, sessionCodec as mySessionCodec } from "@taskorg/adapter-my-agent/server";
+import { agentConfigurationDoc as myDoc, models as myModels } from "@taskorg/adapter-my-agent";
 
 const myAgentAdapter: ServerAdapterModule = {
   type: "my_agent",
   execute: myExecute,
   sessionCodec: mySessionCodec,
   models: myModels,
-  supportsLocalAgentJwt: true,  // true si el agente puede usar la API de Paperclip
+  supportsLocalAgentJwt: true,  // true si el agente puede usar la API de TaskOrg
   agentConfigurationDoc: myDoc,
 };
 
@@ -449,9 +449,9 @@ Con `ui/src/adapters/my-agent/index.ts`:
 
 ```ts
 import type { UIAdapterModule } from "../types";
-import { parseMyAgentStdoutLine } from "@paperclipai/adapter-my-agent/ui";
+import { parseMyAgentStdoutLine } from "@taskorg/adapter-my-agent/ui";
 import { MyAgentConfigFields } from "./config-fields";
-import { buildMyAgentConfig } from "@paperclipai/adapter-my-agent/ui";
+import { buildMyAgentConfig } from "@taskorg/adapter-my-agent/ui";
 
 export const myAgentUIAdapter: UIAdapterModule = {
   type: "my_agent",
@@ -465,7 +465,7 @@ export const myAgentUIAdapter: UIAdapterModule = {
 ### 4.3 Registro en CLI (`cli/src/adapters/registry.ts`)
 
 ```ts
-import { printMyAgentStreamEvent } from "@paperclipai/adapter-my-agent/cli";
+import { printMyAgentStreamEvent } from "@taskorg/adapter-my-agent/cli";
 
 const myAgentCLIAdapter: CLIAdapterModule = {
   type: "my_agent",
@@ -489,7 +489,7 @@ Las sesiones permiten a los agentes mantener contexto de conversación entre eje
 - `sessionCodec.deserialize()` convierte params almacenados de vuelta para la siguiente ejecución
 - `sessionCodec.getDisplayId()` extrae un ID de sesión legible para la UI
 - **Reanudación consciente del cwd**: si la sesión fue creada en un cwd diferente al de la configuración actual, saltar la reanudación (previene contaminación de sesión entre proyectos)
-- **Reintento de sesión desconocida**: si la reanudación falla con error de "sesión no encontrada", reintentar con sesión nueva y devolver `clearSession: true` para que Paperclip limpie la sesión obsoleta
+- **Reintento de sesión desconocida**: si la reanudación falla con error de "sesión no encontrada", reintentar con sesión nueva y devolver `clearSession: true` para que TaskOrg limpie la sesión obsoleta
 
 Si el runtime del agente soporta alguna forma de compactación de contexto o compresión de conversación (ej. la gestión automática de contexto de Claude Code, o el encadenamiento de `previous_response_id` de Codex), aprovéchalo. Los adapters que soportan reanudación de sesión obtienen compactación gratis — el runtime del agente maneja la gestión de ventana de contexto internamente entre reanudaciones.
 
@@ -514,7 +514,7 @@ if (sessionId && !proc.timedOut && exitCode !== 0 && isUnknownSessionError(outpu
 
 ## 6. Helpers de Server-Utils
 
-Importar desde `@paperclipai/adapter-utils/server-utils`:
+Importar desde `@taskorg/adapter-utils/server-utils`:
 
 | Helper | Propósito |
 |--------|-----------|
@@ -525,7 +525,7 @@ Importar desde `@paperclipai/adapter-utils/server-utils`:
 | `parseObject(val)` | Extracción segura de `Record<string, unknown>` |
 | `parseJson(str)` | JSON.parse seguro que devuelve `Record` o null |
 | `renderTemplate(tmpl, data)` | Renderizado de plantilla `{{path.to.value}}` |
-| `buildPaperclipEnv(agent)` | Variables de entorno estándar `PAPERCLIP_*` |
+| `buildTaskOrgEnv(agent)` | Variables de entorno estándar `TASKORG_*` |
 | `redactEnvForLogs(env)` | Redactar claves sensibles para onMeta |
 | `ensureAbsoluteDirectory(cwd)` | Validar que cwd existe y es absoluto |
 | `ensureCommandResolvable(cmd, cwd, env)` | Validar que el comando está en PATH |
@@ -538,7 +538,7 @@ Importar desde `@paperclipai/adapter-utils/server-utils`:
 
 ### Nomenclatura
 - Tipo de adapter: `snake_case` (ej. `claude_local`, `codex_local`)
-- Nombre de paquete: `@paperclipai/adapter-<kebab-name>`
+- Nombre de paquete: `@taskorg/adapter-<kebab-name>`
 - Directorio de paquete: `packages/adapters/<kebab-name>/`
 
 ### Parseo de Configuración
@@ -549,7 +549,7 @@ Importar desde `@paperclipai/adapter-utils/server-utils`:
 ### Plantillas de Prompt
 - Soportar `promptTemplate` para cada ejecución
 - Usar `renderTemplate()` con el conjunto estándar de variables
-- Prompt por defecto: `"You are agent {{agent.id}} ({{agent.name}}). Continue your Paperclip work."`
+- Prompt por defecto: `"You are agent {{agent.id}} ({{agent.name}}). Continue your TaskOrg work."`
 
 ### Manejo de Errores
 - Diferenciar timeout vs error de proceso vs falla de parseo
@@ -562,17 +562,17 @@ Importar desde `@paperclipai/adapter-utils/server-utils`:
 - Llamar a `onMeta(...)` antes de lanzar para registrar detalles de invocación
 - Usar `redactEnvForLogs()` al incluir env en meta
 
-### Inyección de Skills de Paperclip
+### Inyección de Skills de TaskOrg
 
-Paperclip incluye skills compartidos (en el directorio `skills/` de nivel superior del repo) que los agentes necesitan en runtime — cosas como el skill de API `paperclip` y el skill de flujo de trabajo `paperclip-create-agent`. Cada adapter es responsable de hacer que estos skills sean descubribles por su runtime de agente **sin contaminar el directorio de trabajo del agente**.
+TaskOrg incluye skills compartidos (en el directorio `skills/` de nivel superior del repo) que los agentes necesitan en runtime — cosas como el skill de API `taskorg` y el skill de flujo de trabajo `taskorg-create-agent`. Cada adapter es responsable de hacer que estos skills sean descubribles por su runtime de agente **sin contaminar el directorio de trabajo del agente**.
 
-**La restricción:** nunca copiar ni crear enlaces simbólicos de skills en el `cwd` del agente. El cwd es el checkout del proyecto del usuario — escribir `.claude/skills/` o cualquier otro archivo en él contaminaría el repo con internos de Paperclip, rompería git status y potencialmente se filtraría en commits.
+**La restricción:** nunca copiar ni crear enlaces simbólicos de skills en el `cwd` del agente. El cwd es el checkout del proyecto del usuario — escribir `.claude/skills/` o cualquier otro archivo en él contaminaría el repo con internos de TaskOrg, rompería git status y potencialmente se filtraría en commits.
 
 **El patrón:** crear una ubicación limpia y aislada para skills e indicar al runtime del agente que busque allí.
 
 **Cómo lo hace claude-local:**
 
-1. En tiempo de ejecución, crear un tmpdir nuevo: `mkdtemp("paperclip-skills-")`
+1. En tiempo de ejecución, crear un tmpdir nuevo: `mkdtemp("taskorg-skills-")`
 2. Dentro, crear `.claude/skills/` (la estructura de directorio que Claude Code espera)
 3. Crear enlaces simbólicos de cada directorio de skill del `skills/` del repo al `.claude/skills/` del tmpdir
 4. Pasar el tmpdir a Claude Code vía `--add-dir <tmpdir>` — esto hace que Claude Code descubra los skills como si estuvieran registrados en ese directorio, sin tocar el cwd real del agente
@@ -581,14 +581,14 @@ Paperclip incluye skills compartidos (en el directorio `skills/` de nivel superi
 ```ts
 // De claude-local execute.ts
 async function buildSkillsDir(): Promise<string> {
-  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "paperclip-skills-"));
+  const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "taskorg-skills-"));
   const target = path.join(tmp, ".claude", "skills");
   await fs.mkdir(target, { recursive: true });
-  const entries = await fs.readdir(PAPERCLIP_SKILLS_DIR, { withFileTypes: true });
+  const entries = await fs.readdir(TASKORG_SKILLS_DIR, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory()) {
       await fs.symlink(
-        path.join(PAPERCLIP_SKILLS_DIR, entry.name),
+        path.join(TASKORG_SKILLS_DIR, entry.name),
         path.join(target, entry.name),
       );
     }
@@ -605,7 +605,7 @@ args.push("--add-dir", skillsDir);
 
 **Cómo lo hace codex-local:**
 
-Codex tiene un directorio global de skills personales (`$CODEX_HOME/skills` o `~/.codex/skills`). El adapter crea enlaces simbólicos de skills de Paperclip allí si no existen ya. Esto es aceptable porque es el directorio de configuración propio de la herramienta del agente, no el proyecto del usuario.
+Codex tiene un directorio global de skills personales (`$CODEX_HOME/skills` o `~/.codex/skills`). El adapter crea enlaces simbólicos de skills de TaskOrg allí si no existen ya. Esto es aceptable porque es el directorio de configuración propio de la herramienta del agente, no el proyecto del usuario.
 
 ```ts
 // De codex-local execute.ts
@@ -628,15 +628,15 @@ async function ensureCodexSkillsInjected(onLog) {
 3. **Aceptable: variable de entorno** — si el runtime lee una ruta de skills/plugins desde una variable de entorno, apuntarla al directorio `skills/` del repo directamente.
 4. **Último recurso: inyección por prompt** — si el runtime no tiene sistema de plugins, incluir el contenido del skill en la plantilla de prompt misma. Esto consume tokens pero evita efectos secundarios en el sistema de archivos completamente.
 
-**Skills como procedimientos cargados, no relleno de prompt.** Los skills de Paperclip (como `paperclip` y `paperclip-create-agent`) están diseñados como procedimientos bajo demanda: el agente ve los metadatos del skill (nombre + descripción) en su contexto, pero solo carga el contenido completo de SKILL.md cuando decide invocar un skill. Esto mantiene el prompt base pequeño. Al escribir `agentConfigurationDoc` o plantillas de prompt para tu adapter, no incluyas contenido de skills en línea — deja que el descubrimiento de skills del runtime del agente haga el trabajo. Las descripciones en el frontmatter de cada SKILL.md actúan como lógica de enrutamiento: le dicen al agente cuándo cargar el skill completo, no qué contiene el skill.
+**Skills como procedimientos cargados, no relleno de prompt.** Los skills de TaskOrg (como `taskorg` y `taskorg-create-agent`) están diseñados como procedimientos bajo demanda: el agente ve los metadatos del skill (nombre + descripción) en su contexto, pero solo carga el contenido completo de SKILL.md cuando decide invocar un skill. Esto mantiene el prompt base pequeño. Al escribir `agentConfigurationDoc` o plantillas de prompt para tu adapter, no incluyas contenido de skills en línea — deja que el descubrimiento de skills del runtime del agente haga el trabajo. Las descripciones en el frontmatter de cada SKILL.md actúan como lógica de enrutamiento: le dicen al agente cuándo cargar el skill completo, no qué contiene el skill.
 
-**Invocación de skill explícita vs. difusa.** Para flujos de trabajo de producción donde la fiabilidad importa (ej. un agente que siempre debe llamar a la API de Paperclip para reportar estado), usar instrucciones explícitas en la plantilla de prompt: "Usa el skill paperclip para reportar tu progreso." El enrutamiento difuso (dejar que el modelo decida basándose en coincidencia de descripción) está bien para tareas exploratorias pero es poco fiable para procedimientos obligatorios.
+**Invocación de skill explícita vs. difusa.** Para flujos de trabajo de producción donde la fiabilidad importa (ej. un agente que siempre debe llamar a la API de TaskOrg para reportar estado), usar instrucciones explícitas en la plantilla de prompt: "Usa el skill taskorg para reportar tu progreso." El enrutamiento difuso (dejar que el modelo decida basándose en coincidencia de descripción) está bien para tareas exploratorias pero es poco fiable para procedimientos obligatorios.
 
 ---
 
 ## 8. Consideraciones de Seguridad
 
-Los adapters se sitúan en la frontera entre la capa de orquestación de Paperclip y la ejecución arbitraria de agentes. Esta es una superficie de alto riesgo.
+Los adapters se sitúan en la frontera entre la capa de orquestación de TaskOrg y la ejecución arbitraria de agentes. Esta es una superficie de alto riesgo.
 
 ### Tratar la Salida del Agente como No Confiable
 
@@ -646,7 +646,7 @@ El proceso del agente ejecuta código dirigido por LLM que lee archivos externos
 
 Nunca poner secretos (claves de API, tokens) en plantillas de prompt o campos de configuración que fluyen a través del LLM. En su lugar, inyectarlos como variables de entorno que las herramientas del agente pueden leer directamente:
 
-- `PAPERCLIP_API_KEY` es inyectado por el servidor en el entorno del proceso, no en el prompt
+- `TASKORG_API_KEY` es inyectado por el servidor en el entorno del proceso, no en el prompt
 - Los secretos proporcionados por el usuario en `config.env` se pasan como variables de entorno, redactados en los logs de `onMeta`
 - El helper `redactEnvForLogs()` enmascara automáticamente cualquier clave que coincida con `/(key|token|secret|password|authorization|cookie)/i`
 
@@ -656,7 +656,7 @@ Esto sigue el patrón de "inyección sidecar": el modelo nunca ve el valor real 
 
 Si tu runtime de agente soporta controles de acceso a red (sandboxing, listas de permitidos), configúralos en el adapter:
 
-- Preferir listas mínimas de permitidos sobre acceso abierto a internet. Un agente que solo necesita llamar a la API de Paperclip y GitHub no debería tener acceso a hosts arbitrarios.
+- Preferir listas mínimas de permitidos sobre acceso abierto a internet. Un agente que solo necesita llamar a la API de TaskOrg y GitHub no debería tener acceso a hosts arbitrarios.
 - Skills + red = riesgo amplificado. Un skill que enseña al agente a hacer solicitudes HTTP combinado con acceso irrestricto a red crea una vía de exfiltración. Restringir uno o el otro.
 - Si el runtime soporta políticas por capas (valores por defecto a nivel de org + sobrecargas por solicitud), conectar la política a nivel de org en la configuración del adapter y dejar que la configuración por agente estreche más.
 
